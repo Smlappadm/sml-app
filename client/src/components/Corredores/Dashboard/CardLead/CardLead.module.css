@@ -1,0 +1,42 @@
+.container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #39394b;
+    width: 80vw;
+    padding: 10px ;
+    margin: 10px 10px 10px 0;
+    border-radius: 10px;
+}
+.p{
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+.button{
+    background-color: #ff69b4;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+}
+.bold{
+    font-weight: bold;
+}
+.level{
+    background-color: #6254ff;
+    line-height: .5;
+    padding: 10px;
+    border-radius: 5px;
+    color: #3b3961;
+    font-size: 20px;
+    font-weight: bold;
+}
+.icon{
+    height: 16px;
+    width: 22px;
+    background-size: cover;
+    background-image: url("../../../public/mailIcon.svg");
+}

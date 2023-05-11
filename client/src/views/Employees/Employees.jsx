@@ -1,11 +1,17 @@
 import React from "react";
 import style from "./Employees.module.css";
+import Detail from "../../components/Lideres/Employees_components/Detail/Detail";
+import Nav from "../../components/Nav/Nav";
+import { TableEmployees } from "../../components/Lideres/Dashboard/TableEmployees/TableEmployees";
 
 function Employees() {
   return (
-    <div className={style.container}>
-      <h1 className="  text-white">Employees</h1>
-    </div>
+    <>
+      <Nav />
+
+      <TableEmployees />
+      <Detail performance={true} />
+    </>
   );
 }
 

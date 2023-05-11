@@ -1,13 +1,15 @@
-/** @type {import('tailwindcss').Config} */
+/ @type {import('tailwindcss').Config} /;
 export default {
-  content: ["./*.html", "./src/**/**/**/*.jsx",
-
-  // Path to the Tremor module
-"./node_modules/@tremor//*.{js,ts,jsx,tsx}",
-  // "./node_modules/@tremor/**/*.{js, jsx}"
-],
+  content: ["./*.html", "./src/**/**/**/*.jsx", "./src/views/**/*.jsx", "./node_modules/@tremor/**/*.jsx",],
   theme: {
     extend: {},
+    fontSize: {
+      24: "24px",
+      18: "18px",
+      16: "16px",
+      14: "14px",
+    },
   },
   plugins: [],
 };
+
