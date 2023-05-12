@@ -1,3 +1,60 @@
-.styles{
-    background-color: rgb(59, 131, 121);
+.title {
+    font-weight: 600;
+    color: rgb(202, 202, 202);
+    font-size: 20px;
+}
+.buttonAdd {
+    background-color: #38369e;
+    color: rgb(202, 202, 202);
+    border-radius: 7px;
+    padding: 6px 25px;
+    font-size: 13px;
+}
+.table {
+    /* border: 1px solid violet; */
+    /* display: flex; */
+    width: 100%;
+    border-collapse: collapse;
+}
+.tableHead {
+    color: rgb(189, 189, 189);
+    font-size: 15px;
+    font-weight: 100;
+    /* border: 1px solid violet; */
+}
+.tableRow {
+    margin-top: 20px;
+    display: grid;
+  
+    grid-template-columns: 20% 24% 24% 24% 24% 24% 28%;
+    margin-left: 25px;
+}
+.tableCards {
+    display:grid;
+    table-layout:fixed;
+    grid-template-columns:  10% 17% 17% 13% 10% 18% 20%;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #39394b;
+    font-size: 18px;
+    width: 160%;
+    color: rgb(204, 203, 203);
+    margin: 25px;
+    padding: 15px;
+    border-radius: 10px;
+    margin-left: 48px;
+}
+.tableCell {
+    padding: 0;
+}
+.tableBody {
+    /* border: 1px solid green; */
+}
+.status{
+    background-color: #F74A8A;
+    width: 100px;
+}
+.nivel{
+    background-color: #38369e;
+    width: 25px;
 }
