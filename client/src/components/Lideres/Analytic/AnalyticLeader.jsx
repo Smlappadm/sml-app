@@ -13,6 +13,11 @@ import {
   Badge,
 } from "@tremor/react";
 import { CiMail, CiInstagram, CiPhone } from "react-icons/ci";
+import InputRunner from "./MaterialUi/InputRunner";
+import InputSeller from "./MaterialUi/InputSeller";
+import SelectLevel from "./MaterialUi/SelectLevel";
+import SelectStatus from "./MaterialUi/SelectStatus";
+import ModalCient from "./MaterialUi/ModalClient";
 import Nav from "../../Nav/Nav";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -123,86 +128,31 @@ export const AnalyticLeader = () => {
     setData(leaderDashboard);
   }, [leaderDashboard]);
 
+  const [open, setOpen] = useState(false);
+  const [modalItems, setModalItems] = useState([]);
+  const handleOpen = (item, index) => {
+    setOpen(true);
+    setModalItems(item);
+    console.log(item.name);
+  };
+  const handleClose = () => setOpen(false);
+
   return (
     <>
       <Nav />
       <div className="w-full h-screen flex flex-col">
         <Card className="w-full h-full bg-[#222131] rounded-none p-5">
-          <div className="flex justify-between items-center mx-5">
+          <div className="flex justify-between items-center mx-5 mb-0">
             <Title className={style.title}>Analisis</Title>
             {filters.level === true ? (
-              <select
-                name="level"
-                id="level"
-                onChange={(event) => {
-                  onChangeLevel(event.target.value);
-                }}
-                className="w-1/5 text-center bg-transparent border border-white rounded-md p-1 "
-              >
-                <option value="" disabled selected className="bg-[#222131]">
-                  Seleccione un nivel
-                </option>
-                <option value="0" className="bg-[#222131]">
-                  0
-                </option>
-                <option value="1" className="bg-[#222131]">
-                  1
-                </option>
-                <option value="2" className="bg-[#222131]">
-                  2
-                </option>
-                <option value="incidencia" className="bg-[#222131]">
-                  Incidencia
-                </option>
-              </select>
+              <SelectLevel onChange={onChangeLevel} value={levelValue} />
             ) : (
               ""
             )}
-            {filters.runner === true ? (
-              <input
-                type="text"
-                id="level"
-                placeholder="Buscar por corredor"
-                className="w-1/5 text-center bg-transparent border border-white rounded-md p-1 "
-              />
-            ) : (
-              ""
-            )}
-            {filters.sellers === true ? (
-              <input
-                className="w-1/5 text-center bg-transparent border border-white rounded-md p-1 "
-                type="text"
-                id="level"
-                placeholder="Buscar por Vendedores"
-              />
-            ) : (
-              ""
-            )}
+            {filters.runner === true ? <InputRunner /> : ""}
+            {filters.sellers === true ? <InputSeller /> : ""}
             {filters.status === true ? (
-              <select
-                name="status"
-                id="status"
-                onChange={(event) => {
-                  onChangeStatus(event.target.value);
-                }}
-                className="w-1/5 text-center bg-transparent border border-white rounded-md p-1 "
-              >
-                <option value="" disabled selected className="bg-[#222131]">
-                  Seleccione un estado
-                </option>
-                <option value="contratado" className="bg-[#222131]">
-                  Contratado
-                </option>
-                <option value="rechazado" className="bg-[#222131]">
-                  Rechazado
-                </option>
-                <option value="sin-contactar" className="bg-[#222131]">
-                  Sin Contactar
-                </option>
-                <option value="no-responde" className="bg-[#222131]">
-                  No Responde
-                </option>
-              </select>
+              <SelectStatus onChange={onChangeStatus} value={statusValue} />
             ) : (
               ""
             )}
@@ -263,112 +213,130 @@ export const AnalyticLeader = () => {
             </TableHead>
 
             <TableBody>
-              {currentCard.map((item) => (
+              <ModalCient
+                open={open}
+                handleClose={handleClose}
+                name={modalItems.name}
+                category={modalItems.category}
+                level={modalItems.level}
+                email={modalItems.email}
+                instagram={modalItems.instagram}
+                telephone={modalItems.telephone}
+                status={modalItems.status}
+              />
+              {currentCard.map((item, index) => (
                 <TableRow
                   key={item._id}
-                  className="flex items-center justify-around bg-gray-700 text-gray-400 text-sm p-3 rounded-lg h-14 my-5"
+                  className="flex bg-gray-700 text-gray-400 text-sm p-3 rounded-lg h-14 my-5"
                 >
-                  <TableCell className="flex justify-center items-center p-0  ">
-                    <div className="text-ellipsis w-8  flex justify-start items-center p-0">
-                      <Text className=" opacity-1 overflow-hidden hover:overflow-visible  hover:bg-[#ffffff] hover:w-fit hover:text-black z-111 hover:absolute ">
-                        {item._id}
-                      </Text>
-                    </div>
-                  </TableCell>
-                  <TableCell className="flex justify-center items-center p-0 ">
-                    <div className="w-28 text-ellipsis  flex justify-start items-center p-0">
-                      <Text className=" opacity-1 overflow-hidden hover:overflow-visible hover:bg-[#ffffff] hover:w-fit hover:text-black z-111 hover:absolute">
-                        {item.name}
-                      </Text>
-                    </div>
-                  </TableCell>
-                  <TableCell className="flex justify-center items-center p-0">
-                    <div className="w-28 text-ellipsis  flex justify-start items-center p-0 ">
-                      <Text className=" opacity-1 overflow-hidden hover:overflow-visible hover:bg-[#ffffff] hover:w-fit hover:text-black z-111 hover:absolute">
-                        {item.category}
-                      </Text>
-                    </div>
-                  </TableCell>
-                  <TableCell className="flex justify-center items-center p-0">
-                    <div className="flex w-6 text-ellipsis justify-start items-center p-0 ">
-                      <Text className=" opacity-1 overflow-hidden hover:overflow-visible hover:bg-[#ffffff] hover:w-fit hover:text-black z-111 hover:absolute">
-                        {item.level}
-                      </Text>
-                    </div>
-                  </TableCell>
-                  <TableCell className="flex justify-center items-center p-0 ">
-                    <div className="flex w-6 text-ellipsis justify-start items-center p-0 ">
-                      {item.email !== "-" ? (
-                        <div className=" flex opacity-1 overflow-hidden hover:overflow-visible hover:bg-[#ffffff] hover:w-fit hover:text-black z-111 hover:absolute">
-                          <div>
-                            <CiMail className={style.mail} />
-                          </div>
-                          <Text>{item.email}</Text>
+                  <div className="w-full flex justify-around items-center">
+                    <button
+                      className="w-full flex justify-around items-center"
+                      onClick={(index) => handleOpen(item, index)}
+                    >
+                      <TableCell className="flex justify-center items-center p-0  ">
+                        <div className="text-ellipsis w-8  flex justify-start items-center p-0">
+                          <Text className=" opacity-1 overflow-hidden hover:overflow-visible  hover:bg-[#ffffff] hover:w-fit hover:text-black z-111 hover:absolute ">
+                            {item._id}
+                          </Text>
                         </div>
-                      ) : (
-                        <div>
-                          <CiMail className={style.notMail} />
+                      </TableCell>
+                      <TableCell className="flex justify-center items-center p-0 ">
+                        <div className="w-28 text-ellipsis  flex justify-start items-center p-0">
+                          <Text className=" opacity-1 overflow-hidden hover:overflow-visible hover:bg-[#ffffff] hover:w-fit hover:text-black z-111 hover:absolute">
+                            {item.name}
+                          </Text>
                         </div>
-                      )}
-                    </div>
-                  </TableCell>
-                  <TableCell className="flex justify-center items-center p-0 ">
-                    <div className="flex w-6 text-ellipsis justify-start items-center p-0 ">
-                      {item.instagram !== "" ? (
-                        <div className=" flex opacity-1 overflow-hidden hover:overflow-visible hover:bg-[#ffffff] hover:w-fit hover:text-black z-111 hover:absolute">
-                          <div>
-                            <CiInstagram className={style.mail} />
-                          </div>
-                          <Text>{item.instagram}</Text>
+                      </TableCell>
+                      <TableCell className="flex justify-center items-center p-0">
+                        <div className="w-28 text-ellipsis  flex justify-start items-center p-0 ">
+                          <Text className=" opacity-1 overflow-hidden hover:overflow-visible hover:bg-[#ffffff] hover:w-fit hover:text-black z-111 hover:absolute">
+                            {item.category}
+                          </Text>
                         </div>
-                      ) : (
-                        <div>
-                          <CiInstagram className={style.notMail} />
+                      </TableCell>
+                      <TableCell className="flex justify-center items-center p-0">
+                        <div className="flex w-6 text-ellipsis justify-start items-center p-0 ">
+                          <Text className=" opacity-1 overflow-hidden hover:overflow-visible hover:bg-[#ffffff] hover:w-fit hover:text-black z-111 hover:absolute">
+                            {item.level}
+                          </Text>
                         </div>
-                      )}
-                    </div>
-                  </TableCell>
-                  <TableCell className="flex justify-center items-center p-0 ">
-                    <div className="flex w-6 text-ellipsis justify-start items-center p-0 ">
-                      {item.telephone !== "-" ? (
-                        <div className=" flex opacity-1 overflow-hidden hover:overflow-visible hover:bg-[#ffffff] hover:w-fit hover:text-black z-111 hover:absolute">
-                          <div>
-                            <CiPhone className={style.mail} />
-                          </div>
-                          <Text>{item.telephone}</Text>
+                      </TableCell>
+                      <TableCell className="flex justify-center items-center p-0 ">
+                        <div className="flex w-6 text-ellipsis justify-start items-center p-0 ">
+                          {item.email !== "-" ? (
+                            <div className=" flex opacity-1 overflow-hidden hover:overflow-visible hover:bg-[#ffffff] hover:w-fit hover:text-black z-111 hover:absolute">
+                              <div>
+                                <CiMail className={style.mail} />
+                              </div>
+                              <Text>{item.email}</Text>
+                            </div>
+                          ) : (
+                            <div>
+                              <CiMail className={style.notMail} />
+                            </div>
+                          )}
                         </div>
-                      ) : (
-                        <div>
-                          <CiPhone className={style.notMail} />
+                      </TableCell>
+                      <TableCell className="flex justify-center items-center p-0 ">
+                        <div className="flex w-6 text-ellipsis justify-start items-center p-0 ">
+                          {item.instagram !== "" ? (
+                            <div className=" flex opacity-1 overflow-hidden hover:overflow-visible hover:bg-[#ffffff] hover:w-fit hover:text-black z-111 hover:absolute">
+                              <div>
+                                <CiInstagram className={style.mail} />
+                              </div>
+                              <Text>{item.instagram}</Text>
+                            </div>
+                          ) : (
+                            <div>
+                              <CiInstagram className={style.notMail} />
+                            </div>
+                          )}
                         </div>
-                      )}
-                    </div>
-                  </TableCell>
-                  <TableCell className="flex justify-center items-center p-0 ">
-                    <div className="w-28 text-ellipsis  flex justify-start items-center p-0">
-                      <Text className=" opacity-1 overflow-hidden hover:overflow-visible hover:bg-[#ffffff] hover:w-fit hover:text-black z-111 hover:absolute">
-                        Nombre del Corredor
-                      </Text>
-                    </div>
-                  </TableCell>
-                  <TableCell className="flex justify-center items-center p-0 ">
-                    <div className="w-28 text-ellipsis  flex justify-start items-center p-0">
-                      <Text className=" opacity-1 overflow-hidden hover:overflow-visible hover:bg-[#ffffff] hover:w-fit hover:text-black z-111 hover:absolute">
-                        Nombre del Vendedor
-                      </Text>
-                    </div>
-                  </TableCell>
-                  <TableCell className="flex justify-center items-center p-0">
-                    {item.status ? (
-                      <Text className="bg-[#26af7f]  text-[#1f1e1e]   px-2 py-1.5 rounded-xl text-center w-48">
-                        Contratado
-                      </Text>
-                    ) : (
-                      <Text className="bg-[#b44f82] text-[#e0dfdf] w-full px-2 py-1.5 rounded-xl text-center">
-                        No Contactado
-                      </Text>
-                    )}
-                  </TableCell>
+                      </TableCell>
+                      <TableCell className="flex justify-center items-center p-0 ">
+                        <div className="flex w-6 text-ellipsis justify-start items-center p-0 ">
+                          {item.telephone !== "-" ? (
+                            <div className=" flex opacity-1 overflow-hidden hover:overflow-visible hover:bg-[#ffffff] hover:w-fit hover:text-black z-111 hover:absolute">
+                              <div>
+                                <CiPhone className={style.mail} />
+                              </div>
+                              <Text>{item.telephone}</Text>
+                            </div>
+                          ) : (
+                            <div>
+                              <CiPhone className={style.notMail} />
+                            </div>
+                          )}
+                        </div>
+                      </TableCell>
+                      <TableCell className="flex justify-center items-center p-0 ">
+                        <div className="w-28 text-ellipsis  flex justify-start items-center p-0">
+                          <Text className=" opacity-1 overflow-hidden hover:overflow-visible hover:bg-[#ffffff] hover:w-fit hover:text-black z-111 hover:absolute">
+                            Nombre del Corredor
+                          </Text>
+                        </div>
+                      </TableCell>
+                      <TableCell className="flex justify-center items-center p-0 ">
+                        <div className="w-28 text-ellipsis  flex justify-start items-center p-0">
+                          <Text className=" opacity-1 overflow-hidden hover:overflow-visible hover:bg-[#ffffff] hover:w-fit hover:text-black z-111 hover:absolute">
+                            Nombre del Vendedor
+                          </Text>
+                        </div>
+                      </TableCell>
+                      <TableCell className="flex justify-center items-center p-0">
+                        {item.status ? (
+                          <Text className="bg-[#26af7f]  text-[#1f1e1e]   px-2 py-1.5 rounded-xl text-center w-48">
+                            Contratado
+                          </Text>
+                        ) : (
+                          <Text className="bg-[#b44f82] text-[#e0dfdf] w-full px-2 py-1.5 rounded-xl text-center">
+                            No Contactado
+                          </Text>
+                        )}
+                      </TableCell>
+                    </button>
+                  </div>
                 </TableRow>
               ))}
             </TableBody>

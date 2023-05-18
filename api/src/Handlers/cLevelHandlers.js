@@ -1,10 +1,11 @@
+
 const getAllCLevels = require('../controllers/CLevel/getAllCLevels');
 const getCLevelById = require('../controllers/CLevel/getCLevelById');
 const getCLevelByName = require('../controllers/CLevel/getCLevelByName');
 const postCLevel = require('../controllers/CLevel/postCLevel');
 const updateCLevelById = require('../controllers/CLevel/updateCLevelById');
 
-const getAllCLeveslHandler = async (req, res) => {
+const getAllCLevelsHandler = async (req, res) => {
 	try {
 		const cLevels = await getAllCLevels();
 		res.status(200).json(cLevels);
@@ -15,9 +16,8 @@ const getAllCLeveslHandler = async (req, res) => {
 
 const postCLevelHandler = async (req, res) => {
 	const data = req.body;
-	console.log(data);
 	try {
-		const CLevels = await postCLevel(data);
+		const cLevel = await postCLevel(data);
 		res.status(200).json(data);
 	} catch (error) {
 		res.status(404).json({ error: error.message });
@@ -37,10 +37,10 @@ const updateCLevelHandler = async (req, res) => {
 };
 
 const getCLevelByNameHandler = async (req, res) => {
-	const { name } = req.query;
+	const { Name } = req.query;
 
 	try {
-		const cLevel = await getCLevelByName(name);
+		const cLevel = await getCLevelByName(Name);
 		res.status(200).json(cLevel);
 	} catch (error) {
 		res.status(404).json({ error: error.message });
@@ -59,7 +59,7 @@ const getCLevelByIdHandler = async (req, res) => {
 };
 
 module.exports = {
-	getAllCLeveslHandler,
+	getAllCLevelsHandler,
 	postCLevelHandler,
 	updateCLevelHandler,
 	getCLevelByIdHandler,

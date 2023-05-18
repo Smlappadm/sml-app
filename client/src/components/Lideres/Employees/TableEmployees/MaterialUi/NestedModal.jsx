@@ -143,7 +143,7 @@ export default function NestedModal(name, email, employees) {
   const [inputName, setInputName] = useState("");
   const [inputEmail, setInputEmail] = useState("");
   const [selectEmployees, setSelectEmployees] = useState("");
-
+  
   const handleReset = () => {
     setInputName("");
     setInputEmail("");
@@ -170,6 +170,11 @@ export default function NestedModal(name, email, employees) {
             <div className="flex flex-col items-center justify-center gap-5">
               <InputName name={inputName} setName={setInputName} />
               <InputEmail email={inputEmail} setEmail={setInputEmail} />
+              <select name="" id="">
+                <option value="leader">leader</option>
+                <option value="corredor">corredor</option>
+                <option value="vendedor">vendedor</option>
+              </select>
               <BasicSelect
                 employees={selectEmployees}
                 setEmployees={setSelectEmployees}

@@ -9,7 +9,6 @@
 	width: 100vw;
 }
 
-<<<<<<<< HEAD:client/src/components/Analytics/Sales/Sales.module.css
 .tableRow {
 	margin-top: 20px;
 	display: grid;
@@ -21,12 +20,9 @@
 	display: grid;
 	grid-template-columns: repeat(5, 1fr);
 	align-items: center;
-========
+	}
 .containerTitle {
 	display: flex;
->>>>>>>> develop-andres:client/src/components/Vendedores/Dashboard/CardPotencialLead.module.css
-	justify-content: space-between;
-	margin: 2rem;
 }
 
 @media screen and (max-width: 1024px) {
@@ -58,7 +54,6 @@
 .tableRow {
   margin-top: 20px;
   display: grid;
-
   grid-template-columns: 27% 31% 19.7% 10% auto;
   /* grid-template-columns: repeat(5, 1fr); */
   margin-left: 50px;

@@ -19,22 +19,24 @@ const container = document.getElementById("root");
 const root = createRoot(container); // createRoot(container!) if you use TypeScript
 root.render(
   <IntlProvider locale="en-US" massages={{}}>
-  <Provider store={store}>
-    <BrowserRouter>
-    <Auth0Provider
+    <Provider store={store}>
+      <BrowserRouter>
+        {/* <Auth0Provider
         domain="dev-nzhxzzb0uswslgg5.us.auth0.com"
         clientId="H73gErJkGH4rcXsfGsbuCHZwAkoC7lUK"
         redirectUri={window.location.origin}
-        // authorizationParams={{
-        //   redirect_uri: window.location.origin,
-        //   audience: "http://localhost:5173",
-        //   scope: "read:current_user update:current_user_metadata c-level"
-        // }}
-      >
-      <App />
-      </Auth0Provider>
-    </BrowserRouter>
-  </Provider>
+        authorizationParams={{
+          redirect_uri: window.location.origin,
+          audience: "http://localhost:5173",
+          scope: "read:current_user update:current_user_metadata c-level"
+        }}
+      > 
+            </Auth0Provider>
+      */}
+        <App />
+
+      </BrowserRouter>
+    </Provider>
   </IntlProvider>
 );
 

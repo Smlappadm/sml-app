@@ -13,6 +13,7 @@ import {
   CiEdit,
 } from "react-icons/ci";
 
+
 const style = {
   position: "absolute",
   top: "45%",
@@ -38,8 +39,19 @@ function ChildModal({ item, setOpen, statusObj, SendLeadAlert, SendErrorUpdateAl
   };
 
   const handleUpdate = () => {
+
+    const dataVendedor = item.name;
+ 
+    const dataLead = {
+      ...statusObj, vendedor_id: "646569025e5d71d4bf530368",
+    }
+    const dataUpdate = {
+      dataLead,
+      dataVendedor
+    }
+
     axios
-      .put(`http://localhost:3001/lead/vendedor/${item._id}`, statusObj)
+      .put(`http://localhost:3001/lead/vendedor/${item._id}`, dataUpdate)
       .then((response) => {
         // Si la respuesta es exitosa, redirige a otra página
         if (response.data.title) {

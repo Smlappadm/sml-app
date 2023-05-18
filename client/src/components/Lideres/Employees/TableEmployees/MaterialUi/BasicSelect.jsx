@@ -10,6 +10,7 @@ const StyledMenuItem = styled(MenuItem)(() => ({
   "&:hover": {
     backgroundColor: "#39394b",
   },
+  backgroundColor: "#39394b",
   "&.Mui-selected": {},
 }));
 
@@ -20,11 +21,17 @@ const StyledInputLabel = styled(InputLabel)(() => ({
 const StyledSelect = styled(Select)(() => ({
   "& .MuiSelect-icon": { color: "#fff" },
   "& .MuiInputBase-input": { color: "#fff" },
+  "& .MuiMenu-paper": {
+    backgroundColor: "red", // Cambiar el color de fondo del menú de opciones aquí
+  },
 }));
 
 const StyledFormControl = styled(FormControl)(() => ({
   "& .MuiInputLabel-formControl": {
     color: "#fff",
+  },
+  "& .MuiMenu-paper": {
+    backgroundColor: "red", // Cambiar el color de fondo del menú de opciones aquí
   },
 }));
 

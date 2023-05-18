@@ -43,19 +43,21 @@ const LeadSchema = new mongoose.Schema(
     status: {
       type: String,
       enum: ["Sin contactar", "Rechazado", "Sin Contactar", "No Responde"],
-      default: "Sin contactar",
       require: true,
     },
     statusoptions: {
       type: String,
       require: true,
+    },
+    vendedor_id: {
+      type: String,
+      require: true,
       default: "",
     },
-    vendedor: {
-      type: mongoose.Types.ObjectId,
-    },
-    corredor: {
-      type: mongoose.Types.ObjectId,
+    corredor_id: {
+      type: String,
+      require: true,
+      default: "",
     },
     checked: {
       type: Boolean,

@@ -31,16 +31,20 @@ const VendedorSchema = new mongoose.Schema(
       type: String,
     },
     leads_contacted: {
-      type: String,
+      type:Array,
+      default: []
     },
     hired_leads: {
-      type: String,
+      type:Array,
+      default: []
     },
     declined_leads: {
-      type: String,
+      type:Array,
+      default: []
     },
     unanswered_leads: {
-      type: String,
+      type:Array,
+      default: []
     },
     rol: {
       type: String,

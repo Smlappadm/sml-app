@@ -1,62 +1,24 @@
 import Nav from '../../components/Nav/Nav';
-import { useAuth0 } from '@auth0/auth0-react';
-import { useEffect } from 'react';
-import { useState } from 'react';
 import Detail from '../../components/Lideres/Employees/Detail/Detail';
-
-// const user = [
-// 	{
-// 		username: 'andres biasutto',
-// 		email: 'aquiandresbiasutto@gmail.com',
-// 	},
-// ];
+import {
+  useUser,
+useOrganization,
+useOrganizationList,
+} from "@clerk/clerk-react";
 
 export default function Settings() {
-  const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
-  const [userMetadata, setUserMetadata] = useState(null);
+const user= useUser().user;
+const org= useOrganization();
+const orgList= useOrganizationList();
 
-  useEffect(() => {
-    const getUserMetadata = async () => {
-      const domain = 'localhost:5173';
-
-      try {
-        const accessToken = await getAccessTokenSilently({
-          authorizationParams: {
-            audience: `https://${domain}/api/v2/`,
-            scope: 'read:current_user',
-          },
-        });
-        console.log(accessToken);
-        const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user.sub}`;
-
-        const metadataResponse = await fetch(userDetailsByIdUrl, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-
-        const { user_metadata } = await metadataResponse.json();
-
-        setUserMetadata(user_metadata);
-      } catch (e) {
-        console.log(e.message);
-      }
-    };
-
-    getUserMetadata();
-  }, [getAccessTokenSilently, user?.sub]);
-  {
-    console.log(isAuthenticated);
-  }
-  {
-    console.log(useAuth0());
-  }
-
-  const url = "https://example.com/roles";
+console.log(user);
+console.log(org);
+console.log(orgList.organizationList[0]);
   return (
+
     <>
       <Nav />
-      {isAuthenticated && (
+      {(
         <div className="flex justify-center items-center w-full">
           {/* <p>{user[url][0]} </p> */}
           <div className="h-screen w-4/5  flex flex-col justify-start items-center p-8">
@@ -105,7 +67,7 @@ export default function Settings() {
               </button>
             </div>
           </div>
-          <Detail name={user.name} picture={user.picture} email={user.email} />
+           <Detail name={user.fullName} picture={user.experimental_imageUrl} email={user.emailAddresses[0].emailAddress} /> 
         </div>
       )}{" "}
     </>
