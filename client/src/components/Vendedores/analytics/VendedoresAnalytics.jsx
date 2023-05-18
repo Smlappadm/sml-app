@@ -49,7 +49,7 @@ const VendedoresAnalytics = () => {
       nivel: 0,
       telefono: '+222222222',
       Email: 'siemprepar@gmail.com',
-      status: false
+      status: "sin contactar"
     },
     {
       id: '211111',
@@ -58,7 +58,7 @@ const VendedoresAnalytics = () => {
       nivel: 0,
       telefono: '+222222222',
       Email: 'siemprepar@gmail.com',
-      status: true
+      status: "sin contactar"
     },
     {
       id: '222222',
@@ -67,7 +67,7 @@ const VendedoresAnalytics = () => {
       nivel: 0,
       telefono: '+222222222',
       Email: 'siemprepar@gmail.com',
-      status: true
+      status: "sin contactar"
     },
     {
       id: '244444',
@@ -76,7 +76,7 @@ const VendedoresAnalytics = () => {
       nivel: 0,
       telefono: '+222222222',
       Email: 'siemprepar@gmail.com',
-      status: true
+      status: "sin contactar"
     },
     {
       id: '255555',
@@ -85,7 +85,7 @@ const VendedoresAnalytics = () => {
       nivel: 0,
       telefono: '+222222222',
       Email: 'siemprepar@gmail.com',
-      status: false
+      status: "contratado"
     },
     {
       id: '266666',
@@ -94,7 +94,7 @@ const VendedoresAnalytics = () => {
       nivel: 0,
       telefono: '+222222222',
       Email: 'siemprepar@gmail.com',
-      status: true
+      status: "contratado"
     },
     {
       id: '277777',
@@ -103,7 +103,7 @@ const VendedoresAnalytics = () => {
       nivel: 0,
       telefono: '+222222222',
       Email: 'siemprepar@gmail.com',
-      status: false
+      status: "contratado"
     },
     {
       id: '288888',
@@ -112,7 +112,7 @@ const VendedoresAnalytics = () => {
       nivel: 0,
       telefono: '+222222222',
       Email: 'siemprepar@gmail.com',
-      status: false
+      status: "rechazado"
     },
     {
       id: '299999',
@@ -121,7 +121,7 @@ const VendedoresAnalytics = () => {
       nivel: 0,
       telefono: '+222222222',
       Email: 'siemprepar@gmail.com',
-      status: false
+      status: "rechazado"
     },
     {
       id: '888888',
@@ -130,7 +130,7 @@ const VendedoresAnalytics = () => {
       nivel: 0,
       telefono: '+222222222',
       Email: 'siemprepar@gmail.com',
-      status: false
+      status: "rechazado"
     },
     {
       id: '777777',
@@ -139,7 +139,7 @@ const VendedoresAnalytics = () => {
       nivel: 0,
       telefono: '+222222222',
       Email: 'siemprepar@gmail.com',
-      status: false
+      status: "no responde"
     },
     {
       id: '666666',
@@ -148,7 +148,7 @@ const VendedoresAnalytics = () => {
       nivel: 0,
       telefono: '+222222222',
       Email: 'siemprepar@gmail.com',
-      status: false
+      status: "no responde"
     },
     {
       id: '555555',
@@ -157,7 +157,7 @@ const VendedoresAnalytics = () => {
       nivel: 0,
       telefono: '+222222222',
       Email: 'siemprepar@gmail.com',
-      status: false
+      status: "no responde"
     },
     {
       id: '444444',
@@ -166,7 +166,7 @@ const VendedoresAnalytics = () => {
       nivel: 0,
       telefono: '+222222222',
       Email: 'siemprepar@gmail.com',
-      status: false
+      status: "no responde"
     },
     {
       id: '333333',
@@ -175,7 +175,7 @@ const VendedoresAnalytics = () => {
       nivel: 0,
       telefono: '+222222222',
       Email: 'siemprepar@gmail.com',
-      status: false
+      status: "rechazado"
     },
     {
       id: '111111',
@@ -184,7 +184,7 @@ const VendedoresAnalytics = () => {
       nivel: 0,
       telefono: '+222222222',
       Email: 'siemprepar@gmail.com',
-      status: false
+      status: "contratado"
     },
     {
       id: '123213',
@@ -193,7 +193,7 @@ const VendedoresAnalytics = () => {
       nivel: 0,
       telefono: '+222222222',
       Email: 'siemprepar@gmail.com',
-      status: true
+      status: "rechazado"
     },
   ].filter(item => item.status === "contratado" || item.status === "rechazado" || item.status === "no responde")
   const cardsPerPage = 8;
