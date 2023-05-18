@@ -103,7 +103,7 @@ const rootReducer = (state = initialState, action) => {
     case FILTER_LEVEL:
       const copyLevel = [...state.leadChequed];
       let filteredLevel = copyLevel;
-      const copyLevelVendedores = [...state.leadChequed100];
+      const copyLevelVendedores = [...state.leadCheckedInactive100];
       let filteredLevelVendedores = copyLevelVendedores;
 
       if (action.payload === "0") {

@@ -13,7 +13,7 @@ const {
 } = require("../Handlers/sendmail");
 const CorredorRouter = Router();
 
-console.log("entro");
+
 CorredorRouter.post("/", postCorredorHandler);
 CorredorRouter.get("/", getAllCorredoresHandler);
 CorredorRouter.get("/name", getCorredorByNameHandler);

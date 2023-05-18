@@ -9,8 +9,8 @@ export const ORDER_CATEGORY = "ORDER_CATEGORY";
 export const FILTER_LEVEL = "FILTER_LEVEL";
 export const FILTER_STATUS = "FILTER_STATUS";
 export const GET_ALL_LEAD_INACTIVE = "GET_ALL_LEAD_INACTIVE";
-export const GET_ALL_CORREDORES = "GET_ALL_CORREDORES";
-export const GET_ALL_VENDEDORES = "GET_ALL_VENDEDORES";
+export const GET_ALL_CORREDORES = "GET_ALL_CORREDORES"
+export const GET_ALL_VENDEDORES = "GET_ALL_VENDEDORES"
 
 export const getAllLead = () => {
   return async (dispatch) => {
@@ -65,7 +65,6 @@ export const getLeadCheckedInactive100 = () => {
     dispatch({ type: GET_LEAD_CHEQUED_INACTIVE_100, payload: LeadCheckedInactive100 });
   };
 };
-
 
 
 export const orderClients = (order) => {

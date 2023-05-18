@@ -162,3 +162,10 @@
     grid-template-columns: 12.5% 19.5% 11% 27% 17% auto;
   }
 }
+.progres{
+  width: 700px;
+  margin-left: 240px;
+  background-color: blue;
+  position: absolute;
+  top: 22px;
+}

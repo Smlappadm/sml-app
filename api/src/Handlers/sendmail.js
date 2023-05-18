@@ -1,11 +1,13 @@
 const sendGrid = require('@sendgrid/mail');
-const sendGridApiKey = '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';
+require('dotenv').config();
+const { APIKEY} = process.env;
+
 
 const sendmail = async (req, res) => {
     try {
       const { clientName, recipientEmail, message } = req.body;
   
-      sendGrid.setApiKey(sendGridApiKey);
+      sendGrid.setApiKey(APIKEY);
 
   const emailData = {
     to: recipientEmail,
@@ -27,3 +29,7 @@ module.exports = {
 	
 	sendmail
 };
+
+
+
+

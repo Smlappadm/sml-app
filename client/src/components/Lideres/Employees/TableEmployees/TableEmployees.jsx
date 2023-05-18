@@ -125,6 +125,7 @@ export const TableEmployees = () => {
             cardXPage={cardXPage}
             data={employees}
             pages={pages}
+            current={currentPage}
           />
         </div>
       </div>

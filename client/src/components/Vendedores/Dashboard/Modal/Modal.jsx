@@ -1,4 +1,6 @@
 import * as React from "react";
+import axios from "axios";
+import { useEffect } from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
@@ -25,18 +27,33 @@ const style = {
   pb: 4,
 };
 
-function ChildModal({ setOpen, SendLeadAlert }) {
+function ChildModal({ item, setOpen, statusObj, SendLeadAlert, SendErrorUpdateAlert, updateLeads }) {
   const [openChild, setOpenChild] = React.useState(false);
+
   const handleOpen = () => {
     setOpenChild(true);
   };
   const handleClose = () => {
     setOpenChild(false);
   };
+
   const handleUpdate = () => {
+    axios
+      .put(`http://localhost:3001/lead/vendedor/${item._id}`, statusObj)
+      .then((response) => {
+        // Si la respuesta es exitosa, redirige a otra página
+        if (response.data.title) {
+          updateLeads();
+          setOpen(false);
+        }
+        SendLeadAlert();
+      })
+      .catch((error) => {
+        // Si hay un error, muestra un mensaje de error
+        SendErrorUpdateAlert();
+      });
     setOpenChild(false);
     setOpen(false);
-    SendLeadAlert();
   };
   const handleCancel = () => {
     setOpen(false);
@@ -184,12 +201,31 @@ export default function NestedModal({
   item,
   SendLeadAlert,
   SendIncidenceAlert,
+  SendErrorUpdateAlert,
+  updateLeads
 }) {
   const [open, setOpen] = React.useState(false);
-  const [disabledState1, setDisabledState1] = React.useState(false);
-  const [disabledState2, setDisabledState2] = React.useState(false);
-  const [disabledState3, setDisabledState3] = React.useState(false);
-  const [statusValue, setStatusValue] = React.useState("sinContactar");
+
+  const [statusObj, setStatusObj] = React.useState({
+    status: item.status,
+    statusoption: item.statusoption,
+  });
+
+  useEffect(() => {
+    setStatusObj({
+      ...statusObj,
+      status: item.status,
+
+    });
+    // if(statusObj.status === "No responde" || statusObj.status === "Sin contratar") {
+    //   setStatusObj({
+    //     ...statusObj,
+    //     status: statusObj.status,
+    //     statusoption: ""
+
+    //   });
+    // }
+  }, [setStatusObj]);
 
   const handleOpen = () => {
     setOpen(true);
@@ -198,19 +234,27 @@ export default function NestedModal({
     setOpen(false);
   };
 
-  const handleChange1 = () => {
-    setDisabledState1(!disabledState1);
-  };
-  const handleChange2 = () => {
-    setDisabledState2(!disabledState2);
-  };
-  const handleChange3 = () => {
-    setDisabledState3(!disabledState3);
-  };
 
   const handleSelectChange = (event) => {
-    setStatusValue(event.target.value);
-    console.log(statusValue);
+    const value = event.target.value;
+    const property = event.target.name;
+    if(value === "No responde" || value === "Sin contactar") {
+      setStatusObj({
+        ...statusObj,
+        [property]: value,
+        statusoption: ""
+      });
+    }
+    else if(value === "Contratado") {
+      setStatusObj({
+        ...statusObj,
+        [property]: value,
+        statusoption: ""
+      });
+    }
+    else{
+      setStatusObj({ ...statusObj, [property]: value });
+    }
   };
 
   return (
@@ -305,38 +349,43 @@ export default function NestedModal({
               </label>
               <select
                 onChange={handleSelectChange}
-                defaultValue={statusValue}
+                name="status"
+                defaultValue={statusObj.status}
                 id="select1"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               >
                 {/* <option selected>Choose a country</option> */}
-                <option value="sinContactar">Sin Contactar</option>
-                <option value="vendido">Vendido</option>
-                <option value="rechazado">Rechazadado</option>
-                <option value="noResponde">No Responde</option>
+                <option value="Sin contactar">Sin Contactar</option>
+                <option value="Contratado">Contratado</option>
+                <option value="Rechazado">Rechazadado</option>
+                <option value="No responde">No Responde</option>
               </select>
             </div>
-            {statusValue === "rechazado" && (
+            {statusObj.status === "Rechazado" && (
               <div className="m-5">
                 <label
-                  htmlFor="countries"
+                  htmlFor="Motivo"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Motivo
                 </label>
                 <select
-                  id="countries"
+                  id="Motivo"
+                  onChange={handleSelectChange}
+                  name="statusoption"
+                  defaultValue={statusObj.statusoption}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 >
                   {/* <option selected>Choose a country</option> */}
-                  <option value="US">Sin Dinero</option>
-                  <option value="CA">Sin Interes</option>
-                  <option value="FR">Otro Servicio</option>
+                  <option value="Desconocido">Desconocido</option>
+                  <option value="Sin dinero">Sin Dinero</option>
+                  <option value="Sin interes">Sin Interes</option>
+                  <option value="Otro servicio">Otro Servicio</option>
                   {/* <option value="DE">Germany</option> */}
                 </select>
               </div>
             )}
-            {statusValue === "vendido" && (
+            {statusObj.status === "Contratado" && (
               <div className="flex flex-col justify-center items-center mt-5">
                 <label
                   htmlFor="last_name"
@@ -349,8 +398,12 @@ export default function NestedModal({
                     USD
                   </label>
                   <input
+                    onChange={handleSelectChange}
                     type="text"
                     id="last_name"
+                    name="statusoption"
+                    // defaultValue={item.statusoption}
+                    value={statusObj.statusoption}
                     className="bbg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-28 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     // placeholder={item.email}
                     placeholder=""
@@ -363,7 +416,14 @@ export default function NestedModal({
           </div>
 
           <div className="">
-            <ChildModal setOpen={setOpen} SendLeadAlert={SendLeadAlert} />
+            <ChildModal
+              item={item}
+              statusObj={statusObj}
+              setOpen={setOpen}
+              SendLeadAlert={SendLeadAlert}
+              SendErrorUpdateAlert={SendErrorUpdateAlert}
+              updateLeads={updateLeads}
+            />
           </div>
         </Box>
       </Modal>
