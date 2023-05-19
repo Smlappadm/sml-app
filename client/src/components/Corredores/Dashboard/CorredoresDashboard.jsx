@@ -21,12 +21,22 @@ import { IoGrid, IoStatsChart } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { getLeadUnchecked10 } from "../../../redux/actions";
 import IconLabelButtons from "../../MaterialUi/IconLabelButtons";
+import swal from 'sweetalert';
+import {
+  useUser,
+  useOrganization,
+  useOrganizationList,
+} from "@clerk/clerk-react";
 
 
 
 const CorredoresDashboard = () => {
   const [client, setClient] = useState([]);
+  const user = useUser().user;
+  const org = useOrganization();
+  const orgList = useOrganizationList();
 
+  
   const handleChangeInstagram = (event, index) => {
     const { name, value } = event.target;
     console.log(value);
@@ -51,11 +61,11 @@ const CorredoresDashboard = () => {
         [name]: value,
         level: value,
       };
-
+      
       return updatedClient;
     });
   };
-
+  
   const handleView = async () => {
     console.log("Enviado el view");
     try {
@@ -76,6 +86,8 @@ const CorredoresDashboard = () => {
 
   const { leadUnchecked10 } = useSelector((state) => state);
   const dispatch = useDispatch();
+
+
 
   useEffect(() => {
     dispatch(getLeadUnchecked10());
@@ -100,9 +112,12 @@ const CorredoresDashboard = () => {
     }
     setClient(clientes);
   }, [leadUnchecked10]);
-
+  
   console.log(leadUnchecked10);
-
+  console.log(user);
+  console.log(user.emailAddresses[0].emailAddress);
+  //console.log(orgList.organizationList[0]);
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
     await swal("Enviando informacion!", `porfavor no cierre la pestaña hasta completar el proceso`, "warning",);
@@ -124,6 +139,7 @@ const CorredoresDashboard = () => {
                 instagram: client[i].instagram,
                 level: client[i].level,
                 checked: client[i].checked,
+                corredor: user.fullName
               }
             );
             console.log(response.data);
@@ -132,7 +148,7 @@ const CorredoresDashboard = () => {
               const emailData = {
                 clientName: client[i].name,
                 recipientEmail: "gustavomontespalavecino@gmail.com",
-                message: `Se ha detectado una incidencia para el cliente ${client[i].name} con el numero de id ${client[i].id}. Por favor, revisa la situación y toma las medidas necesarias.`,
+                message: `Se ha detectado una incidencia clasificada por el corredor ${user.emailAddresses[0].emailAddress} para el cliente ${client[i].name} con el numero de id ${client[i]._id}. Por favor, revisa la situación y toma las medidas necesarias.`,
               };
 
               await axios.post(
@@ -154,12 +170,13 @@ const CorredoresDashboard = () => {
                 instagram: client[i].instagram,
                 level: client[i].level,
                 checked: client[i].checked,
+                corredor: user.fullName
               }
             );
             console.log(response.data);
-          }else {
-          await swal("Atencion!", `Al Cliente: ${client[i].name} le falta asignar instagram`, "warning");   
-        }
+          } else {
+            await swal("Atencion!", `Al Cliente: ${client[i].name} le falta asignar instagram`, "warning");
+          }
         } else {
           await swal("Atencion!", `Al Cliente: ${client[i].name} le falta asignar nivel`, "warning",);
         }
@@ -168,14 +185,14 @@ const CorredoresDashboard = () => {
       dispatch(getLeadUnchecked10());
     } catch (error) {
       await swal(":(", "error al enviar la informacion!", "error");
-      console.log({error: error.message});
+      console.log({ error: error.message });
     }
   };
 
   return (
     <>
       <Nav />
-      <Card className="w-full m-5 bg-[#39394b]">
+      <Card className="w-full m-5 bg-[#222131]">
         <form onSubmit={handleSubmit}>
           <div className="flex justify-between items-center">
             <div className="flex gap-10  mt-2 mx-5 ">
@@ -242,9 +259,8 @@ const CorredoresDashboard = () => {
                       <GrInstagram className="text-[2rem] text-[#418df0]" />
                     </div>
                     <input
-                      className={`bg-transparent rounded-full border-2 border-gray-300 py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 placeholder-white focus:placeholder-black ${
-                        client[index].instagram ? "border-green-500" : ""
-                      }`}
+                      className={`bg-transparent rounded-full border-2 border-gray-300 py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 placeholder-white focus:placeholder-black ${client[index].instagram ? "border-green-500" : ""
+                        }`}
                       type="text"
                       name="instagram"
                       value={client[index].instagram}
@@ -281,7 +297,7 @@ const CorredoresDashboard = () => {
                       1
                     </button>
                     <button
-                      className={
+                        className={
                         item.level === "2"
                           ? style.buttonNivelActive
                           : style.buttonNivel

@@ -1,5 +1,6 @@
 const sendGrid = require('@sendgrid/mail');
-const sendGridApiKey = '';
+require('dotenv').config();
+const {APIKEY} = process.env;
 
 const sendmail = async (req, res) => {
     try {

@@ -24,12 +24,22 @@ function Landing() {
 					<div className='flex flex-col gap-5'>
 						<h1>Bienvenido name </h1>
 						<Link
-							to='/employees'
+							to='/clevel'
+							className={style.linksRoutes}>
+							Clevel-Dashboard
+						</Link>
+						<Link
+							to='/clevel/analytics'
+							className={style.linksRoutes}>
+							Clevel-Analytics
+						</Link>
+						<Link
+							to='/lideres'
 							className={style.linksRoutes}>
 							Lider-Dashboard
 						</Link>
 						<Link
-							to='/employees/analytics'
+							to='/lideres/analytics'
 							className={style.linksRoutes}>
 							Lider-Analytics
 						</Link>

@@ -3,15 +3,8 @@ import axios from "axios";
 import { useEffect } from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import Button from "@mui/material/Button";
-import BasicSelect from "../Select/Select";
-import {
-  CiGlobe,
-  CiWarning,
-  CiInstagram,
-  CiMail,
-  CiEdit,
-} from "react-icons/ci";
+import { CiWarning, CiEdit } from "react-icons/ci";
+import { useUser } from "@clerk/clerk-react";
 
 
 const style = {
@@ -28,9 +21,17 @@ const style = {
   pb: 4,
 };
 
-function ChildModal({ item, setOpen, statusObj, SendLeadAlert, SendErrorUpdateAlert, updateLeads }) {
+function ChildModal({
+  item,
+  setOpen,
+  statusObj,
+  SendLeadAlert,
+  SendErrorUpdateAlert,
+  updateLeads,
+}) {
   const [openChild, setOpenChild] = React.useState(false);
-
+  const user = useUser().user;
+  const { emailAddress } = user.primaryEmailAddress;
   const handleOpen = () => {
     setOpenChild(true);
   };
@@ -39,16 +40,17 @@ function ChildModal({ item, setOpen, statusObj, SendLeadAlert, SendErrorUpdateAl
   };
 
   const handleUpdate = () => {
-
     const dataVendedor = item.name;
- 
+
     const dataLead = {
-      ...statusObj, vendedor_id: "646569025e5d71d4bf530368",
-    }
+      status: statusObj.status,
+      status_op: statusObj.status_op,
+      vendedor: emailAddress,
+    };
     const dataUpdate = {
       dataLead,
-      dataVendedor
-    }
+      dataVendedor,
+    };
 
     axios
       .put(`http://localhost:3001/lead/vendedor/${item._id}`, dataUpdate)
@@ -214,26 +216,25 @@ export default function NestedModal({
   SendLeadAlert,
   SendIncidenceAlert,
   SendErrorUpdateAlert,
-  updateLeads
+  updateLeads,
 }) {
   const [open, setOpen] = React.useState(false);
 
   const [statusObj, setStatusObj] = React.useState({
     status: item.status,
-    statusoption: item.statusoption,
+    status_op: item.status_op,
   });
 
   useEffect(() => {
     setStatusObj({
       ...statusObj,
       status: item.status,
-
     });
     // if(statusObj.status === "No responde" || statusObj.status === "Sin contratar") {
     //   setStatusObj({
     //     ...statusObj,
     //     status: statusObj.status,
-    //     statusoption: ""
+    //     status_op: ""
 
     //   });
     // }
@@ -246,25 +247,22 @@ export default function NestedModal({
     setOpen(false);
   };
 
-
   const handleSelectChange = (event) => {
     const value = event.target.value;
     const property = event.target.name;
-    if(value === "No responde" || value === "Sin contactar") {
+    if (value === "No responde" || value === "Sin contactar") {
       setStatusObj({
         ...statusObj,
         [property]: value,
-        statusoption: ""
+        status_op: "",
       });
-    }
-    else if(value === "Contratado") {
+    } else if (value === "Contratado") {
       setStatusObj({
         ...statusObj,
         [property]: value,
-        statusoption: ""
+        status_op: "",
       });
-    }
-    else{
+    } else {
       setStatusObj({ ...statusObj, [property]: value });
     }
   };
@@ -384,8 +382,8 @@ export default function NestedModal({
                 <select
                   id="Motivo"
                   onChange={handleSelectChange}
-                  name="statusoption"
-                  defaultValue={statusObj.statusoption}
+                  name="status_op"
+                  defaultValue={statusObj.status_op}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 >
                   {/* <option selected>Choose a country</option> */}
@@ -413,9 +411,9 @@ export default function NestedModal({
                     onChange={handleSelectChange}
                     type="text"
                     id="last_name"
-                    name="statusoption"
-                    // defaultValue={item.statusoption}
-                    value={statusObj.statusoption}
+                    name="status_op"
+                    // defaultValue={item.status_op}
+                    value={statusObj.status_op}
                     className="bbg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-28 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     // placeholder={item.email}
                     placeholder=""

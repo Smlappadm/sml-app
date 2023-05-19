@@ -52,7 +52,7 @@ const CorredoresAnlaytics = () => {
     <>
       <Nav />
       <div className=" flex flex-col justify-start items-center w-full h-screen mx-5 ">
-        <Card className="w-full m-5 h-screen bg-[#39394b]">
+        <Card className="w-full m-5 h-screen bg-[#222131]">
           <div className="flex gap-10 items-center mt-2 mx-5 ">
             <Title className="font-bold text-[#e2e2e2] text-lg">
               Analytics

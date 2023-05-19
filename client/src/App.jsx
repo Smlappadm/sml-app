@@ -1,14 +1,12 @@
 import "./App.css";
 import Landing from "./views/Landing/Landing";
-import { useDispatch, useSelector } from "react-redux";
-import Employees from "./views/Employees/Employees.jsx";
+import Lideres from "./components/Lideres/Lideres";
 import Analytics from "./views/Analytics/Analytics.jsx";
 import Settings from "./views/Settings/Settings.jsx";
 import Login from "./views/Login/Login";
 import CorredoresDashboard from "./components/Corredores/Dashboard/CorredoresDashboard";
 import VendedoresDashboard from "./components/Vendedores/Dashboard/VendedoresDashboard";
 import { AnalyticLeader } from "./components/Lideres/Analytic/AnalyticLeader";
-import { useEffect } from "react";
 import VendedoresAnalytics from "./components/Vendedores/analytics/VendedoresAnalytics";
 import CorredoresAnlaytics from "./components/Corredores/Analitycs/CorredoresAnalytics";
 import {
@@ -21,6 +19,8 @@ import {
   UserButton,
 } from "@clerk/clerk-react";
 import { Route, Routes, useNavigate } from "react-router-dom";
+import Clevel from "./components/C-Level/Clevel";
+import Analytic from "./components/C-Level/Analytics/Analytic";
 
 if (!"pk_test_ZmFtb3VzLWRyYWdvbi0xMi5jbGVyay5hY2NvdW50cy5kZXYk") {
   throw new Error("Missing Publishable Key");
@@ -62,8 +62,10 @@ function ClerkProviderWithRoutes() {
         />
         <Route path="/home" element={<Landing />} />
         <Route path="/" element={<Login />} />
-        <Route path="/employees" element={<Employees />} />
-        <Route path="/employees/analytics" element={<AnalyticLeader />} />
+        <Route path="/lideres" element={<Lideres />} />
+        <Route path="/lideres/analytics" element={<AnalyticLeader />} />
+        <Route path="/clevel" element={<Clevel />} />
+        <Route path="/clevel/analytics" element={<Analytic />} />
         <Route path="/corredores" element={<CorredoresDashboard />} />
         <Route path="/corredores/analytics" element={<CorredoresAnlaytics />} />
         <Route path="/analytics" element={<Analytics />} />

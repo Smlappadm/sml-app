@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import style from "./TableEmployees.module.css";
+import style from "./TableClevel.module.css";
 import PaginationOutlined from "../../../pagination/PaginationOutlined";
 import {
   Card,
@@ -18,7 +18,7 @@ import { getAllCorredores, getAllVendedores } from "../../../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import NestedModal from "./MaterialUi/NestedModal";
 import NestedModalEdit from "./MaterialUi/Edit/NestedModalEdit";
-export const TableEmployees = () => {
+export const TableClevel = () => {
   const { corredores, vendedores } = useSelector((state) => state);
   const dispatch = useDispatch();
   
