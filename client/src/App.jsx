@@ -21,6 +21,7 @@ import {
 import { Route, Routes, useNavigate } from "react-router-dom";
 import Clevel from "./components/C-Level/Clevel";
 import Analytic from "./components/C-Level/Analytics/Analytic";
+import Incidences from "./components/Lideres/incidences/incidencias";
 
 if (!"pk_test_ZmFtb3VzLWRyYWdvbi0xMi5jbGVyay5hY2NvdW50cy5kZXYk") {
   throw new Error("Missing Publishable Key");
@@ -64,6 +65,7 @@ function ClerkProviderWithRoutes() {
         <Route path="/" element={<Login />} />
         <Route path="/lideres" element={<Lideres />} />
         <Route path="/lideres/analytics" element={<AnalyticLeader />} />
+        <Route path='/lideres/analytics/incidences' element={<Incidences/>}/>
         <Route path="/clevel" element={<Clevel />} />
         <Route path="/clevel/analytics" element={<Analytic />} />
         <Route path="/corredores" element={<CorredoresDashboard />} />

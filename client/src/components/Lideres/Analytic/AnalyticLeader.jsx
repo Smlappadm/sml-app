@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import style from "./TableEmployees.module.css";
 import PaginationOutlined from "../../pagination/PaginationOutlined";
 import {
@@ -28,6 +29,7 @@ import {
   orderCategory,
   orderClients,
 } from "../../../redux/actions";
+
 //
 export const AnalyticLeader = () => {
   const [data, setData] = useState([]);
@@ -156,9 +158,11 @@ export const AnalyticLeader = () => {
             ) : (
               ""
             )}
+            
             <button className="bg-gray-700 w-fit h-fit p-2 rounded-md">
               Agregar Clientes
             </button>
+            
           </div>
           <Table>
             <TableHead className="text-gray-300 text-14 font-thin">
@@ -211,7 +215,7 @@ export const AnalyticLeader = () => {
                 </TableHeaderCell>
               </TableRow>
             </TableHead>
-
+            <Link className="mr-2" path="/lideres/analytics/incidences">⚠️</Link>
             <TableBody>
               <ModalCient
                 open={open}

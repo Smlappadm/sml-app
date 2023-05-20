@@ -44,6 +44,11 @@ function Landing() {
 							Lider-Analytics
 						</Link>
 						<Link
+							to='/lideres/analytics/incidences'
+							className={style.linksRoutes}>
+							Lider-Analytics-incidences
+						</Link>
+						<Link
 							to='/corredores'
 							className={style.linksRoutes}>
 							Corredores-Dashbord
