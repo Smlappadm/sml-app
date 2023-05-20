@@ -158,7 +158,7 @@ export const AnalyticLeader = () => {
             ) : (
               ""
             )}
-            
+            <Link className="mr-2" path="/lideres/analytics/incidences">⚠️</Link>
             <button className="bg-gray-700 w-fit h-fit p-2 rounded-md">
               Agregar Clientes
             </button>
@@ -215,7 +215,7 @@ export const AnalyticLeader = () => {
                 </TableHeaderCell>
               </TableRow>
             </TableHead>
-            <Link className="mr-2" path="/lideres/analytics/incidences">⚠️</Link>
+
             <TableBody>
               <ModalCient
                 open={open}
