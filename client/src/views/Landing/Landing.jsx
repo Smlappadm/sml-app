@@ -1,25 +1,59 @@
 import React from 'react';
 import style from './Landing.module.css';
-import { Link, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Nav from '../../components/Nav/Nav';
+import { setEmployees } from '../../redux/actions';
 import {
 	useUser,
 	useOrganizationList,
 } from "@clerk/clerk-react";
+import axios from 'axios';
 
 function Landing() {
-	const user = useUser().user
-	const orgList = useOrganizationList().organizationList
-	const isLeader = orgList.length !== 0
+	const user = useUser().user;
+	const userEmail= user.emailAddresses[0].emailAddress
+	const orgList = useOrganizationList().organizationList;
+	const isLeader = orgList.length !== 0;
+	const [loading, setLoading] = useState(true);
+	const employees = useSelector(state => state.employees);
+	const dispatch = useDispatch();
+  
+	useEffect(() => {
+	  const fetchEmployees = async () => {
+		try {
+		  const response = await axios.get('http://localhost:3001/employees');
+		  const employeesData = response.data;
+		  dispatch(setEmployees(employeesData));
+		} catch (error) {
+		  console.error('Error al obtener los empleados:', error);
+		}
+	  };
+  
+	  fetchEmployees();
+	}, [dispatch]);
+  
 
-	console.log(isLeader && true)
-
+	const isEmployee = () => {
+		return employees.some(employees => employees.email === userEmail);
+	  };
+	console.log(isEmployee());
 	return (
 		<div className={style.container}>
-			
+
 			<>
 				<Nav />
-				{isLeader
+				
+				{isEmployee() ? <h1>entrada autorizada</h1>:<h1>entrada no autorizada</h1>}
+			</>
+
+		</div>
+	);
+}
+
+export default Landing;
+/* {isLeader
 					?
 					<div className='flex flex-col gap-5'>
 						<h1>Bienvenido name </h1>
@@ -83,11 +117,4 @@ function Landing() {
 							Corredores-Analytics
 						</Link>
 					</div>
-				}
-			</>
-
-		</div>
-	);
-}
-
-export default Landing;
+				} */

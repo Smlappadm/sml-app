@@ -65,13 +65,10 @@ export const getLeadCheckedInactive100 = () => {
     dispatch({ type: GET_LEAD_CHEQUED_INACTIVE_100, payload: LeadCheckedInactive100 });
   };
 };
-export const GetEmployees = () => {
-  return async (dispatch) => {
-    const response = await axios.get("http://localhost:3001/lead/checkedinactive100");
-    const LeadCheckedInactive100 = response.data;
-    dispatch({ type: GET_LEAD_CHEQUED_INACTIVE_100, payload: LeadCheckedInactive100 });
-  };
-};
+export const setEmployees = employees => ({
+  type: 'SET_EMPLOYEES',
+  payload: employees,
+});
 
 export const orderClients = (order) => {
   return async (dispatch) => {

@@ -22,6 +22,7 @@ const initialState = {
   vendedoresDashboard: [],
   corredores: [],
   vendedores: [],
+  employees: [],
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -197,7 +198,11 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         vendedores: action.payload,
       };
-
+      case 'SET_EMPLOYEES':
+        return {
+          ...state,
+          employees: action.payload,
+        };
     default:
       return { ...state };
   }
