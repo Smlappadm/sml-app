@@ -8,25 +8,19 @@ import Login from "./views/Login/Login";
 import CorredoresDashboard from "./components/Corredores/Dashboard/CorredoresDashboard";
 import VendedoresDashboard from "./components/Vendedores/Dashboard/VendedoresDashboard";
 import { AnalyticLeader } from "./components/Lideres/Analytic/AnalyticLeader";
-import { useEffect } from "react";
 import VendedoresAnalytics from "./components/Vendedores/analytics/VendedoresAnalytics";
 import CorredoresAnlaytics from "./components/Corredores/Analitycs/CorredoresAnalytics";
-import {
-  ClerkProvider,
-  SignedIn,
-  SignedOut,
-  RedirectToSignIn,
-  SignIn,
-  SignUp,
-  UserButton,
-} from "@clerk/clerk-react";
+import { ClerkProvider, SignedIn, SignedOut, RedirectToSignIn, SignIn, SignUp, UserButton, useUser } from "@clerk/clerk-react";
+import { useState, useEffect } from 'react';
 import { Route, Routes, useNavigate } from "react-router-dom";
+import { setEmployees } from "./redux/actions";
+import axios from 'axios';
 
 if (!"pk_test_ZmFtb3VzLWRyYWdvbi0xMi5jbGVyay5hY2NvdW50cy5kZXYk") {
   throw new Error("Missing Publishable Key")
 }
-
 const clerkPubKey = "pk_test_ZmFtb3VzLWRyYWdvbi0xMi5jbGVyay5hY2NvdW50cy5kZXYk";
+
 function PublicPage() {
   return (
     <>
@@ -36,14 +30,7 @@ function PublicPage() {
   );
 }
 
-function ProtectedPage() {
-  return (
-    <>
-      <h1>Protected page</h1>
-      <UserButton />
-    </>
-  );
-}
+
 
 function ClerkProviderWithRoutes() {
   const navigate = useNavigate();
@@ -67,23 +54,20 @@ function ClerkProviderWithRoutes() {
         />
         <Route path="/home" element={<Landing />} />
         <Route path="/" element={<Login />} />
-        <Route path="/employees" element={<Employees />} />
-        <Route path="/employees/analytics" element={<AnalyticLeader />} />
-        <Route path="/corredores" element={<CorredoresDashboard />} />
-        <Route path="/corredores/analytics" element={<CorredoresAnlaytics />} />
-        <Route path="/analytics" element={<Analytics />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route
-          path="/vendedores"
-          element={<VendedoresDashboard />}
-        />
-        <Route path="/vendedores/analytics" element={<VendedoresAnalytics />} />
+        <Route path="/employees" element={<Employees />} /> //c-level leader
+        <Route path="/employees/analytics" element={<AnalyticLeader />} /> //leader c-level
+        <Route path="/corredores" element={<CorredoresDashboard />} /> //corredores
+        <Route path="/corredores/analytics" element={<CorredoresAnlaytics />} /> //corredores
+        <Route path="/analytics" element={<Analytics />} /> //c-level leader
+        <Route path="/settings" element={<Settings />} /> //todos
+        <Route path="/vendedores" element={<VendedoresDashboard />} /> //vendedores
+        <Route path="/vendedores/analytics" element={<VendedoresAnalytics />} /> //vendedores
         <Route
           path="/protected"
           element={
             <>
               <SignedIn>
-                <Landing />
+                <Landing /> 
               </SignedIn>
               <SignedOut>
                 <RedirectToSignIn />
@@ -92,13 +76,13 @@ function ClerkProviderWithRoutes() {
           }
         />
       </Routes>
-        
-        <div className="App flex items-center justify-center">
-          <img
-            className="opacity-20 w-4/5 mt-[2%]"
-            src="https://cdn.discordapp.com/attachments/1105243107555037294/1106577865698459788/White_Logo_Social_Media_Lab.png"
-          />
-        </div>
+
+      <div className="App flex items-center justify-center">
+        <img
+          className="opacity-20 w-4/5 mt-[2%]"
+          src="https://cdn.discordapp.com/attachments/1105243107555037294/1106577865698459788/White_Logo_Social_Media_Lab.png"
+        />
+      </div>
     </ClerkProvider>
   );
 }
