@@ -242,7 +242,7 @@ const VendedoresAnalytics = () => {
               <Link to={"/vendedores"}>
                 <IoGrid className="text-[2rem] text-[#418df0] hover:text-[#3570bd] ml-[10px]" />
               </Link>
-              <Link className="text-5xl" to={"/vendedores/analytics"}>
+              <Link className="text-5xl" to={"/vendedores/history"}>
                 <IoStatsChart className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
               </Link>
             </div>
@@ -267,22 +267,22 @@ const VendedoresAnalytics = () => {
             </div>
             {currentCards.map((item) => 
               (
-                  <div className="w-full flex justify-center mb-8 h-3/5" key={item.id}>
-                    <div className="flex flex-row rounded bg-[#39394B] w-[1710px] h-12 items-center mt-80px ml-[11px]">
-                      <div className=" w-1/6 text-center ">{item.id}</div>
+                  <div className="w-full flex justify-center mb-4 h-3/5" key={item.id}>
+                    <div className="flex flex-row rounded-[10px] bg-[#39394B] w-[1650px] h-16 items-center mt-80px ml-[40px] text-18 text-gray-300">
+                      <div className=" w-24 p-1 px-3 rounded-full text-ellipsis text-18 opacity-1 overflow-hidden whitespace-nowrap hover:overflow-visible hover:bg-[#e3e1e1] hover:w-fit hover:text-black z-111 hover:absolute ">{item.id}</div>
                       <div className="w-1/3 ml-[150px]">{item.client}</div>
                       <div className=" w-[68px] text-center ml-[150px]">{item.profesion}</div>
                       <div className=" w-1/6 text-center ml-[150px]">{item.nivel === 0 ?
                         <div
-                          className='bg-purple-500 text-[#39394B] w-[40px] rounded h-10 flex items-center justify-center text-[35px] drop-shadow-xl ml-[150px]'
+                          className='bg-[#6254ff] text-[#ffffff] w-[40px] rounded h-10 flex items-center justify-center text-[35px] drop-shadow-xl'
                         >
                           0
                         </div> : item.nivel === 1 ? <div
-                          className='bg-purple-500 text-[#39394B] w-[40px] rounded h-10 flex items-center justify-center text-[35px] drop-shadow-xl ml-[150px]'
+                          className='bg-[#6254ff] text-[#ffffff] w-[40px] rounded h-10 flex items-center justify-center text-[35px] drop-shadow-xl'
                         >
                           1
                         </div> : <div
-                          className='bg-purple-500 text-[#39394B] w-[40px] rounded h-10 flex items-center justify-center text-[35px] drop-shadow-xl ml-[150px]'
+                          className='bg-[#6254ff] text-[#ffffff] w-[40px] rounded h-10 flex items-center justify-center text-[35px] drop-shadow-xl'
                         >
                           2
                         </div>}</div>
