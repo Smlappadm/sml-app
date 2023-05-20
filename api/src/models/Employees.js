@@ -6,6 +6,6 @@ const employeesSchema = new Schema({
   rol: { type: String, required: true },
 });
 
-const Employees = model("Employee", employeesSchema);
+const Employees = model("Employees", employeesSchema);
 
 module.exports = Employees;
