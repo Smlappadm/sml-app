@@ -197,27 +197,27 @@ const VendedoresAnalytics = () => {
     },
   ].filter(item => item.status === "contratado" || item.status === "rechazado" || item.status === "no responde")
   const cardsPerPage = 8;
-  const totalPages = Math.ceil(data.length / cardsPerPage);
+
 
   const [currentPage, setCurrentPage] = useState(1);
   const [currentCards, setCurrentCards] = useState([]);
 
-  const status={
-    contratado:(
-    <div className="bg-emerald-400 w-44 h-11 flex justify-center items-center text-white rounded-3xl">
-    Contratado
-    </div>
-  ),
-  rechazado:(
-    <div className="bg-pink-500 w-44 h-11 flex justify-center items-center text-white rounded-3xl ">
-    Rechazado
-  </div>
-  ),
-  "no responde":(
-    <div className="bg-pink-500 w-44 h-11 flex justify-center items-center text-white rounded-3xl ">
-    No responde
-  </div>
-  )
+  const status = {
+    contratado: (
+      <div className="bg-emerald-400 w-44 h-11 flex justify-center items-center text-white rounded-3xl">
+        Contratado
+      </div>
+    ),
+    rechazado: (
+      <div className="bg-pink-500 w-44 h-11 flex justify-center items-center text-white rounded-3xl ">
+        Rechazado
+      </div>
+    ),
+    "no responde": (
+      <div className="bg-pink-500 w-44 h-11 flex justify-center items-center text-white rounded-3xl ">
+        No responde
+      </div>
+    )
   }
 
   useEffect(() => {
@@ -235,7 +235,7 @@ const VendedoresAnalytics = () => {
     <div className="flex w-screen">
       <Nav />
       <div className="flex flex-col">
-        <div className="flex items-center justify-between m-8">
+        <div className="flex items-center justify-between  ml-[40px] mt-[30px] mb-[30px]">
           <div className='flex flex-row items-center'>
             <h1 className="text-2xl font-bold text-white">History</h1>
             <div className="flex gap-5">
@@ -254,53 +254,71 @@ const VendedoresAnalytics = () => {
         </div>
         <div className="h-3/5">
           <div className="flex flex-col">
-            <div className="w-full flex   mb-[30px] ">
-              <div className="flex flex-row  w-[1500px] text-left mt-80px ">
-                <div className="sticky whitespace-nowrap text-gray-500 top-0 px-4 py-3.5 font-semibold text-start">Invoice ID</div>
-                <div className="sticky whitespace-nowrap text-gray-500 top-0 px-4 py-3.5 font-semibold text-start ml-[120px]">Name</div>
-                <div className=" sticky whitespace-nowrap text-gray-500 top-0 px-4 py-3.5 font-semibold text-start ml-[240px]">Profession</div>
-                <div className="sticky whitespace-nowrap text-gray-500 top-0 px-4 py-3.5 font-semibold text-start ml-[240px]">Nivel</div>
-                <div className="sticky whitespace-nowrap text-gray-500 top-0 px-4 py-3.5 font-semibold text-start ml-[170px]">Telefono</div>
-                <div className="sticky whitespace-nowrap text-gray-500 top-0 px-4 py-3.5 font-semibold text-start ml-[150px]">Email</div>
-                <div className="sticky whitespace-nowrap text-gray-500 top-0 px-4 py-3.5 font-semibold text-start">Status</div>
+            <div className="w-full flex   mb-[15px] ">
+              <div className="flex flex-row  w-[1500px] text-left mt-80px text-14 font-thin text-gray-400">
+                <div className="sticky whitespace-nowrap  top-0 px-4 py-3.5 font-semibold text-start ml-[30px]">Invoice ID</div>
+                <div className="sticky whitespace-nowrap  top-0 px-4 py-3.5 font-semibold text-start ml-[130px]">Name</div>
+                <div className=" sticky whitespace-nowrap  top-0 px-4 py-3.5 font-semibold text-start ml-[175px]">Profession</div>
+                <div className="sticky whitespace-nowrap  top-0 px-4 py-3.5 font-semibold text-start ml-[205px]">Nivel</div>
+                <div className="sticky whitespace-nowrap  top-0 px-4 py-3.5 font-semibold text-start ml-[165px]">Telefono</div>
+                <div className="sticky whitespace-nowrap  top-0 px-4 py-3.5 font-semibold text-start ml-[110px]">Email</div>
+                <div className="sticky whitespace-nowrap  top-0 px-4 py-3.5 font-semibold text-start ml-[255px]">Status</div>
               </div>
             </div>
-            {currentCards.map((item) => 
-              (
-                  <div className="w-full flex justify-center mb-4 h-3/5" key={item.id}>
-                    <div className="flex flex-row rounded-[10px] bg-[#39394B] w-[1650px] h-16 items-center mt-80px ml-[40px] text-18 text-gray-300">
-                      <div className=" w-24 p-1 px-3 rounded-full text-ellipsis text-18 opacity-1 overflow-hidden whitespace-nowrap hover:overflow-visible hover:bg-[#e3e1e1] hover:w-fit hover:text-black z-111 hover:absolute ">{item.id}</div>
-                      <div className="w-1/3 ml-[150px]">{item.client}</div>
-                      <div className=" w-[68px] text-center ml-[150px]">{item.profesion}</div>
-                      <div className=" w-1/6 text-center ml-[150px]">{item.nivel === 0 ?
-                        <div
-                          className='bg-[#6254ff] text-[#ffffff] w-[40px] rounded h-10 flex items-center justify-center text-[35px] drop-shadow-xl'
-                        >
-                          0
-                        </div> : item.nivel === 1 ? <div
-                          className='bg-[#6254ff] text-[#ffffff] w-[40px] rounded h-10 flex items-center justify-center text-[35px] drop-shadow-xl'
-                        >
-                          1
-                        </div> : <div
-                          className='bg-[#6254ff] text-[#ffffff] w-[40px] rounded h-10 flex items-center justify-center text-[35px] drop-shadow-xl'
-                        >
-                          2
-                        </div>}</div>
-                      <div className=" w-1/6 text-center ml-[200px]">{item.telefono}</div>
-                      <div className="w-1/6 text-center ml-[150px]">{item.Email}</div>
-
-                      <div className="w-1/6 text-center ">
-                        {
-                        status[item.status]
-                        }
-                      </div>
+            {currentCards.map((item) =>
+            (
+              <div className="w-full flex justify-center mb-4 h-3/5" key={item.id}>
+                <div className="flex flex-row rounded-[10px] bg-[#39394B] w-[1650px] h-16 items-center mt-80px ml-[40px] text-18 text-gray-300">
+                  <td className="flex justify-start items-center p-0 w-fit">
+                    <div className="w-24 p-1 px-3 rounded-full text-ellipsis text-18 opacity-1 overflow-hidden whitespace-nowrap hover:overflow-visible ">
+                      {item.id}
                     </div>
-                  </div>
-                )
-              
+                  </td>
+                  <td className="flex justify-start items-center p-0 w-fit">
+                    <div className="w-24 p-1 px-3 rounded-full text-ellipsis text-18 opacity-1 ml-[125px] overflow-hidden whitespace-nowrap hover:overflow-visible ">
+                      {item.client}
+                    </div>
+                  </td>
+                  <td className="flex justify-start items-center p-0 w-fit">
+                    <div className="w-24 p-1 px-3 rounded-full text-ellipsis text-18 opacity-1 ml-[150px]">
+                      {item.profesion}
+                    </div>
+                  </td>
+                  <td className="flex justify-start items-center p-0 w-fit">
+                    <div className="w-24 p-1 px-3 rounded-full text-ellipsis text-18 opacity-1 ml-[200px]">
+                      {item.nivel === 0 ? (
+                        <div className='bg-[#6254ff] text-[#ffffff] w-[40px] rounded h-10 flex items-center justify-center text-[35px] drop-shadow-xl'>
+                          0
+                        </div>
+                      ) : item.nivel === 1 ? (
+                        <div className='bg-[#6254ff] text-[#ffffff] w-[40px] rounded h-10 flex items-center justify-center text-[35px] drop-shadow-xl'>
+                          1
+                        </div>
+                      ) : (
+                        <div className='bg-[#6254ff] text-[#ffffff] w-[40px] rounded h-10 flex items-center justify-center text-[35px] drop-shadow-xl'>
+                          2
+                        </div>
+                      )}
+                    </div>
+                  </td>
+                  <td className="flex justify-start items-center p-0 w-fit">
+                    <div className="w-1/6 text-center ml-[150px]">{item.telefono}</div>
+                  </td>
+                  <td className="flex justify-start items-center p-0 w-fit">
+                    <div className="w-1/6 ml-[100px]">{item.Email}</div>
+                  </td>
+                  <td className="flex justify-start items-center p-0 w-fit">
+                    <div className="w-1/6 text-center ml-[70px]">
+                      {status[item.status]}
+                    </div>
+                  </td>
+                </div>
+              </div>
+            )
+
             )}
           </div>
-          <div className="flex justify-center ">
+          <div className="flex justify-center relative mt-[25px] ">
             <PaginationOutlined
               pageStyle={currentPage}
               setPageStyle={setCurrentPage}
