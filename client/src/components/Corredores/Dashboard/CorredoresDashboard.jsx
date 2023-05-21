@@ -204,6 +204,7 @@ const CorredoresDashboard = () => {
                 instagram: client[i].instagram,
                 level: client[i].level,
                 checked: true,
+                view: false,
                 corredor: user.fullName,
               }
             );
@@ -233,6 +234,7 @@ const CorredoresDashboard = () => {
                 instagram: client[i].instagram,
                 level: client[i].level,
                 checked: true,
+                view: false,
                 corredor: user.fullName,
               }
             );
