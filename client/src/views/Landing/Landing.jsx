@@ -4,10 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Nav from '../../components/Nav/Nav';
-import { setEmployees } from '../../redux/actions';
+import { getEmployees } from '../../redux/actions';
 import {
 	useUser,
-	useOrganizationList,
 } from "@clerk/clerk-react";
 import axios from 'axios';
 
@@ -23,7 +22,7 @@ function Landing() {
 			try {
 				const response = await axios.get('http://localhost:3001/employees');
 				const employeesData = response.data;
-				dispatch(setEmployees(employeesData));
+				dispatch(getEmployees(employeesData));
 			} catch (error) {
 				console.error('Error al obtener los empleados:', error);
 			}
@@ -43,7 +42,6 @@ function Landing() {
 		}
 		return null;
 	};
-	console.log(user);
 	return (
 		<div className={style.container}>
 
@@ -57,7 +55,7 @@ function Landing() {
 						<h3>rol {hasRol()} </h3>
 						{hasRol() === "clevel" || hasRol() === "leader"
 							?
-							<div>
+							<div className={style.rolMenu}>
 								<Link
 									to='/employees'
 									className={style.linksRoutes}>

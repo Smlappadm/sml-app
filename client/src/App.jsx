@@ -13,7 +13,7 @@ import CorredoresAnlaytics from "./components/Corredores/Analitycs/CorredoresAna
 import { ClerkProvider, SignedIn, SignedOut, RedirectToSignIn, SignIn, SignUp, UserButton, useUser } from "@clerk/clerk-react";
 import { useState, useEffect } from 'react';
 import { Route, Routes, useNavigate } from "react-router-dom";
-import { setEmployees } from "./redux/actions";
+import { getEmployees } from "./redux/actions";
 import axios from 'axios';
 
 if (!"pk_test_ZmFtb3VzLWRyYWdvbi0xMi5jbGVyay5hY2NvdW50cy5kZXYk") {

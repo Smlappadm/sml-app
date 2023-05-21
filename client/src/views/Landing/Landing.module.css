@@ -18,3 +18,10 @@
 .linksRoutes:hover {
     box-shadow: 0 0 10px #9B9BA4;
 }
+
+.rolMenu{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
