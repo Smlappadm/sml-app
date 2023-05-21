@@ -41,22 +41,20 @@ function ChildModal({
   };
 
   const handleUpdate = () => {
-
     let dataVendedor = {};
-    if(statusObj.status === "No responde"){
+    if (statusObj.status === "No responde") {
       dataVendedor = {
         lead: item.name,
         status: statusObj.status,
         status_op: statusObj.status_op,
-      }
+      };
     } else {
       dataVendedor = {
         lead: item.name,
         status: statusObj.status,
-        status_op: statusObj.status_op
-      }
+        status_op: statusObj.status_op,
+      };
     }
-
 
     // console.log(dataVendedor.llamados)
 
@@ -64,7 +62,7 @@ function ChildModal({
       status: statusObj.status,
       status_op: statusObj.status_op,
       vendedor: emailAddress,
-      noresponde_count: item.noresponde_count,
+      llamados: item.llamados,
     };
     const dataUpdate = {
       dataLead,
@@ -242,9 +240,8 @@ export default function NestedModal({
   const [statusObj, setStatusObj] = React.useState({
     status: item.status,
     status_op: item.status_op,
-    noresponde_count: item.noresponde_count,
+    llamados: item.llamados,
   });
-
 
   useEffect(() => {
     setStatusObj({
@@ -297,11 +294,9 @@ export default function NestedModal({
     for (let i = 0; i < item.updatedAt.length; i++) {
       if (i < 4) {
         fechaYear += item.updatedAt[i];
-      }
-      else if(i >= 5 && i < 7) {
+      } else if (i >= 5 && i < 7) {
         fechaMonth += item.updatedAt[i];
-      }
-      else if (i >= 8 && i < 10) {
+      } else if (i >= 8 && i < 10) {
         fechaDay += item.updatedAt[i];
       }
       if (i >= 11 && i < 19) {
@@ -315,7 +310,6 @@ export default function NestedModal({
       </p>
     );
   };
-
 
   return (
     <div>
@@ -433,11 +427,13 @@ export default function NestedModal({
                   id="Motivo"
                   onChange={handleSelectChange}
                   name="status_op"
-                  defaultValue={statusObj.status_op}
+                  defaultValue={statusObj.status_op ? statusObj.status_op : "default"}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 >
                   {/* <option selected>Choose a country</option> */}
-                  <option value="Desconocido">Desconocido</option>
+                  <option disabled="disabled" value="default">
+                    Elige uno...
+                  </option>
                   <option value="Sin dinero">Sin Dinero</option>
                   <option value="Sin interes">Sin Interes</option>
                   <option value="Otro servicio">Otro Servicio</option>
@@ -474,11 +470,11 @@ export default function NestedModal({
                 </div>
               </div>
             )}
-            {item.noresponde_count > 0 && statusObj.status === "No responde" && (
+            {item.llamados > 0 && statusObj.status === "No responde" && (
               <div className="flex flex-col justify-center items-center mt-5">
                 <div className="flex justify-center items-center flex-col">
                   <p htmlFor="" className="text-white m-2">
-                    {`Llamados: ${item.noresponde_count}`}
+                    {`Llamados: ${item.llamados}`}
                   </p>
                   {formattedUpdate()}
                 </div>

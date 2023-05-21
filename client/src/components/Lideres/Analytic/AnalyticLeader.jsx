@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import style from "./TableEmployees.module.css";
 import PaginationOutlined from "../../pagination/PaginationOutlined";
 import {
@@ -29,6 +30,7 @@ import {
   orderCategory,
   orderClients,
 } from "../../../redux/actions";
+
 //
 export const AnalyticLeader = () => {
   const [data, setData] = useState([]);
@@ -287,7 +289,7 @@ export const AnalyticLeader = () => {
                       <div className="flex justify-center items-center p-0 ">
                         <div className="flex w-6 text-ellipsis justify-start items-center p-0 ">
                           {item.email !== "-" ? (
-                            <div className=" flex opacity-1 overflow-hidden hover:overflow-visible hover:bg-[#ffffff] hover:w-fit hover:text-black z-111 hover:absolute">
+                            <div className=" flex opacity-1 overflow-hidden whitespace-nowrap hover:overflow-visible hover:bg-[#ffffff] hover:w-fit hover:text-black z-111 hover:absolute">
                               <div>
                                 <CiMail className={style.mail} />
                               </div>
@@ -303,7 +305,7 @@ export const AnalyticLeader = () => {
                       <div className="flex justify-center items-center p-0 ">
                         <div className="flex w-6 text-ellipsis justify-start items-center p-0 ">
                           {item.instagram !== "" ? (
-                            <div className=" flex opacity-1 overflow-hidden hover:overflow-visible hover:bg-[#ffffff] hover:w-fit hover:text-black z-111 hover:absolute">
+                            <div className=" flex opacity-1 overflow-hidden whitespace-nowrap hover:overflow-visible hover:bg-[#ffffff] hover:w-fit hover:text-black z-111 hover:absolute">
                               <div>
                                 <CiInstagram className={style.ig} />
                               </div>
@@ -319,11 +321,11 @@ export const AnalyticLeader = () => {
                       <div className="flex justify-center items-center p-0 ">
                         <div className="flex w-6 text-ellipsis justify-start items-center p-0 ">
                           {item.telephone !== "" ? (
-                            <div className=" flex opacity-1 overflow-hidden hover:overflow-visible hover:bg-[#ffffff] hover:w-fit hover:text-black z-111 hover:absolute">
+                            <div className=" flex opacity-1 overflow-hidden whitespace-nowrap hover:overflow-visible hover:bg-[#ffffff] hover:w-fit hover:text-black z-111 hover:absolute">
                               <div>
                                 <CiPhone className={style.mail} />
                               </div>
-                              <Text>{item.instagram}</Text>
+                              <p className="">{item.telephone}</p>
                             </div>
                           ) : (
                             <div>

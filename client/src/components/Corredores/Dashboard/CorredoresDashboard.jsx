@@ -21,6 +21,7 @@ import { IoGrid, IoStatsChart } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { getLeadUnchecked10 } from "../../../redux/actions";
 import IconLabelButtons from "../../MaterialUi/IconLabelButtons";
+import { FaHistory } from "react-icons/fa";
 import swal from "sweetalert";
 import {
   useUser,
@@ -269,7 +270,10 @@ const CorredoresDashboard = () => {
                 <Link to={"/corredores"}>
                   <IoGrid className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
                 </Link>
-                <Link className="text-5xl" to={"/corredores/analytics"}>
+                <Link className="text-5xl" to={"/corredores/history"}>
+                  <FaHistory className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
+                </Link>
+                <Link className="text-5xl" to={"/corredores/history"}>
                   <IoStatsChart className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
                 </Link>
               </div>

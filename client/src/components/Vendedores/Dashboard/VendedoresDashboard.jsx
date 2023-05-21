@@ -4,24 +4,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import PaginationOutlined from "../../pagination/PaginationOutlined";
 import { filterLevel, getLeadCheckedInactive100 } from "../../../redux/actions";
-import { SiGooglemaps } from "react-icons/si";
-import { AiOutlinePhone, AiTwotonePhone } from "react-icons/ai";
+import { AiOutlinePhone} from "react-icons/ai";
 import Modal from "./Modal/Modal";
-import { FaRegEdit } from "react-icons/fa";
-import { BiEdit } from "react-icons/bi";
-import { IoGrid, IoStatsChart } from "react-icons/io5";
+import { IoGrid, IoStatsChart} from "react-icons/io5";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { FaHistory } from "react-icons/fa";
 
-import {
-  CiGlobe,
-  CiWarning,
-  CiInstagram,
-  CiMail,
-  CiEdit,
-} from "react-icons/ci";
-import { AiOutlineSend } from "react-icons/ai";
-import { IoIosClose } from "react-icons/io";
+import { CiWarning, CiInstagram, CiMail } from "react-icons/ci";
 
 import Nav from "../../Nav/Nav";
 
@@ -152,7 +142,7 @@ const VendedoresDashboard = () => {
 
         <div className="w-full flex flex-col justify-center items-center">
           <div className={style.divTitle}>
-            <h1 className="font-bold text-[#e2e2e2] text-lg mx-5 mt-2">
+            <h1 className="font-bold text-[#e2e2e2] w-28 text-lg mx-5 mt-2">
               Dashboard
             </h1>
             <div className="flex gap-5">
@@ -160,6 +150,9 @@ const VendedoresDashboard = () => {
                 <IoGrid className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
               </Link>
               <Link className="text-5xl" to={"/vendedores/history"}>
+                <FaHistory className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
+              </Link>
+              <Link className="text-5xl" to={"/vendedores/analytics"}>
                 <IoStatsChart className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
               </Link>
             </div>
@@ -232,8 +225,8 @@ const VendedoresDashboard = () => {
                       </p>
                     </td>
 
-                    <td className="flex justify-center items-center p-0 w-fit">
-                      <p className="w-24 p-1 px-3 rounded-full text-ellipsis text-18 opacity-1 overflow-hidden whitespace-nowrap hover:overflow-visible hover:bg-[#e3e1e1] hover:w-fit hover:text-black z-111 hover:absolute">
+                    <td className="flex justify-start items-center p-0 w-fit">
+                      <p className="text-start w-24 p-1 px-3 rounded-full text-ellipsis text-18 opacity-1 overflow-hidden whitespace-nowrap hover:overflow-visible hover:bg-[#e3e1e1] hover:w-fit hover:text-black z-111 hover:absolute">
                         {item.province}
                       </p>
                     </td>
@@ -242,7 +235,7 @@ const VendedoresDashboard = () => {
                       {item.email !== "-" ? (
                         <div onClick={() => handleCopyClick(item.email)}>
                           <div className="cursor-pointer">
-                            <CiMail className="text-[35px] mr-5 text-[#418df0]" />
+                            <CiMail className="text-[35px] mr-5 text-[#418df0] z-0" />
                           </div>
                         </div>
                       ) : (

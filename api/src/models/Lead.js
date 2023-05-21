@@ -50,7 +50,7 @@ const LeadSchema = new mongoose.Schema(
       require: true,
       default: "",
     },
-    noresponde_count: {
+    llamados: {
       type: Number,
       require: true,
       default: 0,
