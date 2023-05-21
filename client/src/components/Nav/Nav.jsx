@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Logout from '../../views/Logout/Logout';
 import Profile from '../../views/Login/Profile';
 import {
 	UserButton,
@@ -8,6 +7,7 @@ import {
 import { IoStatsChart, IoSettingsSharp, IoBagSharp } from 'react-icons/io5';
 
 function Nav() {
+	
 	return (
 		<div className='bg-[#39394B] flex flex-col justify-between items-center h-screen min-w-[190px]'>
 			<div className='flex flex-col items-center justify-center mt-16'>
@@ -75,7 +75,7 @@ function Nav() {
 			</div>
 
 			<div className='flex flex-col justify-center w-full items-center mb-5'>
-				<Profile />
+				{/* <Profile /> */}
 				<UserButton />
 			</div>
 		</div>

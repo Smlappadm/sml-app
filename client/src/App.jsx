@@ -32,6 +32,7 @@ function PublicPage() {
 
 
 
+
 function ClerkProviderWithRoutes() {
   const navigate = useNavigate();
 
@@ -52,6 +53,8 @@ function ClerkProviderWithRoutes() {
           path="/sign-up/*"
           element={<SignUp routing="path" path="/sign-up" />}
         />
+        
+        <Route path="*" element={<>NOT FOUND</>}> </Route>
         <Route path="/home" element={<Landing />} />
         <Route path="/" element={<Login />} />
         <Route path="/employees" element={<Employees />} /> //c-level leader
@@ -78,10 +81,10 @@ function ClerkProviderWithRoutes() {
       </Routes>
 
       <div className="App flex items-center justify-center">
-        <img
+        {/* <img
           className="opacity-20 w-4/5 mt-[2%]"
           src="https://cdn.discordapp.com/attachments/1105243107555037294/1106577865698459788/White_Logo_Social_Media_Lab.png"
-        />
+        /> */}
       </div>
     </ClerkProvider>
   );
@@ -89,11 +92,19 @@ function ClerkProviderWithRoutes() {
 
 
 function App() {
-
+  
   return (
     <div className="App">
       <ClerkProviderWithRoutes />
     </div>
+
+  );
+}
+
+export default App;
+
+
+
     // <div className="App">
     //   <Routes>
     //     <Route path="/home" element={<Landing />} />
@@ -120,7 +131,3 @@ function App() {
     //     </div>
     //   )}
     // </div>
-  );
-}
-
-export default App;
