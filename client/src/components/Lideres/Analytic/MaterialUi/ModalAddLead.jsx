@@ -2,7 +2,6 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
 import React, { useRef, useEffect, useState } from "react";
-import { textAlign } from "@mui/system";
 import { useDispatch } from "react-redux";
 import { AddLeads } from "../../../../redux/actions";
 
@@ -11,13 +10,13 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  border: "2px solid #000",
   boxShadow: 24,
   textAlign: "center",
   color: "white",
   pt: 2,
   px: 4,
   pb: 3,
+  borderRadius: "20px",
 };
 
 export default function ChildModal() {
@@ -56,11 +55,9 @@ export default function ChildModal() {
   const OnchangeTextArea = (event) => {
     setEventBody(event);
   };
-  // .substring(2, updatedBody.length - 0)
   const onClickAdd = () => {
     setBody(() => {
       let updatedBody = eventBody;
-      console.log(updatedBody);
       const trimmedData = updatedBody.trim();
       const dataWithoutCommas = trimmedData.replace(/,\s*$/, "");
       const objectsArray = dataWithoutCommas.split("},");
@@ -92,10 +89,10 @@ export default function ChildModal() {
             ...style,
             width: "30%",
             backgroundColor: "#39394b",
-            height: "600px",
+            height: "700px",
           }}
         >
-          <div className="flex flex-col gap-5 p-8 h-full">
+          <div className="flex flex-col gap-5 p-8 h-full ">
             <h2>Añadir Clientes</h2>
             <label>json</label>
             <div className="flex flex-col h-full text-black">
@@ -111,11 +108,23 @@ export default function ChildModal() {
                   color: "black",
                   textAlign: "start",
                   fontSize: "13px",
+                  backgroundColor: "transparent",
+                  border: "1px solid white",
                 }}
-                placeholder="json"
+                placeholder="Agregar json de clientes"
               />
             </div>
-            <button onClick={() => onClickAdd(eventBody)}>Add</button>
+            <div>
+              <Button
+                variant="contained"
+                sx={{
+                  width: "50px",
+                }}
+                onClick={() => onClickAdd(eventBody)}
+              >
+                Add
+              </Button>
+            </div>
           </div>
         </Box>
       </Modal>

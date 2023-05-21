@@ -15,13 +15,13 @@ export default function SelectSmall(props) {
         height: "33px",
         margin: "0px 0px",
         "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-          borderColor: "white", // Cambiar el color del borde aquí
+          borderColor: "white",
         },
         "&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-          borderColor: "white", // Cambiar el color del borde al pasar el cursor aquí
+          borderColor: "white",
         },
         "&.focused .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-          borderColor: "green", // Cambiar el color del borde cuando está enfocado aquí
+          borderColor: "green",
         },
       }}
       size="small"
@@ -40,7 +40,7 @@ export default function SelectSmall(props) {
         sx={{
           color: "white",
           "& .MuiSelect-icon": {
-            color: "white", // Cambiar el color de la flecha aquí
+            color: "white",
           },
         }}
       >

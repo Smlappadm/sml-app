@@ -16,13 +16,13 @@ export default function InputName({ name, setName }) {
         color: "gray",
         margin: "0px 10px",
         "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-          borderColor: "white", // Cambiar el color del borde aquí
+          borderColor: "white",
         },
         "&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-          borderColor: "white", // Cambiar el color del borde al pasar el cursor aquí
+          borderColor: "white",
         },
         "&.focused .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-          borderColor: "green", // Cambiar el color del borde cuando está enfocado aquí
+          borderColor: "green",
         },
       }}
     >

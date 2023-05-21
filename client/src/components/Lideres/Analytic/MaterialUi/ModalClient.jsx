@@ -1,6 +1,5 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 
 const style = {
@@ -8,14 +7,14 @@ const style = {
   top: "40%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: 600,
   bgcolor: "rgb(55 65 81)",
-  border: "2px solid #000",
   boxShadow: 24,
   p: 4,
   textColor: "white",
   color: "white",
-  height: 600,
+  height: 700,
+  borderRadius: "20px",
 };
 
 export default function BasicModal(props) {
@@ -29,8 +28,10 @@ export default function BasicModal(props) {
     status,
     city,
     province,
+    corredor,
+    vendedor,
+    op,
   } = props;
-  console.log(name);
   return (
     <div>
       <Modal
@@ -51,21 +52,21 @@ export default function BasicModal(props) {
               <hr className=" border-gray-400 w-5/6 text-center" />
             </div>
             <div className="font-semibold flex gap-3">
-              <p>CATEGORIA : </p>
+              <p>CATEGORIA: </p>
               <p className="font-normal">{category} </p>
             </div>
             <div className="font-semibold flex gap-3">
-              <p>CIUDAD : </p>
+              <p>CIUDAD: </p>
               <p className="font-normal">
                 {province}, {city}{" "}
               </p>
             </div>
             <div className="font-semibold flex gap-3">
-              <p>NIVEL : </p>
+              <p>NIVEL: </p>
               <p className="font-normal">{level} </p>
             </div>
             <div className="font-semibold flex gap-3">
-              <p>EMAIL : </p>
+              <p>EMAIL: </p>
               <p className="font-normal">{email} </p>
             </div>
             <div className="font-semibold flex gap-3">
@@ -73,20 +74,24 @@ export default function BasicModal(props) {
               <p className="font-normal">{instagram} </p>
             </div>
             <div className="font-semibold flex gap-3">
-              <p>TELEFONO : </p>
+              <p>TELEFONO: </p>
               <p className="font-normal">{telephone} </p>
             </div>
             <div className="font-semibold flex gap-3">
-              <p>CORREDOR : </p>
-              <p className="font-normal">Corredor </p>
+              <p>CORREDOR: </p>
+              <p className="font-normal">{corredor}</p>
             </div>
             <div className="font-semibold flex gap-3">
-              <p>VENDEDOR : </p>
-              <p className="font-normal">Vendedor </p>
+              <p>VENDEDOR: </p>
+              <p className="font-normal">{vendedor}</p>
             </div>
             <div className="font-semibold flex gap-3">
-              <p>ESTADO : </p>
+              <p>ESTADO: </p>
               <p className="font-normal">{status} </p>
+            </div>
+            <div className="font-semibold flex gap-3">
+              <p>DETALLE: </p>
+              <p className="font-normal">{op} </p>
             </div>
           </div>
         </Box>

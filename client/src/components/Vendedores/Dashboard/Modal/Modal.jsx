@@ -6,7 +6,6 @@ import Modal from "@mui/material/Modal";
 import { CiWarning, CiEdit } from "react-icons/ci";
 import { useUser } from "@clerk/clerk-react";
 
-import "moment/locale/es";
 
 const style = {
   position: "absolute",
@@ -22,6 +21,8 @@ const style = {
   pb: 4,
 };
 
+
+
 function ChildModal({
   item,
   setOpen,
@@ -33,6 +34,7 @@ function ChildModal({
   const [openChild, setOpenChild] = React.useState(false);
   const user = useUser().user;
   const { emailAddress } = user.primaryEmailAddress;
+  const { fullName } = user;
   const handleOpen = () => {
     setOpenChild(true);
   };
@@ -61,7 +63,8 @@ function ChildModal({
     const dataLead = {
       status: statusObj.status,
       status_op: statusObj.status_op,
-      vendedor: emailAddress,
+      // vendedor: emailAddress,
+      vendedor: fullName,
       llamados: item.llamados,
     };
     const dataUpdate = {

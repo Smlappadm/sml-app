@@ -1,18 +1,7 @@
 import { Link } from "react-router-dom";
 import style from "./TableEmployees.module.css";
 import PaginationOutlined from "../../pagination/PaginationOutlined";
-import {
-  Card,
-  Table,
-  TableHead,
-  TableRow,
-  TableHeaderCell,
-  TableBody,
-  TableCell,
-  Text,
-  Title,
-  Badge,
-} from "@tremor/react";
+import { Card, Text, Title } from "@tremor/react";
 import { CiMail, CiInstagram, CiPhone, CiWarning } from "react-icons/ci";
 import InputRunner from "./MaterialUi/InputRunner";
 import InputSeller from "./MaterialUi/InputSeller";
@@ -30,6 +19,8 @@ import {
   orderCategory,
   orderClients,
 } from "../../../redux/actions";
+import { IoGrid, IoStatsChart } from "react-icons/io5";
+import { FaHistory } from "react-icons/fa";
 
 //
 export const AnalyticLeader = () => {
@@ -115,7 +106,6 @@ export const AnalyticLeader = () => {
   };
   const [levelValue, setLevelValue] = useState("");
   const onChangeLevel = (value) => {
-    console.log(value);
     setLevelValue(value);
     dispatch(filterLevel(value));
     setData(leaderDashboard);
@@ -130,7 +120,6 @@ export const AnalyticLeader = () => {
   };
 
   useEffect(() => {
-    console.log(leaderDashboard);
     setData(leaderDashboard);
   }, [leaderDashboard]);
 
@@ -139,7 +128,6 @@ export const AnalyticLeader = () => {
   const handleOpen = (item, index) => {
     setOpen(true);
     setModalItems(item);
-    console.log(item.name);
   };
   const handleClose = () => setOpen(false);
 
@@ -149,7 +137,18 @@ export const AnalyticLeader = () => {
       <div className="w-full h-screen flex flex-col">
         <Card className="w-full h-full bg-[#222131] rounded-none p-5">
           <div className="flex justify-between items-center mx-5 mb-0">
-            <Title className={style.title}>Analisis</Title>
+            <div className="flex gap-5">
+              <Title className={style.title}>Dashboard</Title>
+              <Link to={"/lideres/analytics"}>
+                <IoGrid className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
+              </Link>
+              <Link className="text-5xl" to={"/lideres/history"}>
+                <FaHistory className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
+              </Link>
+              <Link className="text-5xl" to={"/lideres/analytics"}>
+                <IoStatsChart className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
+              </Link>
+            </div>
             {filters.level === true ? (
               <SelectLevel onChange={onChangeLevel} value={levelValue} />
             ) : (
@@ -241,6 +240,9 @@ export const AnalyticLeader = () => {
                 status={modalItems.status}
                 city={modalItems.city}
                 province={modalItems.province}
+                corredor={modalItems.corredor}
+                vendedor={modalItems.vendedor}
+                op={modalItems.status_op}
               />
               {currentCard.map((item, index) => (
                 <div
@@ -337,14 +339,14 @@ export const AnalyticLeader = () => {
                       <div className="flex justify-center items-center p-0 ">
                         <div className="w-28 text-ellipsis  flex justify-start items-center p-0">
                           <Text className="text-white rounded-full text-ellipsis  opacity-1 overflow-hidden whitespace-nowrap hover:overflow-visible hover:bg-[#e3e1e1] hover:w-fit hover:text-black z-111 hover:absolute">
-                            Nombre del Corredor
+                            {item.corredor ? item.corredor : "-"}
                           </Text>
                         </div>
                       </div>
                       <div className="flex justify-center items-center p-0 ">
                         <div className="w-28 text-ellipsis  flex justify-start items-center p-0">
                           <Text className="text-white rounded-full text-ellipsis  opacity-1 overflow-hidden whitespace-nowrap hover:overflow-visible hover:bg-[#e3e1e1] hover:w-fit hover:text-black z-111 hover:absolute">
-                            Nombre del Vendedor
+                            {item.vendedor ? item.vendedor : "-"}
                           </Text>
                         </div>
                       </div>
