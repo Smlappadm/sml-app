@@ -170,7 +170,6 @@ export default function NestedModal() {
             <div className="flex flex-col items-center justify-center gap-5">
               <InputName name={inputName} setName={setInputName} />
               <InputEmail email={inputEmail} setEmail={setInputEmail} />
-              
               <BasicSelect
                 employees={selectEmployees}
                 setEmployees={setSelectEmployees}

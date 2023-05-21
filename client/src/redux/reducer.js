@@ -10,6 +10,7 @@ import {
   FILTER_STATUS,
   GET_ALL_CORREDORES,
   GET_ALL_VENDEDORES,
+  GET_EMPLOYEES
 } from "./actions";
 
 const initialState = {
@@ -22,6 +23,7 @@ const initialState = {
   vendedoresDashboard: [],
   corredores: [],
   vendedores: [],
+  employees: [],
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -197,7 +199,11 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         vendedores: action.payload,
       };
-
+      case GET_EMPLOYEES:
+        return {
+          ...state,
+          employees: action.payload,
+        };
     default:
       return { ...state };
   }
