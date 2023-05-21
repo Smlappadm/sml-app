@@ -26,7 +26,6 @@ function Nav() {
 		return null;
 	};
 	
-	console.log(rol());
 	return (
 		<div className='bg-[#39394B] flex flex-col justify-between items-center h-screen min-w-[190px]'>
 			<div className='flex flex-col items-center justify-center mt-16'>

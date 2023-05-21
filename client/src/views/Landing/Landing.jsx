@@ -42,6 +42,8 @@ function Landing() {
 		}
 		return null;
 	};
+
+	console.log(employees)
 	return (
 		<div className={style.container}>
 
@@ -92,7 +94,6 @@ function Landing() {
 									VendedoresAnalytics
 								</Link>
 							</div>
-
 							:
 							hasRol() === "vendedor"
 								?
@@ -122,7 +123,6 @@ function Landing() {
 									</Link>
 								</div>
 						}
-
 					</div>
 					: <h1>entrada no autorizada</h1>
 
