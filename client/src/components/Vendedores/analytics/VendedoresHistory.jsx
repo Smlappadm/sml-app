@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import PaginationOutlined from "../../pagination/PaginationOutlined";
-import { filterLevel, getVendedorQuery} from "../../../redux/actions";
+import { filterLevel, getLeadCheckedInactive100 } from "../../../redux/actions";
 import { AiOutlinePhone } from "react-icons/ai";
 import { IoGrid, IoStatsChart } from "react-icons/io5";
 import { FaHistory } from "react-icons/fa";
@@ -15,20 +15,22 @@ import Nav from "../../Nav/Nav";
 
 const VendedoresHistory = () => {
   const [data, setData] = useState([]);
+  const { leadCheckedInactive100 } = useSelector((state) => state);
   const { vendedor } = useSelector((state) => state);
   const user = useUser().user;
   const { emailAddress } = user.primaryEmailAddress;
   const dispatch = useDispatch();
   // const [showCopiedMessage, setShowCopiedMessage] = useState(false);
 
-
+console.log(emailAddress)
 
 
   useEffect(() => {
-    dispatch(getVendedorQuery(emailAddress));
+    // dispatch(getVendedor());
+    dispatch(getLeadCheckedInactive100());
   }, [dispatch]);
   useEffect(() => {
-    setData(vendedor);
+    setData(leadCheckedInactive100);
   }, [vendedor]);
 
   const [pageStyle, setPageStyle] = useState(1);
@@ -36,7 +38,7 @@ const VendedoresHistory = () => {
   const [cardXPage, setCardXpage] = useState(10);
   const indexLastCard = currentPage * cardXPage;
   const indexFirstCard = indexLastCard - cardXPage;
-  //const currentCard = data.leads.slice(indexFirstCard, indexLastCard);
+  const currentCard = data.slice(indexFirstCard, indexLastCard);
   const pages = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
@@ -67,7 +69,7 @@ const VendedoresHistory = () => {
   const onChangeLevel = (value) => {
     setLevelValue(value);
     dispatch(filterLevel(value));
-    setData(vendedor);
+    setData(leadCheckedInactive100);
     setCurrentPage(1);
   };
   //*********** */
@@ -90,10 +92,10 @@ const VendedoresHistory = () => {
     setEdit(false);
   };
 
-  // const updateLeads = () => {
-  //   dispatch(getLeadCheckedInactive100());
-  //   setData(leadCheckedInactive100);
-  // };
+  const updateLeads = () => {
+    dispatch(getLeadCheckedInactive100());
+    setData(leadCheckedInactive100);
+  };
 
   return (
     <>
@@ -156,7 +158,7 @@ const VendedoresHistory = () => {
               ""
             )}
           </div>
-          {vendedor.length ? (
+          {leadCheckedInactive100.length ? (
             <table className={style.table}>
               <thead className="text-gray-400 text-14 font-thin">
                 <tr className={style.tableRow}>
