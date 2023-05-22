@@ -10,7 +10,7 @@ const sendmail = async (req, res) => {
 
     const emailData = {
       to: recipientEmail,
-      from: "smlappadm@gmail.com", // Reemplaza con tu dirección de correo electrónico de SendGrid
+      from: "voeffray.jonathan@gmail.com", // Reemplaza con tu dirección de correo electrónico de SendGrid
       subject: "Incidencia detectada",
       text: message,
     };
@@ -35,9 +35,9 @@ const sendHiringEmail = async (req, res) => {
 
     const emailData = {
       to: recipientEmail,
-      from: "smlappadm@gmail.com",
+      from: "voeffray.jonathan@gmail.com",
       subject: "¡Bienvenido a nuestra empresa!",
-      text: `Hola ${clientName}, te damos la bienvenida a nuestra empresa. ¡Esperamos que tengas una gran experiencia trabajando con nosotros!, tu mail para ingresar a la empresa es${recipientEmail} y la contraseña es Hola1234$`,
+      text: `Hola ${clientName}, te damos la bienvenida a nuestra empresa. ¡Esperamos que tengas una gran experiencia trabajando con nosotros!, tu mail para ingresar a la empresa es ${recipientEmail} y la contraseña es Hola1234$, la pagina de la empresa es https://sml-app-git-main-smlappadm.vercel.app/clevel`,
     };
 
     await sendGrid.send(emailData);

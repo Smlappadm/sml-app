@@ -210,10 +210,11 @@ const CorredoresDashboard = () => {
               }
             );
             console.log(response.data);
+            
             if (client[i].level === "incidencia") {
               const emailData = {
                 clientName: client[i].name,
-                recipientEmail: "gustavomontespalavecino@gmail.com",
+                recipientEmail: "voeffray.jonathan@gmail.com",
                 message: `Se ha detectado una incidencia clasificada por el corredor ${user.emailAddresses[0].emailAddress} para el cliente ${client[i].name} con el numero de id ${client[i]._id}. Por favor, revisa la situación y toma las medidas necesarias.`,
               };
 

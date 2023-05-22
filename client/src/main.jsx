@@ -7,6 +7,7 @@ import { BrowserRouter } from "react-router-dom";
 import { IntlProvider } from "react-intl";
 import { Provider } from "react-redux";
 import store from "./redux/store"
+import axios from "axios";
 
 //comnetarioaosiorisoirosi
 // axios.defaults.baseURL = "https://henry-food-api-production.up.railway.app/";

@@ -556,6 +556,10 @@ video {
   }
 }
 
+.fixed {
+  position: fixed;
+}
+
 .absolute {
   position: absolute;
 }
@@ -745,6 +749,10 @@ video {
 
 .ml-\[70px\] {
   margin-left: 70px;
+}
+
+.ml-\[80px\] {
+  margin-left: 80px;
 }
 
 .mr-2 {

@@ -58,6 +58,8 @@
   width: 25px;
   text-overflow: ellipsis;
 }
+
+
 .ig {
   color: #ff598b;
   font-size: 25px;
@@ -70,6 +72,7 @@
   width: 25px;
   text-overflow: ellipsis;
 }
+
 
 @media screen and (max-width: 1500px) {
   .tableRow {

@@ -14,6 +14,7 @@ import {
   GET_ALL_LEADER,
   GET_ALL_CLEVEL,
   GET_EMPLOYEES
+
 } from "./actions";
 
 const initialState = {
@@ -30,6 +31,7 @@ const initialState = {
   leader: [],
   clevel: [],
   employees: []
+
 };
 
 const rootReducer = (state = initialState, action) => {

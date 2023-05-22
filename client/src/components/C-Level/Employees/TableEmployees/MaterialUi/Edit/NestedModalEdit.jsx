@@ -13,8 +13,6 @@ import {
   getAllVendedores,
 } from "../../../../../../redux/actions";
 import BasicSelect from "../BasicSelect";
-import { useUser } from "@clerk/clerk-react";
-import { useSelector } from "react-redux";
 
 const style = {
   position: "absolute",
