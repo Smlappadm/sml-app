@@ -324,12 +324,12 @@ const CorredoresDashboard = () => {
                     </Link>
                   </TableCell>
 
-                  <TableCell className="flex justify-start items-center gap-3 p-0 mx-3">
+                  <TableCell className="flex justify-start w-[25rem] items-center gap-3 p-0 mx-3">
                     <div>
                       <GrInstagram className="text-[2rem] text-[#418df0]" />
                     </div>
                     <input
-                      className={`bg-transparent rounded-full border-2 border-gray-300 py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 placeholder-white focus:placeholder-black ${
+                      className={`bg-transparent w-full rounded-full border-2 border-gray-300 py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 placeholder-white focus:placeholder-black ${
                         client[index].instagram ? "border-green-500" : ""
                       }`}
                       type="text"
