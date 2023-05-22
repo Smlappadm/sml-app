@@ -71,7 +71,7 @@ const CorredoresDashboard = () => {
     try {
       for (let i = 0; i < leadUnchecked10.length; i++) {
         const response = await axios.put(
-          `http://localhost:3001/lead/${client[i]._id}`,
+          `https://sml-app-api.onrender.com/lead/${client[i]._id}`,
           {
             view: client[i].view,
           }
@@ -197,7 +197,7 @@ const CorredoresDashboard = () => {
             (client[i].level === "incidencia" || client[i].level === "0")
           ) {
             const response = await axios.put(
-              `http://localhost:3001/lead/${client[i]._id}`,
+              `https://sml-app-api.onrender.com/lead/${client[i]._id}`,
               {
                 _id: client[i]._id,
                 name: client[i].name,
@@ -205,6 +205,7 @@ const CorredoresDashboard = () => {
                 instagram: client[i].instagram,
                 level: client[i].level,
                 checked: true,
+                view: false,
                 corredor: user.fullName,
               }
             );
@@ -217,7 +218,7 @@ const CorredoresDashboard = () => {
               };
 
               await axios.post(
-                "http://localhost:3001/corredor/sendmail",
+                "https://sml-app-api.onrender.com/corredor/sendmail",
                 emailData
               );
             }
@@ -226,7 +227,7 @@ const CorredoresDashboard = () => {
             client[i].level !== "-"
           ) {
             const response = await axios.put(
-              `http://localhost:3001/lead/${client[i]._id}`,
+              `https://sml-app-api.onrender.com/lead/${client[i]._id}`,
               {
                 _id: client[i]._id,
                 name: client[i].name,
@@ -234,6 +235,7 @@ const CorredoresDashboard = () => {
                 instagram: client[i].instagram,
                 level: client[i].level,
                 checked: true,
+                view: false,
                 corredor: user.fullName,
               }
             );
