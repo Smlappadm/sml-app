@@ -18,6 +18,6 @@ employeesSchema.pre("find", function () {
   this.where({ deleted: false });
 });
 
-const Employees = model("Employee", employeesSchema);
+const Employees = model("Employees", employeesSchema);
 
 module.exports = Employees;
