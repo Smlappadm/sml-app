@@ -51,7 +51,7 @@ function ClerkProviderWithRoutes() {
         <Route path="*" element={<>NOT FOUND</>}> </Route>
         <Route path="/home" element={<Landing />} />
         <Route path="/" element={<Login />} />
-        <Route path="/employees" element={<Employees />} /> //c-level leader
+        {/* <Route path="/employees" element={<Employees />} /> //c-level leader */}
         <Route path="/employees/analytics" element={<AnalyticLeader />} /> //leader c-level
         <Route path="/corredores" element={<CorredoresDashboard />} /> //corredores
         <Route path="/corredores/analytics" element={<CorredoresAnlaytics />} /> //corredores
