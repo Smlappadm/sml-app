@@ -20,7 +20,7 @@ function Landing() {
 	useEffect(() => {
 		const fetchEmployees = async () => {
 			try {
-				const response = await axios.get('http://localhost:3001/employees');
+				const response = await axios.get('https://sml-app-api.onrender.com/employees');
 				const employeesData = response.data;
 				dispatch(getEmployees(employeesData));
 			} catch (error) {
@@ -59,7 +59,7 @@ function Landing() {
 							?
 							<div className={style.rolMenu}>
 								<Link
-									to='/lideres'
+									to='/clevel'
 									className={style.linksRoutes}>
 									Lider-Dashboard
 								</Link>

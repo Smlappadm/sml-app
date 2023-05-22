@@ -13,6 +13,8 @@ export const GET_ALL_CORREDORES = "GET_ALL_CORREDORES";
 export const GET_ALL_VENDEDORES = "GET_ALL_VENDEDORES";
 export const GET_ALL_LEADER = "GET_ALL_LEADER";
 export const GET_ALL_CLEVEL = "GET_ALL_CLEVEL";
+export const GET_EMPLOYEES = "GET_EMPLOYEES";
+
 
 export const getAllLead = () => {
   return async (dispatch) => {
