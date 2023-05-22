@@ -1,4 +1,4 @@
-import "./App.css";
+import  styles from "./App.module.css"
 import Landing from "./views/Landing/Landing";
 import Lideres from "./components/Lideres/Lideres";
 import Analytics from "./views/Analytics/Analytics.jsx";
@@ -96,7 +96,7 @@ function ClerkProviderWithRoutes() {
 
 function App() {
   return (
-    <div className="App">
+    <div className= {styles.App} >
       <ClerkProviderWithRoutes />
     </div>
     // <div className="App">
