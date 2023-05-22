@@ -65,13 +65,13 @@ function ChildModal({
     let url;
     switch (selectEmployees) {
       case "leader":
-        url = "http://localhost:3001/leader";
+        url = "https://sml-app-api.onrender.com/leader";
         break;
       case "corredor":
-        url = "http://localhost:3001/corredor";
+        url = "https://sml-app-api.onrender.com/corredor";
         break;
       case "vendedor":
-        url = "http://localhost:3001/vendedor";
+        url = "https://sml-app-api.onrender.com/vendedor";
         break;
       default:
         alert("El campo 'rol' no es válido");
@@ -94,7 +94,7 @@ function ChildModal({
       // };
 
       // await axios.post(
-      //   "http://localhost:3001/corredor/sendmail",
+      //   "https://sml-app-api.onrender.com/corredor/sendmail",
       //   emailData
       // );
     } catch (error) {
@@ -104,7 +104,7 @@ function ChildModal({
 
     try {
       const responseEmployees = await axios.post(
-        "http://localhost:3001/employees",
+        "https://sml-app-api.onrender.com/employees",
         {
           name: inputName,
           email: inputEmail,

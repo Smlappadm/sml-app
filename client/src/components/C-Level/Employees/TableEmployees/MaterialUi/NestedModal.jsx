@@ -97,7 +97,7 @@ function ChildModal({
 
     // try {
     //   const response = await axios.post(
-    //     "http://localhost:3001/corredor/sendHiringEmail",
+    //     "https://sml-app-api.onrender.com/corredor/sendHiringEmail",
     //     {
     //       employeeName: inputName,
     //       recipientEmail: inputEmail,
@@ -121,7 +121,7 @@ function ChildModal({
 
       const response = await axios.post(
         // "https://sml-app-api.onrender.com/corredor/sendHiringEmail",
-        "http://localhost:3001/corredor/sendHiringEmail",
+        "https://sml-app-api.onrender.com/corredor/sendHiringEmail",
         emailData
       );
       console.log(response.data);
