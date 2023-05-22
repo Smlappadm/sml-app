@@ -72,7 +72,7 @@ function Nav() {
 								</span>
 								<span>
 									<Link
-										to='/employees'
+										to='/clevel'
 										className='text-[#e0dddd] hover:text-white'>
 										Employees
 									</Link>

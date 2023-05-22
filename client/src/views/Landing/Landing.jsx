@@ -22,6 +22,7 @@ function Landing() {
 			try {
 				const response = await axios.get('https://sml-app-api.onrender.com/employees');
 				const employeesData = response.data;
+				console.log(response);
 				dispatch(getEmployees(employeesData));
 			} catch (error) {
 				console.error('Error al obtener los empleados:', error);
@@ -64,7 +65,7 @@ function Landing() {
 									Lider-Dashboard
 								</Link>
 								<Link
-									to='/employees/analytics'
+									to='/clevel/analytics'
 									className={style.linksRoutes}>
 									Lider-Analytics
 								</Link>
@@ -74,7 +75,7 @@ function Landing() {
 									Corredores-Dashbord
 								</Link>
 								<Link
-									to='/corredores/analytics'
+									to='/corredores/history'
 									className={style.linksRoutes}>
 									Corredores-Analytics
 								</Link>
@@ -117,7 +118,7 @@ function Landing() {
 										Corredores-Dashbord
 									</Link>
 									<Link
-										to='/corredores/analytics'
+										to='/corredores/history'
 										className={style.linksRoutes}>
 										Corredores-Analytics
 									</Link>
