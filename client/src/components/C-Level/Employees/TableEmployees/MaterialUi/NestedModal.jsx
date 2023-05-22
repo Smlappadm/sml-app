@@ -134,6 +134,26 @@ function ChildModal({
     }
 
     try {
+      const emailData = {
+        clientName: inputName,
+        recipientEmail: inputEmail,
+        message: `Hola ${inputName}, te damos la bienvenida a nuestra empresa. ¡Esperamos que tengas una gran experiencia trabajando con nosotros!`,
+      };
+
+      const response = await axios.post(
+        "https://sml-app-api.onrender.com/corredor/sendHiringEmail",
+        emailData
+      );
+      console.log(response.data);
+      console.log("Correo electrónico de contratación enviado correctamente");
+    } catch (error) {
+      console.error(
+        "Error al enviar el correo electrónico de contratación:",
+        error.message
+      );
+    }
+
+    try {
       const responseEmployees = await axios.post(
         "https://sml-app-api.onrender.com/employees",
         {
