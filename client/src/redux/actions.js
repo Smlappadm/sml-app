@@ -11,6 +11,7 @@ export const FILTER_STATUS = "FILTER_STATUS";
 export const GET_ALL_LEAD_INACTIVE = "GET_ALL_LEAD_INACTIVE";
 export const GET_ALL_CORREDORES = "GET_ALL_CORREDORES";
 export const GET_ALL_VENDEDORES = "GET_ALL_VENDEDORES";
+export const GET_VENDEDOR_QUERY = "GET_VENDEDOR_QUERY";
 export const GET_ALL_LEADER = "GET_ALL_LEADER";
 export const GET_ALL_CLEVEL = "GET_ALL_CLEVEL";
 export const GET_EMPLOYEES = "GET_EMPLOYEES";
@@ -99,6 +100,18 @@ export const getLeadCheckedInactive100 = () => {
   };
 };
 
+export const getVendedorQuery = (email) => {
+ 
+   return async (dispatch)=>{
+   //const response = await axios.get(`https://sml-app-api.onrender.com/vendedor?email=${email}`)
+   const response = await axios.get(`https://localhost:3001/vendedor?email=${email}`)
+   console.log(response.data.leads)
+   dispatch({
+   type:GET_VENDEDOR_QUERY,
+   payload:response.data.leads,
+   })
+  }
+}
 export const getEmployees = employees => ({
   type: GET_EMPLOYEES,
   payload: employees,
