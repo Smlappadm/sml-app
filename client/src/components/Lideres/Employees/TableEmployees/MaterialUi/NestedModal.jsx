@@ -6,6 +6,13 @@ import BasicSelect from "./BasicSelect";
 import InputName from "./InputName";
 import InputEmail from "./InputEmail";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import {
+  getAllClevel,
+  getAllCorredores,
+  getAllLeader,
+  getAllVendedores,
+} from "../../../../../redux/actions";
 
 const style = {
   position: "absolute",
@@ -21,8 +28,16 @@ const style = {
   pb: 3,
 };
 
-function ChildModal({ inputName, inputEmail, selectEmployees, handleReset }) {
+function ChildModal({
+  inputName,
+  inputEmail,
+  selectEmployees,
+  handleReset,
+  CreateEmployees,
+  ErrorCreateEmployees,
+}) {
   const [open, setOpen] = React.useState(false);
+  const dispatch = useDispatch();
   const handleOpen = () => {
     setOpen(true);
   };
@@ -49,17 +64,14 @@ function ChildModal({ inputName, inputEmail, selectEmployees, handleReset }) {
 
     let url;
     switch (selectEmployees) {
-      case "clevel":
-        url = "http://localhost:3001/clevel";
-        break;
       case "leader":
-        url = "http://localhost:3001/leader";
+        url = "https://sml-app-api.onrender.com/leader";
         break;
       case "corredor":
-        url = "http://localhost:3001/corredor";
+        url = "https://sml-app-api.onrender.com/corredor";
         break;
       case "vendedor":
-        url = "http://localhost:3001/vendedor";
+        url = "https://sml-app-api.onrender.com/vendedor";
         break;
       default:
         alert("El campo 'rol' no es válido");
@@ -72,14 +84,27 @@ function ChildModal({ inputName, inputEmail, selectEmployees, handleReset }) {
         email: inputEmail,
         rol: selectEmployees,
       });
+      CreateEmployees(inputName);
       console.log(response.data);
+
+      // const emailData = {
+      //   clientName: client[i].name,
+      //   recipientEmail: inputEmail,
+      //   message: `Bienvenido a la empresa ${inputName}, su mail es ${inputEmail} y su contraseña es ${selectEmployees}`,
+      // };
+
+      // await axios.post(
+      //   "https://sml-app-api.onrender.com/corredor/sendmail",
+      //   emailData
+      // );
     } catch (error) {
+      ErrorCreateEmployees(inputName);
       console.log(`No se pudo enviar el post de ${selectEmployees}`);
     }
 
     try {
       const responseEmployees = await axios.post(
-        "http://localhost:3001/employees",
+        "https://sml-app-api.onrender.com/employees",
         {
           name: inputName,
           email: inputEmail,
@@ -90,8 +115,13 @@ function ChildModal({ inputName, inputEmail, selectEmployees, handleReset }) {
     } catch (error) {
       console.log(`No se pudo enviar el post de Employees`);
     }
-    // handleReset();
+
+    dispatch(getAllCorredores());
+    dispatch(getAllVendedores());
+    dispatch(getAllLeader());
+    dispatch(getAllClevel());
     setOpen(false);
+    handleReset();
   };
 
   return (
@@ -130,7 +160,7 @@ function ChildModal({ inputName, inputEmail, selectEmployees, handleReset }) {
   );
 }
 
-export default function NestedModal() {
+export default function NestedModal({ CreateEmployees, ErrorCreateEmployees }) {
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
@@ -143,7 +173,7 @@ export default function NestedModal() {
   const [inputName, setInputName] = useState("");
   const [inputEmail, setInputEmail] = useState("");
   const [selectEmployees, setSelectEmployees] = useState("");
-  
+
   const handleReset = () => {
     setInputName("");
     setInputEmail("");
@@ -170,7 +200,7 @@ export default function NestedModal() {
             <div className="flex flex-col items-center justify-center gap-5">
               <InputName name={inputName} setName={setInputName} />
               <InputEmail email={inputEmail} setEmail={setInputEmail} />
-              
+
               <BasicSelect
                 employees={selectEmployees}
                 setEmployees={setSelectEmployees}
@@ -182,6 +212,8 @@ export default function NestedModal() {
             inputEmail={inputEmail}
             selectEmployees={selectEmployees}
             handleReset={handleReset}
+            CreateEmployees={CreateEmployees}
+            ErrorCreateEmployees={ErrorCreateEmployees}
           />
         </Box>
       </Modal>

@@ -2,10 +2,17 @@ import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
-import InputEmailEdit from "./InputEmailEdit";
 import InputNameEdit from "./InputNameEdit";
 import InputPhoneEdit from "./InputPhoneEdit";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import {
+  getAllClevel,
+  getAllCorredores,
+  getAllLeader,
+  getAllVendedores,
+} from "../../../../../../redux/actions";
+import BasicSelect from "../BasicSelect";
 
 const style = {
   position: "absolute",
@@ -21,14 +28,88 @@ const style = {
   pb: 3,
 };
 
-function ChildModal({ inputName, inputEmail, inputPhone, itemRol, itemId }) {
+function ChildModalDelete({
+  inputName,
+  itemRol,
+  itemId,
+  onModalClose,
+  ErrorEmployees,
+  BannedEmployees,
+}) {
   const [open, setOpen] = useState(false);
+  const dispatch = useDispatch();
   const handleOpen = () => {
     setOpen(true);
   };
 
   const handleCreate = async () => {
-    alert("se inicia el cambio");
+    try {
+      const response = await axios.put(
+        `https://sml-app-api.onrender.com/${itemRol}/${itemId}`,
+        {
+          deleted: true,
+        }
+      );
+
+      BannedEmployees(inputName);
+      onModalClose();
+      console.log(response.data);
+    } catch (error) {
+      ErrorEmployees(inputName);
+      console.log(`No se pudo enviar el baneado de ${itemRol} ${itemId} `);
+    }
+
+    dispatch(getAllCorredores());
+    dispatch(getAllVendedores());
+    dispatch(getAllLeader());
+    dispatch(getAllClevel());
+    setOpen(false);
+  };
+
+  return (
+    <React.Fragment>
+      <Button
+        variant="contained"
+        sx={{ marginTop: "2rem" }}
+        onClick={handleOpen}
+      >
+        Delete Employ
+      </Button>
+      <Modal
+        open={open}
+        onClose={handleCreate}
+        aria-labelledby="child-modal-title"
+        aria-describedby="child-modal-description"
+      >
+        <Box sx={{ ...style, width: "20%", backgroundColor: "#39394b" }}>
+          <h2 id="child-modal-title">Confirm deletion of {inputName}?</h2>
+          <Button variant="contained" onClick={handleCreate}>
+            Delete Employ
+          </Button>
+        </Box>
+      </Modal>
+    </React.Fragment>
+  );
+}
+
+function ChildModal({
+  inputName,
+  inputEmail,
+  selectEmployees,
+  inputPhone,
+  itemRol,
+  itemId,
+  onModalClose,
+  EditEmployees,
+  ErrorEditEmployees,
+}) {
+  const [open, setOpen] = useState(false);
+  const dispatch = useDispatch();
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleCreate = async () => {
     if (!inputName) {
       alert("El campo Name es requerido");
       setOpen(false);
@@ -41,27 +122,29 @@ function ChildModal({ inputName, inputEmail, inputPhone, itemRol, itemId }) {
       setOpen(false);
       return;
     }
-    console.log(itemId);
-    console.log(itemRol);
-    console.log(inputName);
-    console.log(inputEmail);
-    console.log(inputPhone);
 
     try {
       const response = await axios.put(
-        `http://localhost:3001/${itemRol}/${itemId}`,
+        `https://sml-app-api.onrender.com/${itemRol}/${itemId}`,
         {
           name: inputName,
           email: inputEmail,
+          rol: selectEmployees,
           contactNumber: inputPhone,
         }
       );
-      alert("cambiado con exito");
+      EditEmployees(inputName);
+      onModalClose();
       console.log(response.data);
     } catch (error) {
+      ErrorEditEmployees(inputName);
       console.log(`No se pudo enviar el post de ${itemRol}`);
     }
 
+    dispatch(getAllCorredores());
+    dispatch(getAllVendedores());
+    dispatch(getAllLeader());
+    dispatch(getAllClevel());
     setOpen(false);
   };
 
@@ -81,7 +164,7 @@ function ChildModal({ inputName, inputEmail, inputPhone, itemRol, itemId }) {
         aria-describedby="child-modal-description"
       >
         <Box sx={{ ...style, width: "20%", backgroundColor: "#39394b" }}>
-          <h2 id="child-modal-title">Confirm employee update</h2>
+          <h2 id="child-modal-title">Confirm update of {inputName}?</h2>
           <Button variant="contained" onClick={handleCreate}>
             Update Employ
           </Button>
@@ -97,6 +180,10 @@ export default function NestedModalEdit({
   itemEmail,
   itemPhone,
   itemRol,
+  SendEmployees,
+  BannedEmployees,
+  EditEmployees,
+  ErrorEditEmployees,
 }) {
   const [open, setOpen] = React.useState(false);
   const handleClose = () => {
@@ -105,11 +192,13 @@ export default function NestedModalEdit({
 
   const [inputName, setInputName] = useState("");
   const [inputEmail, setInputEmail] = useState("");
+  const [selectEmployees, setSelectEmployees] = useState("");
   const [inputPhone, setInputPhone] = useState("");
 
   const handleOpen = () => {
     setInputName(itemName);
     setInputEmail(itemEmail);
+    setSelectEmployees(itemRol);
     setInputPhone(itemPhone);
     setOpen(true);
   };
@@ -137,16 +226,32 @@ export default function NestedModalEdit({
                 inputPhone={inputPhone}
                 setInputPhone={setInputPhone}
               />
+              <BasicSelect
+                employees={selectEmployees}
+                setEmployees={setSelectEmployees}
+              />
             </div>
           </div>
           <div className="flex gap-3 justify-center items-center">
             <ChildModal
               inputName={inputName}
               inputEmail={inputEmail}
+              selectEmployees={selectEmployees}
               inputPhone={inputPhone}
               itemRol={itemRol}
               itemId={itemId}
+              onModalClose={handleClose}
+              EditEmployees={EditEmployees}
+              ErrorEditEmployees={ErrorEditEmployees}
             />
+            {(itemRol !== 'clevel') ? <ChildModalDelete
+              inputName={inputName}
+              itemRol={itemRol}
+              itemId={itemId}
+              SendEmployees={SendEmployees}
+              BannedEmployees={BannedEmployees}
+              onModalClose={handleClose}
+            /> : null}
           </div>
         </Box>
       </Modal>

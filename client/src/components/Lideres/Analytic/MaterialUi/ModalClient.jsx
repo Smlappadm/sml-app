@@ -91,7 +91,7 @@ export default function BasicModal(props) {
             </div>
             <div className="font-semibold flex gap-3">
               <p>DETALLE: </p>
-              <p className="font-normal">{op} </p>
+              <p className="font-normal">{op ? op : "-"} </p>
             </div>
           </div>
         </Box>

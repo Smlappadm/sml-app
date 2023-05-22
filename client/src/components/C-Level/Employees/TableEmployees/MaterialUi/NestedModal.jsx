@@ -6,6 +6,13 @@ import BasicSelect from "./BasicSelect";
 import InputName from "./InputName";
 import InputEmail from "./InputEmail";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import {
+  getAllClevel,
+  getAllCorredores,
+  getAllLeader,
+  getAllVendedores,
+} from "../../../../../redux/actions";
 
 const style = {
   position: "absolute",
@@ -21,8 +28,16 @@ const style = {
   pb: 3,
 };
 
-function ChildModal({ inputName, inputEmail, selectEmployees, handleReset }) {
+function ChildModal({
+  inputName,
+  inputEmail,
+  selectEmployees,
+  handleReset,
+  CreateEmployees,
+  ErrorCreateEmployees,
+}) {
   const [open, setOpen] = React.useState(false);
+  const dispatch = useDispatch();
   const handleOpen = () => {
     setOpen(true);
   };
@@ -50,16 +65,16 @@ function ChildModal({ inputName, inputEmail, selectEmployees, handleReset }) {
     let url;
     switch (selectEmployees) {
       case "clevel":
-        url = "http://localhost:3001/clevel";
+        url = "https://sml-app-api.onrender.com/clevel";
         break;
       case "leader":
-        url = "http://localhost:3001/leader";
+        url = "https://sml-app-api.onrender.com/leader";
         break;
       case "corredor":
-        url = "http://localhost:3001/corredor";
+        url = "https://sml-app-api.onrender.com/corredor";
         break;
       case "vendedor":
-        url = "http://localhost:3001/vendedor";
+        url = "https://sml-app-api.onrender.com/vendedor";
         break;
       default:
         alert("El campo 'rol' no es válido");
@@ -71,27 +86,94 @@ function ChildModal({ inputName, inputEmail, selectEmployees, handleReset }) {
         name: inputName,
         email: inputEmail,
         rol: selectEmployees,
+        deleted: false,
       });
+      CreateEmployees(inputName);
       console.log(response.data);
     } catch (error) {
+      ErrorCreateEmployees(inputName);
       console.log(`No se pudo enviar el post de ${selectEmployees}`);
+    }
+
+    // try {
+    //   const response = await axios.post(
+    //     "https://sml-app-api.onrender.com/corredor/sendHiringEmail",
+    //     {
+    //       employeeName: inputName,
+    //       recipientEmail: inputEmail,
+    //     }
+    //   );
+    //   console.log(response.data);
+    //   console.log("Correo electrónico de contratación enviado correctamente");
+    // } catch (error) {
+    //   console.error(
+    //     "Error al enviar el correo electrónico de contratación:",
+    //     error.message
+    //   );
+    // }
+
+    try {
+      const emailData = {
+        clientName: inputName,
+        recipientEmail: inputEmail,
+        message: `Hola ${inputName}, te damos la bienvenida a nuestra empresa. ¡Esperamos que tengas una gran experiencia trabajando con nosotros!`,
+      };
+
+      const response = await axios.post(
+        // "https://sml-app-api.onrender.com/corredor/sendHiringEmail",
+        "https://sml-app-api.onrender.com/corredor/sendHiringEmail",
+        emailData
+      );
+      console.log(response.data);
+      console.log("Correo electrónico de contratación enviado correctamente");
+    } catch (error) {
+      console.error(
+        "Error al enviar el correo electrónico de contratación:",
+        error.message
+      );
+    }
+
+    try {
+      const emailData = {
+        clientName: inputName,
+        recipientEmail: inputEmail,
+        message: `Hola ${inputName}, te damos la bienvenida a nuestra empresa. ¡Esperamos que tengas una gran experiencia trabajando con nosotros!`,
+      };
+
+      const response = await axios.post(
+        "https://sml-app-api.onrender.com/corredor/sendHiringEmail",
+        emailData
+      );
+      console.log(response.data);
+      console.log("Correo electrónico de contratación enviado correctamente");
+    } catch (error) {
+      console.error(
+        "Error al enviar el correo electrónico de contratación:",
+        error.message
+      );
     }
 
     try {
       const responseEmployees = await axios.post(
-        "http://localhost:3001/employees",
+        "https://sml-app-api.onrender.com/employees",
         {
           name: inputName,
           email: inputEmail,
           rol: selectEmployees,
+          deleted: false,
         }
       );
       console.log(responseEmployees.data);
     } catch (error) {
       console.log(`No se pudo enviar el post de Employees`);
     }
-    // handleReset();
+
+    dispatch(getAllCorredores());
+    dispatch(getAllVendedores());
+    dispatch(getAllLeader());
+    dispatch(getAllClevel());
     setOpen(false);
+    handleReset();
   };
 
   return (
@@ -112,10 +194,13 @@ function ChildModal({ inputName, inputEmail, selectEmployees, handleReset }) {
         <Box sx={{ ...style, width: "20%", backgroundColor: "#39394b" }}>
           <div className="flex flex-col gap-5 p-8">
             <h2 id="child-modal-title">Confirm employee creation</h2>
-            <div className="flex flex-col gap-2 justify-center items-start">
-              <p id="child-modal-description">Name: {inputName}</p>
-              <p id="child-modal-description">Email: {inputEmail}</p>
-              <p id="child-modal-description">Rol: {selectEmployees}</p>
+            <div className="flex flex-col gap-2 justify-start items-start">
+              <h2 id="child-modal-description">Name</h2>
+              <p id="child-modal-description">{inputName}</p>
+              <h2 id="child-modal-description">Email</h2>
+              <p id="child-modal-description">{inputEmail}</p>
+              <h2 id="child-modal-description">Rol</h2>
+              <p id="child-modal-description">{selectEmployees}</p>
             </div>
             <p id="child-modal-description">
               Are you sure about creating this employee?
@@ -130,7 +215,7 @@ function ChildModal({ inputName, inputEmail, selectEmployees, handleReset }) {
   );
 }
 
-export default function NestedModal() {
+export default function NestedModal({ CreateEmployees, ErrorCreateEmployees }) {
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
@@ -143,7 +228,7 @@ export default function NestedModal() {
   const [inputName, setInputName] = useState("");
   const [inputEmail, setInputEmail] = useState("");
   const [selectEmployees, setSelectEmployees] = useState("");
-  
+
   const handleReset = () => {
     setInputName("");
     setInputEmail("");
@@ -170,7 +255,7 @@ export default function NestedModal() {
             <div className="flex flex-col items-center justify-center gap-5">
               <InputName name={inputName} setName={setInputName} />
               <InputEmail email={inputEmail} setEmail={setInputEmail} />
-              
+
               <BasicSelect
                 employees={selectEmployees}
                 setEmployees={setSelectEmployees}
@@ -182,6 +267,8 @@ export default function NestedModal() {
             inputEmail={inputEmail}
             selectEmployees={selectEmployees}
             handleReset={handleReset}
+            CreateEmployees={CreateEmployees}
+            ErrorCreateEmployees={ErrorCreateEmployees}
           />
         </Box>
       </Modal>

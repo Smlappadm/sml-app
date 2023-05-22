@@ -16,7 +16,7 @@
 
 .tableCards {
   display: grid;
-  grid-template-columns: 8% 20% 16% 1% 17%;
+  grid-template-columns: 12% 20% 16% 1% 17%;
   /* grid-template-columns: repeat(5, 1fr); */
   align-items: center;
   justify-content: space-between;

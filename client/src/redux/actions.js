@@ -12,6 +12,10 @@ export const GET_ALL_LEAD_INACTIVE = "GET_ALL_LEAD_INACTIVE";
 export const GET_ALL_CORREDORES = "GET_ALL_CORREDORES";
 export const GET_ALL_VENDEDORES = "GET_ALL_VENDEDORES";
 export const GET_VENDEDOR_QUERY = "GET_VENDEDOR_QUERY";
+export const GET_ALL_LEADER = "GET_ALL_LEADER";
+export const GET_ALL_CLEVEL = "GET_ALL_CLEVEL";
+export const GET_EMPLOYEES = "GET_EMPLOYEES";
+
 
 export const getAllLead = () => {
   return async (dispatch) => {
@@ -36,6 +40,20 @@ export const getAllVendedores = () => {
     );
     const vendedores = response.data;
     dispatch({ type: GET_ALL_VENDEDORES, payload: vendedores });
+  };
+};
+export const getAllLeader = () => {
+  return async (dispatch) => {
+    const response = await axios.get("https://sml-app-api.onrender.com/leader");
+    const leader = response.data;
+    dispatch({ type: GET_ALL_LEADER, payload: leader });
+  };
+};
+export const getAllClevel = () => {
+  return async (dispatch) => {
+    const response = await axios.get("https://sml-app-api.onrender.com/clevel");
+    const clevel = response.data;
+    dispatch({ type: GET_ALL_CLEVEL, payload: clevel });
   };
 };
 
@@ -94,6 +112,10 @@ export const getVendedorQuery = (email) => {
    })
   }
 }
+export const getEmployees = employees => ({
+  type: GET_EMPLOYEES,
+  payload: employees,
+});
 
 export const orderClients = (order) => {
   return async (dispatch) => {
