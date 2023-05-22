@@ -12,7 +12,7 @@ import axios from "axios";
 
 //comnetarioaosiorisoirosi
 // axios.defaults.baseURL = "https://henry-food-api-production.up.railway.app/";
-// axios.defaults.baseURL = "http://localhost:3001";
+// axios.defaults.baseURL = "https://sml-app-api.onrender.com";
 
 
 const container = document.getElementById("root");
