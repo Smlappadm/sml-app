@@ -16,11 +16,15 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import { getEmployees } from "./redux/actions";
 import axios from 'axios';
 
-if (!"pk_test_ZmFtb3VzLWRyYWdvbi0xMi5jbGVyay5hY2NvdW50cy5kZXYk") {
-  throw new Error("Missing Publishable Key")
+// if (!"pk_test_ZmFtb3VzLWRyYWdvbi0xMi5jbGVyay5hY2NvdW50cy5kZXYk") {
+//   throw new Error("Missing Publishable Key")
+// }
+// const clerkPubKey = "pk_test_ZmFtb3VzLWRyYWdvbi0xMi5jbGVyay5hY2NvdW50cy5kZXYk";
+if (!"pk_test_Z3VpZGVkLWtvZGlhay0xMi5jbGVyay5hY2NvdW50cy5kZXYk") {
+  throw new Error("Missing Publishable Key");
 }
-const clerkPubKey = "pk_test_ZmFtb3VzLWRyYWdvbi0xMi5jbGVyay5hY2NvdW50cy5kZXYk";
 
+const clerkPubKey = "pk_test_Z3VpZGVkLWtvZGlhay0xMi5jbGVyay5hY2NvdW50cy5kZXYk";
 function PublicPage() {
   return (
     <>
