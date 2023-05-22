@@ -24,11 +24,11 @@ import Clevel from "./components/C-Level/Clevel";
 import Analytic from "./components/C-Level/Analytics/Analytic";
 import Incidences from "./components/Lideres/incidences/incidencias";
 
-if (!"pk_test_ZmFtb3VzLWRyYWdvbi0xMi5jbGVyay5hY2NvdW50cy5kZXYk") {
+if (!"pk_test_Z3VpZGVkLWtvZGlhay0xMi5jbGVyay5hY2NvdW50cy5kZXYk") {
   throw new Error("Missing Publishable Key");
 }
 
-const clerkPubKey = "pk_test_ZmFtb3VzLWRyYWdvbi0xMi5jbGVyay5hY2NvdW50cy5kZXYk";
+const clerkPubKey = "pk_test_Z3VpZGVkLWtvZGlhay0xMi5jbGVyay5hY2NvdW50cy5kZXYk";
 function PublicPage() {
   return (
     <>
@@ -56,8 +56,38 @@ function ClerkProviderWithRoutes() {
         <Route path="/" element={<PublicPage />} />
         <Route
           path="/sign-in/*"
-          element={<SignIn routing="path" path="/sign-in" />}
-        />
+          element={<SignIn routing="path" path="/sign-in" appearance={{
+            variables:{
+              
+              colorInputBackground:"#222131",
+              
+              spacingUnit: "0.8rem"
+              
+            },
+            layout: {
+              socialButtonsPlacement: "top",
+            
+             
+            },
+            elements: {
+              formButtonPrimary: styles.formButtonPrimary,
+              socialButtonsBlockButton: styles.socialButtons,
+              formFieldInput : styles.formFieldInput,
+              card: styles.card,
+              main:styles.main, 
+              form: styles.form,
+              formField: styles.formField,
+              dividerRow:styles.dividerRow,
+              formFieldLabel:styles.formFieldLabel,
+              footerActionText:styles.footerActionText,
+              logoImage: styles.logoImage,
+              headerTitle: styles.headerTitle,
+              headerSubtitle: styles.headerSubtitle,
+              rootBox: styles.rootBox,
+            },
+          }}></SignIn>}/> 
+          
+        
         <Route
           path="/sign-up/*"
           element={<SignUp routing="path" path="/sign-up" />}
