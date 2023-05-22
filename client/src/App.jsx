@@ -74,7 +74,7 @@ function ClerkProviderWithRoutes() {
         <Route path="/analytics" element={<Analytics />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/vendedores" element={<VendedoresDashboard />} />
-        <Route path="/vendedores/history" element={<VendedoresHistory />} />
+        <Route path="/vendedores/history" element={<VendedoresHistory  />} />
         <Route path="/vendedores/analytics" element={<VendedoresAnalytics />} />
         <Route
           path="/protected"

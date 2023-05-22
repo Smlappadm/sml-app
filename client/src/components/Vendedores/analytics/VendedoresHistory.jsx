@@ -1,43 +1,49 @@
 import style from "./VendedoresHistory.module.css";
+import axios from "axios"
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import PaginationOutlined from "../../pagination/PaginationOutlined";
-import { filterLevel, getLeadCheckedInactive100 } from "../../../redux/actions";
+import { filterLevel, getVendedorQuery} from "../../../redux/actions";
 import { AiOutlinePhone } from "react-icons/ai";
 import { IoGrid, IoStatsChart } from "react-icons/io5";
 import { FaHistory } from "react-icons/fa";
 import { CiWarning, CiInstagram, CiMail } from "react-icons/ci";
+import { useUser } from "@clerk/clerk-react";
 
 import Nav from "../../Nav/Nav";
 
 const VendedoresHistory = () => {
   const [data, setData] = useState([]);
-  const { leadCheckedInactive100 } = useSelector((state) => state);
+  const { vendedor } = useSelector((state) => state);
+  const user = useUser().user;
+  const { emailAddress } = user.primaryEmailAddress;
   const dispatch = useDispatch();
-  const [showCopiedMessage, setShowCopiedMessage] = useState(false);
+  // const [showCopiedMessage, setShowCopiedMessage] = useState(false);
+
+
 
 
   useEffect(() => {
-    dispatch(getLeadCheckedInactive100());
+    dispatch(getVendedorQuery(emailAddress));
   }, [dispatch]);
   useEffect(() => {
-    setData(leadCheckedInactive100);
-  }, [leadCheckedInactive100]);
+    setData(vendedor);
+  }, [vendedor]);
 
   const [pageStyle, setPageStyle] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [cardXPage, setCardXpage] = useState(10);
   const indexLastCard = currentPage * cardXPage;
   const indexFirstCard = indexLastCard - cardXPage;
-  const currentCard = data.slice(indexFirstCard, indexLastCard);
+  //const currentCard = data.leads.slice(indexFirstCard, indexLastCard);
   const pages = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
   const [edit, setEdit] = useState(false);
   const [editIndex, setEditIndex] = useState("");
 
-  //FILTER**********************
+  //FILTER********
   const [filters, setFilters] = useState({
     level: false,
     runner: false,
@@ -61,20 +67,20 @@ const VendedoresHistory = () => {
   const onChangeLevel = (value) => {
     setLevelValue(value);
     dispatch(filterLevel(value));
-    setData(leadCheckedInactive100);
+    setData(vendedor);
     setCurrentPage(1);
   };
-  //********************************* */
+  //*********** */
 
-  const handleCopyClick = (copyToProps) => {
-    navigator.clipboard
-      .writeText(copyToProps)
-      .then(() => {
-        setShowCopiedMessage(true);
-        setTimeout(() => setShowCopiedMessage(false), 2000);
-      })
-      .catch((err) => alert(`Error al copiar: ${err}`));
-  };
+  // const handleCopyClick = (copyToProps) => {
+  //   navigator.clipboard
+  //     .writeText(copyToProps)
+  //     .then(() => {
+  //       setShowCopiedMessage(true);
+  //       setTimeout(() => setShowCopiedMessage(false), 2000);
+  //     })
+  //     .catch((err) => alert(`Error al copiar: ${err}`));
+  // };
 
   const openEditMenu = (index, id) => {
     setEdit(true);
@@ -84,21 +90,21 @@ const VendedoresHistory = () => {
     setEdit(false);
   };
 
-  const updateLeads = () => {
-    dispatch(getLeadCheckedInactive100());
-    setData(leadCheckedInactive100);
-  };
+  // const updateLeads = () => {
+  //   dispatch(getLeadCheckedInactive100());
+  //   setData(leadCheckedInactive100);
+  // };
 
   return (
     <>
       <Nav />
 
       <div className="flex flex-col justify-between items-center w-screen  z-0">
-        {showCopiedMessage && (
+        {/* {showCopiedMessage && (
           <p className="mt-2 p-3 bg-[#b9b9b978] text-white rounded-md absolute">
             Copiado al portapapeles
           </p>
-        )}
+        )} */}
 
         <div className="w-full flex flex-col justify-center items-center">
           <div className={style.divTitle}>
@@ -150,7 +156,7 @@ const VendedoresHistory = () => {
               ""
             )}
           </div>
-          {leadCheckedInactive100.length ? (
+          {vendedor.length ? (
             <table className={style.table}>
               <thead className="text-gray-400 text-14 font-thin">
                 <tr className={style.tableRow}>
