@@ -41,14 +41,14 @@ export const getAllVendedores = () => {
 };
 export const getAllLeader = () => {
   return async (dispatch) => {
-    const response = await axios.get("http://localhost:3001/leader");
+    const response = await axios.get("https://sml-app-api.onrender.com/leader");
     const leader = response.data;
     dispatch({ type: GET_ALL_LEADER, payload: leader });
   };
 };
 export const getAllClevel = () => {
   return async (dispatch) => {
-    const response = await axios.get("http://localhost:3001/clevel");
+    const response = await axios.get("https://sml-app-api.onrender.com/clevel");
     const clevel = response.data;
     dispatch({ type: GET_ALL_CLEVEL, payload: clevel });
   };

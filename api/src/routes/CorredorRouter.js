@@ -15,6 +15,6 @@ CorredorRouter.get("/name", getCorredorByNameHandler);
 CorredorRouter.get("/:id", getCorredorByIdHandler);
 CorredorRouter.put("/:id", updateCorredorHandler);
 CorredorRouter.post("/sendmail", sendmail);
-CorredorRouter.post("/sendmail", sendHiringEmail);
+CorredorRouter.post("/sendHiringEmail", sendHiringEmail);
 
 module.exports = CorredorRouter;

@@ -46,7 +46,7 @@ function ChildModalDelete({
   const handleCreate = async () => {
     try {
       const response = await axios.put(
-        `http://localhost:3001/${itemRol}/${itemId}`,
+        `https://sml-app-api.onrender.com/${itemRol}/${itemId}`,
         {
           deleted: true,
         }
@@ -60,7 +60,7 @@ function ChildModalDelete({
 
     try {
       const response = await axios.put(
-        `http://localhost:3001/employees/?email=${inputEmail}`,
+        `https://sml-app-api.onrender.com/employees/?email=${inputEmail}`,
         {
           deleted: true,
         }
@@ -142,7 +142,7 @@ function ChildModal({
 
     try {
       const response = await axios.put(
-        `http://localhost:3001/${itemRol}/${itemId}`,
+        `https://sml-app-api.onrender.com/${itemRol}/${itemId}`,
         {
           name: inputName,
           email: inputEmail,
