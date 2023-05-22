@@ -17,6 +17,7 @@ export const GET_ALL_CLEVEL = "GET_ALL_CLEVEL";
 export const GET_EMPLOYEES = "GET_EMPLOYEES";
 
 
+
 export const getAllLead = () => {
   return async (dispatch) => {
     const response = await axios.get("https://sml-app-api.onrender.com/lead");
@@ -152,3 +153,4 @@ export const AddLeads = (body) => {
     }
   };
 };
+

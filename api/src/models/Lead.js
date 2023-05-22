@@ -60,6 +60,11 @@ const LeadSchema = new mongoose.Schema(
       require: true,
       default: "",
     },
+    vendedor_name: {
+      type: String,
+      require: true,
+      default: "",
+    },
     corredor: {
       type: String,
       require: true,
