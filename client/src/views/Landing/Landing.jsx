@@ -38,7 +38,7 @@ function Landing() {
 	const hasRol = () => {
 		const employee = employees.find(employees => employees.email === userEmail);
 		if (employee) {
-			return "employee.rol";
+			return employee.rol;
 		}
 		return null;
 	};
@@ -50,16 +50,16 @@ function Landing() {
 			<>
 				<Nav />
 
-				{true
+				{isEmployee()
 					?
 					<div className='flex flex-col gap-5'>
 						<h1>Bienvenido {user.fullName} </h1>
 						<h3>rol {hasRol()} </h3>
-						{"clevel" === "clevel" || hasRol() === "leader"
+						{hasRol() === "clevel" || hasRol() === "leader"
 							?
 							<div className={style.rolMenu}>
 								<Link
-									to='/employees'
+									to='/lideres'
 									className={style.linksRoutes}>
 									Lider-Dashboard
 								</Link>
