@@ -29,15 +29,15 @@ const sendmail = async (req, res) => {
 const sendHiringEmail = async (req, res) => {
   console.log("se manda el mail");
   try {
-    const { employeeName, recipientEmail } = req.body;
+    const {clientName, recipientEmail } = req.body;
 
     sendGrid.setApiKey(APIKEY);
 
     const emailData = {
       to: recipientEmail,
-      from: "akosjev@gmail.com",
+      from: "smlappadm@gmail.com",
       subject: "¡Bienvenido a nuestra empresa!",
-      text: `Hola ${employeeName}, te damos la bienvenida a nuestra empresa. ¡Esperamos que tengas una gran experiencia trabajando con nosotros!`,
+      text: `Hola ${clientName}, te damos la bienvenida a nuestra empresa. ¡Esperamos que tengas una gran experiencia trabajando con nosotros!, tu mail para ingresar a la empresa es${recipientEmail} y la contraseña es Hola1234$`,
     };
 
     await sendGrid.send(emailData);

@@ -65,16 +65,16 @@ function ChildModal({
     let url;
     switch (selectEmployees) {
       case "clevel":
-        url = "http://localhost:3001/clevel";
+        url = "https://sml-app-api.onrender.com/clevel";
         break;
       case "leader":
-        url = "http://localhost:3001/leader";
+        url = "https://sml-app-api.onrender.com/leader";
         break;
       case "corredor":
-        url = "http://localhost:3001/corredor";
+        url = "https://sml-app-api.onrender.com/corredor";
         break;
       case "vendedor":
-        url = "http://localhost:3001/vendedor";
+        url = "https://sml-app-api.onrender.com/vendedor";
         break;
       default:
         alert("El campo 'rol' no es válido");
@@ -97,7 +97,7 @@ function ChildModal({
 
     // try {
     //   const response = await axios.post(
-    //     "http://localhost:3001/corredor/sendHiringEmail",
+    //     "https://sml-app-api.onrender.com/corredor/sendHiringEmail",
     //     {
     //       employeeName: inputName,
     //       recipientEmail: inputEmail,
@@ -113,8 +113,29 @@ function ChildModal({
     // }
 
     try {
+      const emailData = {
+        clientName: inputName,
+        recipientEmail: inputEmail,
+        message: `Hola ${inputName}, te damos la bienvenida a nuestra empresa. ¡Esperamos que tengas una gran experiencia trabajando con nosotros!`,
+      };
+
+      const response = await axios.post(
+        // "https://sml-app-api.onrender.com/corredor/sendHiringEmail",
+        "https://sml-app-api.onrender.com/corredor/sendHiringEmail",
+        emailData
+      );
+      console.log(response.data);
+      console.log("Correo electrónico de contratación enviado correctamente");
+    } catch (error) {
+      console.error(
+        "Error al enviar el correo electrónico de contratación:",
+        error.message
+      );
+    }
+
+    try {
       const responseEmployees = await axios.post(
-        "http://localhost:3001/employees",
+        "https://sml-app-api.onrender.com/employees",
         {
           name: inputName,
           email: inputEmail,

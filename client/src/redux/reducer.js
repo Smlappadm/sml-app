@@ -10,7 +10,6 @@ import {
   FILTER_STATUS,
   GET_ALL_CORREDORES,
   GET_ALL_VENDEDORES,
-  GET_EMPLOYEES,
   GET_ALL_LEADER,
   GET_ALL_CLEVEL,
 } from "./actions";
@@ -25,7 +24,6 @@ const initialState = {
   vendedoresDashboard: [],
   corredores: [],
   vendedores: [],
-  employees: [],
   leader: [],
   clevel: [],
 };
@@ -203,11 +201,6 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         vendedores: action.payload,
       };
-      case GET_EMPLOYEES:
-        return {
-          ...state,
-          employees: action.payload,
-        };
     case GET_ALL_LEADER:
       return {
         ...state,
