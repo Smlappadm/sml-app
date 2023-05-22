@@ -171,6 +171,18 @@ const CorredoresDashboard = () => {
       theme: "dark",
     });
   };
+  const SendLeadsError = () => {
+    toast.error(`✔ Send Leads Error!`, {
+      position: "top-center",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -236,7 +248,7 @@ const CorredoresDashboard = () => {
       SendLeadsSuccess();
       dispatch(getLeadUnchecked10());
     } catch (error) {
-      await swal(":(", "error al enviar la informacion!", "error");
+      SendLeadsError();
       console.log({ error: error.message });
     }
   };
