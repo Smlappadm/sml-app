@@ -14,20 +14,105 @@ import {
   Badge,
 } from "@tremor/react";
 import { CiMail } from "react-icons/ci";
-import { getAllCorredores, getAllVendedores } from "../../../../redux/actions";
+import {
+  getAllClevel,
+  getAllCorredores,
+  getAllLeader,
+  getAllVendedores,
+} from "../../../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import NestedModal from "./MaterialUi/NestedModal";
 import NestedModalEdit from "./MaterialUi/Edit/NestedModalEdit";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+const BannedEmployees = (name) => {
+  toast.success(`✔ ${name} Successful banning process completed! `, {
+    position: "top-center",
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "dark",
+  });
+};
+const ErrorEmployees = (name) => {
+  toast.error(`❌ Error banning Employ ${name}! `, {
+    position: "top-center",
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "dark",
+  });
+};
+const EditEmployees = (name) => {
+  toast.success(`✔ ${name} Successful edit process completed! `, {
+    position: "top-center",
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "dark",
+  });
+};
+const ErrorEditEmployees = (name) => {
+  toast.error(`❌ Error edit Employ ${name}! `, {
+    position: "top-center",
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "dark",
+  });
+};
+const CreateEmployees = (name) => {
+  toast.success(`✔ ${name} Successful create process completed! `, {
+    position: "top-center",
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "dark",
+  });
+};
+const ErrorCreateEmployees = (name) => {
+  toast.error(`❌ Error create Employ ${name}! `, {
+    position: "top-center",
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "dark",
+  });
+};
+
 export const TableClevel = () => {
-  const { corredores, vendedores } = useSelector((state) => state);
+  const { corredores, vendedores, clevel, leader } = useSelector(
+    (state) => state
+  );
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     dispatch(getAllCorredores());
     dispatch(getAllVendedores());
+    dispatch(getAllLeader());
+    dispatch(getAllClevel());
   }, [dispatch]);
 
-  let employees = corredores.concat(vendedores);
+  let employees = corredores.concat(vendedores, clevel, leader);
 
   const [pageStyle, setPageStyle] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
@@ -40,17 +125,19 @@ export const TableClevel = () => {
     setCurrentPage(pageNumber);
   };
 
-  console.log(currentCard);
-
   return (
     <>
       <div className=" flex flex-col justify-start items-center w-full h-screen">
+        <ToastContainer />
         <Card className="bg-[#222131] rounded-none w-full h-screen p-5">
           <div className="flex justify-between items-center">
             <Title className="font-bold text-[#e2e2e2] text-lg ml-4">
               Employees
             </Title>
-            <NestedModal />
+            <NestedModal
+              CreateEmployees={CreateEmployees}
+              ErrorCreateEmployees={ErrorCreateEmployees}
+            />
           </div>
           <Table className="">
             <TableHead className={style.tableHead}>
@@ -107,6 +194,10 @@ export const TableClevel = () => {
                           itemEmail={item.email}
                           itemPhone={item.contactNumber}
                           itemRol={item.rol}
+                          ErrorEmployees={ErrorEmployees}
+                          BannedEmployees={BannedEmployees}
+                          EditEmployees={EditEmployees}
+                          ErrorEditEmployees={ErrorEditEmployees}
                         />
                       </div>
                     </div>

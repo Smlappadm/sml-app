@@ -588,6 +588,10 @@ video {
   right: 0px;
 }
 
+.right-14 {
+  right: 3.5rem;
+}
+
 .right-4 {
   right: 1rem;
 }
@@ -1058,6 +1062,10 @@ video {
 
 .w-screen {
   width: 100vw;
+}
+
+.w-3\/4 {
+  width: 75%;
 }
 
 .min-w-\[180px\] {

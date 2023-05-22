@@ -5,14 +5,9 @@ const {
   updateCorredorHandler,
   getCorredorByIdHandler,
   getCorredorByNameHandler,
-  
 } = require("../Handlers/CorredorHandlers");
-const {
-  sendmail
-  
-} = require("../Handlers/sendmail");
+const { sendmail, sendHiringEmail } = require("../Handlers/sendmail");
 const CorredorRouter = Router();
-
 
 CorredorRouter.post("/", postCorredorHandler);
 CorredorRouter.get("/", getAllCorredoresHandler);
@@ -20,5 +15,6 @@ CorredorRouter.get("/name", getCorredorByNameHandler);
 CorredorRouter.get("/:id", getCorredorByIdHandler);
 CorredorRouter.put("/:id", updateCorredorHandler);
 CorredorRouter.post("/sendmail", sendmail);
+CorredorRouter.post("/sendmail", sendHiringEmail);
 
 module.exports = CorredorRouter;

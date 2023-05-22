@@ -51,6 +51,7 @@ export default function BasicSelect({ employees, setEmployees }) {
           label="Employees"
           onChange={handleChange}
         >
+          <StyledMenuItem value={"clevel"}>C-Level</StyledMenuItem>
           <StyledMenuItem value={"leader"}>Leader</StyledMenuItem>
           <StyledMenuItem value={"corredor"}>Corredor</StyledMenuItem>
           <StyledMenuItem value={"vendedor"}>Vendedor</StyledMenuItem>
