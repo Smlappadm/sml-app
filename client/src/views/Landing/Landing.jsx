@@ -25,7 +25,7 @@ function Landing() {
               Clevel-Analytics
             </Link>
             <Link to="/lideres" className={style.linksRoutes}>
-              Lider-Employees
+              Lider-Dashboard
             </Link>
             <Link to="/lideres/analytics" className={style.linksRoutes}>
               Lider-Analytics
