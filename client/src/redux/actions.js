@@ -15,6 +15,7 @@ export const GET_ALL_LEADER = "GET_ALL_LEADER";
 export const GET_ALL_CLEVEL = "GET_ALL_CLEVEL";
 export const GET_EMPLOYEES = "GET_EMPLOYEES";
 export const SET_ROL = "SET_ROL";
+export const SET_ACCESS = "SET_ACCESS";
 
 
 export const getAllLead = () => {
@@ -107,7 +108,13 @@ export const getEmployees = employees => ({
 export const setRol = (rol) => {
   return {
     type: SET_ROL,
-    payload: rol,
+    payload: rol
+  };
+};
+export const setAccess = (access) => {
+  return {
+    type: SET_ACCESS,
+    payload: access,
   };
 };
 
