@@ -4,8 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Nav from '../../components/Nav/Nav';
-import { getEmployees } from '../../redux/actions';
-import { setRol } from '../../redux/actions';
+import { getEmployees, setRol, setAccess } from '../../redux/actions';
 import {
 	useUser,
 } from "@clerk/clerk-react";
@@ -18,49 +17,43 @@ function Landing() {
 	const employees = useSelector(state => state.employees);
 	const dispatch = useDispatch();
 	const role = useSelector(state => state.rol);
+	const access = useSelector(state => state.isEmployee)
+
+	const isEmployee = () => {
+		return employees.some(employees => employees.email === userEmail);
+	}
+
 	useEffect(() => {
 		const fetchEmployees = async () => {
 			try {
 				const response = await axios.get('https://sml-app-api.onrender.com/employees');
 				const employeesData = response.data;
+
 				dispatch(getEmployees(employeesData));
 				const employee = employeesData.find(employees => employees.email === userEmail);
 				if (employee) {
 					dispatch(setRol(employee.rol));
-				  }
-			  } catch (error) {
+					dispatch(setAccess(isEmployee()))
+				}
+			} catch (error) {
 				console.error('Error al obtener los empleados:', error);
-			  }
-			};
+			}
+		};
 
 		fetchEmployees();
-	}, [dispatch]);
-
-
-	const isEmployee = () => {
-		return employees.some(employees => employees.email === userEmail);
-	}
-	const hasRol = () => {
-		const employee = employees.find(employees => employees.email === userEmail);
-		if (employee) {
-			return employee.rol;
-		}
-		return null;
-	};
-
-	console.log(employees)
+	}, [dispatch, isEmployee()]);
 	return (
 		<div className={style.container}>
 
 			<>
 				<Nav />
 
-				{isEmployee()
+				{access
 					?
 					<div className='flex flex-col gap-5'>
 						<h1>Bienvenido {user.fullName} </h1>
-						<h3>rol {hasRol()} </h3>
-						{hasRol() === "clevel" || hasRol() === "leader"
+						<h3>rol {role} </h3>
+						{role === "clevel" || role === "leader"
 							?
 							<div className={style.rolMenu}>
 								<Link
@@ -100,7 +93,7 @@ function Landing() {
 								</Link>
 							</div>
 							:
-							hasRol() === "vendedor"
+							role === "vendedor"
 								?
 								<div>
 									<Link

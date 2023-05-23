@@ -131,7 +131,7 @@ function ChildModal({
         "Error al enviar el correo electrónico de contratación:",
         error.message
       );
-    }
+    };
 
     try {
       const emailData = {

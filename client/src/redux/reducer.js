@@ -10,11 +10,11 @@ import {
   FILTER_STATUS,
   GET_ALL_CORREDORES,
   GET_ALL_VENDEDORES,
-  GET_VENDEDOR_QUERY,
   GET_ALL_LEADER,
   GET_ALL_CLEVEL,
   GET_EMPLOYEES,
-  SET_ROL 
+  SET_ROL,
+  SET_ACCESS
 } from "./actions";
 
 const initialState = {
@@ -27,11 +27,11 @@ const initialState = {
   vendedoresDashboard: [],
   corredores: [],
   vendedores: [],
-  vendedor:[],
   leader: [],
   clevel: [],
   employees: [],
-  rol: null
+  rol: undefined,
+  isEmployee: undefined
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -63,7 +63,18 @@ const rootReducer = (state = initialState, action) => {
         leadCheckedInactive100: action.payload,
         vendedoresDashboard: action.payload,
       };
-
+      case SET_ROL:
+        return {
+          ...state,
+          rol: action.payload
+        };
+      // ...
+      case SET_ACCESS:
+        return {
+          ...state,
+          isEmployee: action.payload,
+        };
+    
     case ORDER_CLIENTS:
       const copyClient = [...state.leaderDashboard];
       if (action.payload === "DES") {
@@ -207,11 +218,6 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         vendedores: action.payload,
       };
-    case GET_VENDEDOR_QUERY:
-      return{
-        ...state,
-        vendedor:action.payload
-      } 
     case GET_ALL_LEADER:
       return {
         ...state,
@@ -223,16 +229,11 @@ const rootReducer = (state = initialState, action) => {
         clevel: action.payload,
       };
 
-      case GET_EMPLOYEES:
-        return {
-          ...state,
-          employees: action.payload,
-        };
-        case SET_ROL:
-          return {
-            ...state,
-            rol: action.payload,
-          };
+    case GET_EMPLOYEES:
+      return {
+        ...state,
+        employees: action.payload,
+      };
     default:
       return { ...state };
   }
