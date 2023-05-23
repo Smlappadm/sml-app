@@ -15,7 +15,7 @@ export const GET_VENDEDOR_QUERY = "GET_VENDEDOR_QUERY";
 export const GET_ALL_LEADER = "GET_ALL_LEADER";
 export const GET_ALL_CLEVEL = "GET_ALL_CLEVEL";
 export const GET_EMPLOYEES = "GET_EMPLOYEES";
-
+export const SET_ROL = "SET_ROL";
 
 
 export const getAllLead = () => {
@@ -25,6 +25,7 @@ export const getAllLead = () => {
     dispatch({ type: GET_ALL_LEAD, payload: LeadData });
   };
 };
+
 export const getAllCorredores = () => {
   return async (dispatch) => {
     const response = await axios.get(
@@ -153,4 +154,12 @@ export const AddLeads = (body) => {
     }
   };
 };
+
+export const setRol = (rol) => {
+  return {
+    type: SET_ROL,
+    payload: rol,
+  };
+};
+
 

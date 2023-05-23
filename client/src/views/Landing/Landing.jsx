@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Nav from '../../components/Nav/Nav';
 import { getEmployees } from '../../redux/actions';
+import { setRol } from '../../redux/actions';
 import {
 	useUser,
 } from "@clerk/clerk-react";
@@ -16,18 +17,21 @@ function Landing() {
 	const userEmail = user.emailAddresses[0].emailAddress;
 	const employees = useSelector(state => state.employees);
 	const dispatch = useDispatch();
-
+	const role = useSelector(state => state.rol);
 	useEffect(() => {
 		const fetchEmployees = async () => {
 			try {
 				const response = await axios.get('https://sml-app-api.onrender.com/employees');
 				const employeesData = response.data;
-				console.log(response);
 				dispatch(getEmployees(employeesData));
-			} catch (error) {
+				const employee = employeesData.find(employees => employees.email === userEmail);
+				if (employee) {
+					dispatch(setRol(employee.rol));
+				  }
+			  } catch (error) {
 				console.error('Error al obtener los empleados:', error);
-			}
-		};
+			  }
+			};
 
 		fetchEmployees();
 	}, [dispatch]);

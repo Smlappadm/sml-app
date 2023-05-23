@@ -10,6 +10,7 @@ import { AnalyticLeader } from "./components/Lideres/Analytic/AnalyticLeader";
 import CorredoresAnlaytics from "./components/Corredores/Analitycs/CorredoresAnalytics";
 import VendedoresHistory from "./components/Vendedores/analytics/VendedoresHistory";
 import VendedoresAnalytics from "./components/Vendedores/analytics/VendedoresAnalytics";
+import { useSelector } from "react-redux";
 import {
   ClerkProvider,
   SignedIn,
@@ -49,6 +50,8 @@ function ProtectedPage() {
 
 function ClerkProviderWithRoutes() {
   const navigate = useNavigate();
+  const role = useSelector(state => state.rol);
+  console.log(role);
 
   return (
     <ClerkProvider publishableKey={clerkPubKey} navigate={(to) => navigate(to)}>
