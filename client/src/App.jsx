@@ -9,6 +9,7 @@ import VendedoresDashboard from "./components/Vendedores/Dashboard/VendedoresDas
 import { AnalyticLeader } from "./components/Lideres/Analytic/AnalyticLeader";
 import CorredoresAnlaytics from "./components/Corredores/Analitycs/CorredoresAnalytics";
 import VendedoresHistory from "./components/Vendedores/analytics/VendedoresHistory";
+import VentasDashboard from "./components/Vendedores/Dashboard/VentasDashboard";
 import VendedoresAnalytics from "./components/Vendedores/analytics/VendedoresAnalytics";
 import {
   ClerkProvider,
@@ -74,6 +75,7 @@ function ClerkProviderWithRoutes() {
         <Route path="/analytics" element={<Analytics />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/vendedores" element={<VendedoresDashboard />} />
+        <Route path="/vendedores-ventas" element={<VentasDashboard />} />
         <Route path="/vendedores-history" element={<VendedoresHistory />} />
         <Route path="/vendedores-analytics" element={<VendedoresAnalytics />} />
         <Route

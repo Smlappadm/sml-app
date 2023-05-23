@@ -13,6 +13,7 @@ import {
   getAllVendedores,
 } from "../../../../../../redux/actions";
 import BasicSelect from "../BasicSelect";
+import InputEmailEdit from "./InputEmailEdit";
 
 const style = {
   position: "absolute",
@@ -45,7 +46,7 @@ function ChildModalDelete({
   const handleCreate = async () => {
     try {
       const response = await axios.put(
-        `https://sml-app-api.onrender.com/${itemRol}/${itemId}`,
+        `/${itemRol}/${itemId}`,
         {
           deleted: true,
         }
@@ -125,7 +126,7 @@ function ChildModal({
 
     try {
       const response = await axios.put(
-        `https://sml-app-api.onrender.com/${itemRol}/${itemId}`,
+        `/${itemRol}/${itemId}`,
         {
           name: inputName,
           email: inputEmail,
@@ -212,7 +213,7 @@ export default function NestedModalEdit({
         aria-labelledby="parent-modal-title"
         aria-describedby="parent-modal-description"
       >
-        <Box sx={{ ...style, width: "30%", height: "40%", bgcolor: "#39394b" }}>
+        <Box sx={{ ...style, width: "30%", height: "45%", bgcolor: "#39394b" }}>
           <div>
             <div className="flex flex-col gap-5 my-5">
               <h2 id="parent-modal-title">Edit Employ {inputName}</h2>
@@ -222,14 +223,18 @@ export default function NestedModalEdit({
                 inputName={inputName}
                 setInputName={setInputName}
               />
+              <InputEmailEdit
+                inputEmail={inputEmail}
+                setInputEmail={setInputEmail}
+              />
               <InputPhoneEdit
                 inputPhone={inputPhone}
                 setInputPhone={setInputPhone}
               />
-              <BasicSelect
+              {/* <BasicSelect
                 employees={selectEmployees}
                 setEmployees={setSelectEmployees}
-              />
+              /> */}
             </div>
           </div>
           <div className="flex gap-3 justify-center items-center">
@@ -244,14 +249,16 @@ export default function NestedModalEdit({
               EditEmployees={EditEmployees}
               ErrorEditEmployees={ErrorEditEmployees}
             />
-            {(itemRol !== 'clevel') ? <ChildModalDelete
-              inputName={inputName}
-              itemRol={itemRol}
-              itemId={itemId}
-              SendEmployees={SendEmployees}
-              BannedEmployees={BannedEmployees}
-              onModalClose={handleClose}
-            /> : null}
+            {itemRol !== "clevel" && itemRol !== "leader" ? (
+              <ChildModalDelete
+                inputName={inputName}
+                itemRol={itemRol}
+                itemId={itemId}
+                SendEmployees={SendEmployees}
+                BannedEmployees={BannedEmployees}
+                onModalClose={handleClose}
+              />
+            ) : null}
           </div>
         </Box>
       </Modal>

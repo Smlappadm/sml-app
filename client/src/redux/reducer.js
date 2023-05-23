@@ -13,8 +13,8 @@ import {
   GET_VENDEDOR_QUERY,
   GET_ALL_LEADER,
   GET_ALL_CLEVEL,
-  GET_EMPLOYEES
-
+  GET_EMPLOYEES,
+  GET_VENDEDOR_ALL_LEADS
 } from "./actions";
 
 const initialState = {
@@ -30,8 +30,8 @@ const initialState = {
   vendedor:[],
   leader: [],
   clevel: [],
-  employees: []
-
+  employees: [],
+  vendedorAllLeads: []
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -221,6 +221,11 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         clevel: action.payload,
+      };
+    case GET_VENDEDOR_ALL_LEADS:
+      return {
+        ...state,
+        vendedorAllLeads: action.payload,
       };
 
       case GET_EMPLOYEES:

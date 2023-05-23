@@ -1,8 +1,8 @@
+const deleteEmployByEmail = require("../controllers/Employees/deleteEmployByEmail");
 const getAllEmployees = require("../controllers/Employees/getAllEmployees");
 const getEmployeesByEmail = require("../controllers/Employees/getEmployByEmail");
 const postEmployees = require("../controllers/Employees/postEmployees");
 const updateEmployByEmail = require("../controllers/Employees/updateEmployByEmail");
-const updateEmploy = require("../controllers/Employees/updateEmployByEmail");
 
 const getAllEmployeesHandler = async (req, res) => {
   try {
@@ -35,6 +35,17 @@ const getEmployeesByEmailHandler = async (req, res) => {
   }
 };
 
+const deleteEmployeesByEmailHandler = async (req, res) => {
+  const { email } = req.query;
+
+  try {
+    const employ = await deleteEmployByEmail(email);
+    res.status(200).json(employ);
+  } catch (error) {
+    res.status(404).json({ error: error.message });
+  }
+};
+
 const updateEmployByEmailHandler = async (req, res) => {
   const email = req.query.email;
   const updatedData = req.body;
@@ -52,4 +63,5 @@ module.exports = {
   getEmployeesByEmailHandler,
   updateEmployByEmailHandler,
   getAllEmployeesHandler,
+  deleteEmployeesByEmailHandler,
 };
