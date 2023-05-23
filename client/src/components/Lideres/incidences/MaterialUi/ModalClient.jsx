@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 
@@ -32,6 +33,34 @@ export default function BasicModal(props) {
     vendedor,
     op,
   } = props;
+
+  // State variables to track the filled values
+  const [filledEmail, setFilledEmail] = useState(email || "");
+  const [filledInstagram, setFilledInstagram] = useState(instagram || "");
+  const [filledTelephone, setFilledTelephone] = useState(telephone || "");
+  const [filledOp, setFilledOp] = useState(op || "");
+  const [filledLevel, setFilledLevel] = useState(level || "");
+
+  const handleEmailChange = (e) => {
+    setFilledEmail(e.target.value);
+  };
+
+  const handleInstagramChange = (e) => {
+    setFilledInstagram(e.target.value);
+  };
+
+  const handleTelephoneChange = (e) => {
+    setFilledTelephone(e.target.value);
+  };
+
+  const handleOpChange = (e) => {
+    setFilledOp(e.target.value);
+  };
+
+  const handleLevelClick = () => {
+    setFilledLevel("");
+  };
+
   return (
     <div>
       <Modal
@@ -61,21 +90,60 @@ export default function BasicModal(props) {
                 {province}, {city}{" "}
               </p>
             </div>
-            <div className="font-semibold flex gap-3">
-              <p>NIVEL: </p>
-              <p className="font-normal">{level} </p>
-            </div>
-            <div className="font-semibold flex gap-3">
-              <p>EMAIL: </p>
-              <p className="font-normal">{email} </p>
-            </div>
+            {level ? (
+              <div className="font-semibold flex gap-3">
+                <p>NIVEL: </p>
+                <p className="font-normal">{level} </p>
+              </div>
+            ) : (
+              <div className="font-semibold flex gap-3">
+                <p>NIVEL: </p>
+                <p className="font-normal" onClick={handleLevelClick}>
+                  {filledLevel}
+                </p>
+              </div>
+            )}
+            {email === "" ? (
+              <div className="font-semibold flex gap-3">
+                <p>EMAIL: </p>
+                <input
+                  type="text"
+                  value={filledEmail}
+                  onChange={handleEmailChange}
+                  className="font-normal"
+                />
+              </div>
+            ) : (
+              <div className="font-semibold flex gap-3">
+                <p>EMAIL: </p>
+                <p className="font-normal">{email}</p>
+              </div>
+            )}
             <div className="font-semibold flex gap-3">
               <p>INSTAGRAM: </p>
-              <p className="font-normal">{instagram} </p>
+              {instagram ? (
+                <p className="font-normal">{instagram}</p>
+              ) : (
+                <input
+                  type="text"
+                  value={filledInstagram}
+                  onChange={handleInstagramChange}
+                  className="font-normal"
+                />
+              )}
             </div>
             <div className="font-semibold flex gap-3">
               <p>TELEFONO: </p>
-              <p className="font-normal">{telephone} </p>
+              {telephone ? (
+                <p className="font-normal">{telephone}</p>
+              ) : (
+                <input
+                  type="text"
+                  value={filledTelephone}
+                  onChange={handleTelephoneChange}
+                  className="font-normal"
+                />
+              )}
             </div>
             <div className="font-semibold flex gap-3">
               <p>CORREDOR: </p>
@@ -91,8 +159,20 @@ export default function BasicModal(props) {
             </div>
             <div className="font-semibold flex gap-3">
               <p>DETALLE: </p>
-              <p className="font-normal">{op ? op : "-"} </p>
+              {op ? (
+                <p className="font-normal">{op}</p>
+              ) : (
+                <input
+                  type="text"
+                  value={filledOp}
+                  onChange={handleOpChange}
+                  className="font-normal"
+                />
+              )}
             </div>
+            <button className="bg-blue-500 w-44 h-9 flex justify-center items-center text-white rounded-md text-10">
+              FIX
+            </button>
           </div>
         </Box>
       </Modal>
