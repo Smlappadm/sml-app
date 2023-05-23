@@ -1064,10 +1064,6 @@ video {
   width: 100vw;
 }
 
-.w-3\/4 {
-  width: 75%;
-}
-
 .min-w-\[180px\] {
   min-width: 180px;
 }
@@ -1116,10 +1112,6 @@ video {
 
 .justify-start {
   justify-content: flex-start;
-}
-
-.justify-end {
-  justify-content: flex-end;
 }
 
 .justify-center {

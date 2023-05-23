@@ -23,6 +23,7 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import Clevel from "./components/C-Level/Clevel";
 import Analytic from "./components/C-Level/Analytics/Analytic";
 import Incidences from "./components/Lideres/incidences/incidencias";
+import { useSelector } from "react-redux";
 
 if (!"pk_test_ZmFtb3VzLWRyYWdvbi0xMi5jbGVyay5hY2NvdW50cy5kZXYk") {
   throw new Error("Missing Publishable Key");
@@ -50,6 +51,8 @@ function ProtectedPage() {
 function ClerkProviderWithRoutes() {
   const navigate = useNavigate();
 
+	const role = useSelector(state => state.rol);
+  console.log(role);
   return (
     <ClerkProvider publishableKey={clerkPubKey} navigate={(to) => navigate(to)}>
       <Routes>
