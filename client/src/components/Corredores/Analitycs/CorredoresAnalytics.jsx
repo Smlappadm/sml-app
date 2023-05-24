@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import style from "./CorredoresAnalytics.module.css";
 import PaginationOutlined from "../../pagination/PaginationOutlined";
 import { useDispatch, useSelector } from "react-redux";
+import { FaHistory } from "react-icons/fa";
 import Nav from "../../Nav/Nav";
 import {
   Card,
@@ -52,7 +53,7 @@ const CorredoresAnlaytics = () => {
     <>
       <Nav />
       <div className=" flex flex-col justify-start items-center w-full h-screen mx-5 ">
-        <Card className="w-full m-5 h-screen bg-[#39394b]">
+        <Card className="w-full m-5 h-screen bg-[#222131]">
           <div className="flex gap-10 items-center mt-2 mx-5 ">
             <Title className="font-bold text-[#e2e2e2] text-lg">
               Analytics
@@ -61,7 +62,10 @@ const CorredoresAnlaytics = () => {
               <Link to={"/corredores"}>
                 <IoGrid className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
               </Link>
-              <Link className="text-5xl" to={"/corredores/analytics"}>
+              <Link className="text-5xl" to={"/corredores/history"}>
+                <FaHistory className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
+              </Link>
+              <Link className="text-5xl" to={"/corredores/history"}>
                 <IoStatsChart className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
               </Link>
             </div>
@@ -170,6 +174,7 @@ const CorredoresAnlaytics = () => {
             cardXPage={cardXPage}
             data={leadChequed}
             pages={pages}
+            current={currentPage}
           />
         </div>
       </div>

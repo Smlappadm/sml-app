@@ -27,6 +27,7 @@
     "chart.js": "^4.3.0",
     "faker": "^6.6.6",
     "mkcert": "^1.5.1",
+    "moment": "^2.29.4",
     "nodemailer": "^6.9.2",
     "nodemailer-browser": "^0.1.0",
     "process": "^0.11.10",

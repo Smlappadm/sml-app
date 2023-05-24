@@ -3,6 +3,8 @@ const getVendedorById = require('../controllers/Vendedor/getVendedorById');
 const getVendedorByName = require('../controllers/Vendedor/getVendedorByName');
 const postVendedor = require('../controllers/Vendedor/postVendedor');
 const updateVendedorById = require('../controllers/Vendedor/updateVendedorById');
+const getVendedorByEmail = require('../controllers/Vendedor/getVendedorByEmail');
+
 
 const getAllVendedoresHandler = async (req, res) => {
 	try {
@@ -46,6 +48,15 @@ const getVendedorByNameHandler = async (req, res) => {
 		res.status(404).json({ error: error.message });
 	}
 };
+const getVendedorByEmailHandler = async (req, res) => {
+	const { email } = req.query;
+	try {
+		const vendedor = await getVendedorByEmail(email);
+		res.status(200).json(vendedor);
+	} catch (error) {
+		res.status(404).json({ error: error.message });
+	}
+};
 
 const getVendedorByIdHandler = async (req, res) => {
 	const id = req.params.id;
@@ -64,4 +75,5 @@ module.exports = {
 	updateVendedorHandler,
 	getVendedorByIdHandler,
 	getVendedorByNameHandler,
+	getVendedorByEmailHandler
 };

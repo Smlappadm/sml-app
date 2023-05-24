@@ -39,6 +39,8 @@ const Form = (props) => {
 		// Si no hay errores, ejecutar la función de autenticación
 		if (props.Login) {
 			props.Login(userData);
+			localStorage.setItem('UserName', userData.username);
+    		localStorage.setItem('Password', userData.password);
 		}
 
 		setErrors({

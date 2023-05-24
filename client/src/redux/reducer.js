@@ -10,7 +10,9 @@ import {
   FILTER_STATUS,
   GET_ALL_CORREDORES,
   GET_ALL_VENDEDORES,
-  GET_EMPLOYEES
+  GET_ALL_LEADER,
+  GET_ALL_CLEVEL,
+  GET_VENDEDOR_ALL_LEADS
 } from "./actions";
 
 const initialState = {
@@ -23,7 +25,9 @@ const initialState = {
   vendedoresDashboard: [],
   corredores: [],
   vendedores: [],
-  employees: [],
+  leader: [],
+  clevel: [],
+  vendedorAllLeads: []
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -57,7 +61,7 @@ const rootReducer = (state = initialState, action) => {
       };
 
     case ORDER_CLIENTS:
-      const copyClient = [...state.leadChequed];
+      const copyClient = [...state.leaderDashboard];
       if (action.payload === "DES") {
         copyClient.sort((a, b) => {
           const clientA = a.name ? a.name.toLowerCase() : "";
@@ -80,7 +84,7 @@ const rootReducer = (state = initialState, action) => {
         leaderDashboard: copyClient,
       };
     case ORDER_CATEGORY:
-      const copyCategory = [...state.leadChequed];
+      const copyCategory = [...state.leaderDashboard];
       if (action.payload === "DES") {
         copyCategory.sort((a, b) => {
           const clientA = a.category ? a.category.toLowerCase() : "";
@@ -161,7 +165,7 @@ const rootReducer = (state = initialState, action) => {
         console.log("contratado");
         filteredStatus = copyStatus.filter((client) => {
           const clientStatus = client.status ? client.status : "";
-          return clientStatus === "Activo";
+          return clientStatus === "Contratado";
         });
       }
       if (action.payload === "no-responde") {
@@ -182,7 +186,7 @@ const rootReducer = (state = initialState, action) => {
         console.log("sin contactar");
         filteredStatus = copyStatus.filter((client) => {
           const clientStatus = client.status ? client.status : "";
-          return clientStatus === "Sin Contactar";
+          return clientStatus === "Sin contactar";
         });
       }
       return {
@@ -199,11 +203,22 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         vendedores: action.payload,
       };
-      case GET_EMPLOYEES:
-        return {
-          ...state,
-          employees: action.payload,
-        };
+    case GET_ALL_LEADER:
+      return {
+        ...state,
+        leader: action.payload,
+      };
+    case GET_ALL_CLEVEL:
+      return {
+        ...state,
+        clevel: action.payload,
+      };
+    case GET_VENDEDOR_ALL_LEADS:
+      return {
+        ...state,
+        vendedorAllLeads: action.payload,
+      };
+
     default:
       return { ...state };
   }

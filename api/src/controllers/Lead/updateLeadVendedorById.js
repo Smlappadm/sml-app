@@ -1,56 +1,72 @@
 const Lead = require("../../models/Lead");
+const Vendedor = require("../../models/Vendedor");
 
 const updateLeadVendedorById = async (id, updatedData) => {
-  console.log("entro2");
-  try {
-    const lead = await Lead.findByIdAndUpdate(id, updatedData, {
-      new: true,
-    });
+  // const VendedorArrays = Vendedor.find({
+  //   $or: [
+  //     { leads_contacted: updatedData.dataVendedor.status },
+  //     { declined_leads: updatedData.dataVendedor.status },
+  //     { unanswered_leads: updatedData.dataVendedor.status },
+  //   ]
+  // });
 
-    const resultado = await Lead.aggregate([
-      {
-        $lookup: {
-          from: "vendedor",
-          localField: "name",
-          foreignField: "_id",
-          as: "leadVendedor",
-        },
-      },
-      {
-        $unwind: "$leadVendedor",
-      }
-    ]);
-    console.log("**** Resultados ****", resultado);
+  // console.log(VendedorArrays);
 
-    return lead;
-  } catch (error) {
-    throw new Error(`Error updating lead with id ${id}: ${error.message}`);
+  const leadCountCheck = await Lead.findById(id);
+
+  if (
+    updatedData.dataLead.status === "No responde" &&
+    leadCountCheck.llamados < 2
+  ) {
+    updatedData.dataLead.llamados++;
+    updatedData.dataVendedor.llamados = updatedData.dataLead.llamados;
+  } else if (
+    updatedData.dataLead.status === "No responde" &&
+    leadCountCheck.llamados === 2
+  ) {
+    updatedData.dataLead.llamados = 0;
+    updatedData.dataLead.status = "Rechazado";
+    updatedData.dataLead.status_op = "3 llamados";
+    updatedData.dataVendedor.status = "Rechazado";
+    updatedData.dataVendedor.status_op = "3 llamados";
   }
+
+
+  const leadUpdate = await Lead.findByIdAndUpdate(id, updatedData.dataLead, {
+    new: true,
+  });
+
+
+  
+  const valor = updatedData.dataVendedor;
+  
+  const vendedor = await Vendedor.findOneAndUpdate(
+    { email: updatedData.dataLead.vendedor, "leads.name": valor.name },
+    { $set: { "leads.$": valor } },
+    { new: true }
+    );
+    
+    if (!vendedor) {
+    console.log("entranding")
+    const vendedor = await Vendedor.findOneAndUpdate(
+      { email: updatedData.dataLead.vendedor },
+      { $addToSet: { leads: { $each: [valor] } } },
+      { new: true }
+    );
+    // vendedor.leads.push(valor);
+    // await vendedor.save();
+  } else {
+    await vendedor.save();
+  }
+
+  const data = {
+    leadUpdate,
+    vendedor,
+  };
+
+  // Imprimir la publicación completa
+  return data;
+
 };
 
 module.exports = updateLeadVendedorById;
-
-// const ArticulosConPaises = async () => {
-//   const resultado = await Articulos.aggregate(
-//     [
-//       {
-//         $lookup:
-//         {
-//           from: "paises",
-//           localField: "origen",
-//           foreignField: "_id",
-//           as: "articuloPais"
-//         }
-//       },
-//       {
-//         $unwind: "$articuloPais"
-
-//       },
-//       {
-//         $match: {precio: 500}
-//       }
-//     ]
-//   );
-//   console.log("**** Resultados ****", resultado)
-// };
-// ArticulosConPaises()

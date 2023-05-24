@@ -15,17 +15,27 @@ import {
   Title,
 } from "@tremor/react";
 
-import { CiGlobe } from "react-icons/ci";
+import { CiGlobe, CiMail } from "react-icons/ci";
 import { GrInstagram } from "react-icons/gr";
 import { IoGrid, IoStatsChart } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { getLeadUnchecked10 } from "../../../redux/actions";
 import IconLabelButtons from "../../MaterialUi/IconLabelButtons";
-
-
+import { FaHistory } from "react-icons/fa";
+import swal from "sweetalert";
+import {
+  useUser,
+  useOrganization,
+  useOrganizationList,
+} from "@clerk/clerk-react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CorredoresDashboard = () => {
   const [client, setClient] = useState([]);
+  const user = useUser().user;
+  const org = useOrganization();
+  const orgList = useOrganizationList();
 
   const handleChangeInstagram = (event, index) => {
     const { name, value } = event.target;
@@ -36,6 +46,19 @@ const CorredoresDashboard = () => {
         ...updatedClient[index],
         [name]: value,
         instagram: value,
+      };
+      return updatedClient;
+    });
+  };
+  const handleChangeEmail = (event, index) => {
+    const { name, value } = event.target;
+    console.log(value);
+    setClient((prevState) => {
+      const updatedClient = [...prevState];
+      updatedClient[index] = {
+        ...updatedClient[index],
+        [name]: value,
+        email: value,
       };
       return updatedClient;
     });
@@ -60,12 +83,9 @@ const CorredoresDashboard = () => {
     console.log("Enviado el view");
     try {
       for (let i = 0; i < leadUnchecked10.length; i++) {
-        const response = await axios.put(
-          `http://localhost:3001/lead/${client[i]._id}`,
-          {
-            view: client[i].view,
-          }
-        );
+        const response = await axios.put(`/lead/${client[i]._id}`, {
+          view: client[i].view,
+        });
         console.log(response.data);
       }
       console.log("view seteados");
@@ -91,9 +111,10 @@ const CorredoresDashboard = () => {
           _id: leadUnchecked10[i]._id,
           name: leadUnchecked10[i].name,
           url: leadUnchecked10[i].url,
+          email: leadUnchecked10[i].email,
           instagram: "",
-          level: leadUnchecked10[i].level,
-          checked: leadUnchecked10[i].checked,
+          level: "-",
+          checked: false,
           view: true,
         });
       }
@@ -101,81 +122,163 @@ const CorredoresDashboard = () => {
     setClient(clientes);
   }, [leadUnchecked10]);
 
-  console.log(leadUnchecked10);
+  const SendLeads = (name) => {
+    toast.info(`✔ ${name} Send Leads! `, {
+      position: "top-center",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+  };
+  const SendLeadsErrorInsta = (name) => {
+    toast.error(`❌ Error Instagram incomplete ${name}!`, {
+      position: "top-center",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+  };
+  const SendLeadsErrorLevel = (name) => {
+    toast.error(`❌ Error Instagram incomplete ${name}!`, {
+      position: "top-center",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+  };
+  const SendLeadsErrorInsta0 = (name) => {
+    toast.error(`❌ Error Instagram with Level 0 ${name}!`, {
+      position: "top-center",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+  };
+  const SendLeadsSuccess = () => {
+    toast.success(`✔ Send Leads Success!`, {
+      position: "top-center",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+  };
+  const SendLeadsError = (name) => {
+    toast.error(`✔ Send Leads Error! ${name}`, {
+      position: "top-center",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+  };
+  const SendLeadsErrorEmail = () => {
+    toast.error(`❌ Error Email empty!`, {
+      position: "top-center",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await swal("Enviando informacion!", `porfavor no cierre la pestaña hasta completar el proceso`, "warning",);
+    SendLeads(user.fullName);
     try {
       for (let i = 0; i < leadUnchecked10.length; i++) {
         if (client[i].level !== "-") {
-          // Verificar si Instagram está vacío pero el nivel es igual a 0
-          if (
+          if (client[i].instagram.trim() !== "" && client[i].level === "0") {
+            SendLeadsErrorInsta0(client[i].name);
+          } else if (client[i].email !== "" && client[i].email === "-") {
+            SendLeadsErrorEmail(client[i].name);
+          } else if (
             client[i].instagram.trim() === "" &&
             (client[i].level === "incidencia" || client[i].level === "0")
           ) {
-            // Realizar el put de todas formas
-            const response = await axios.put(
-              `http://localhost:3001/lead/${client[i]._id}`,
-              {
-                _id: client[i]._id,
-                name: client[i].name,
-                url: client[i].url,
-                instagram: client[i].instagram,
-                level: client[i].level,
-                checked: client[i].checked,
-              }
-            );
+            const response = await axios.put(`/lead/${client[i]._id}`, {
+              _id: client[i]._id,
+              name: client[i].name,
+              url: client[i].url,
+              instagram: client[i].instagram,
+              email: client[i].email,
+              level: client[i].level,
+              checked: true,
+              view: false,
+              corredor: user.fullName,
+            });
             console.log(response.data);
+
             if (client[i].level === "incidencia") {
-              // Enviar correo electrónico utilizando el servidor back-end
               const emailData = {
                 clientName: client[i].name,
-                recipientEmail: "gustavomontespalavecino@gmail.com",
-                message: `Se ha detectado una incidencia para el cliente ${client[i].name}. Por favor, revisa la situación y toma las medidas necesarias.`,
+                recipientEmail: "voeffray.jonathan@gmail.com",
+                message: `Se ha detectado una incidencia clasificada por el corredor ${user.emailAddresses[0].emailAddress} para el cliente ${client[i].name} con el numero de id ${client[i]._id}. Por favor, revisa la situación y toma las medidas necesarias.`,
               };
 
-              await axios.post(
-                "http://localhost:3001/corredor/sendmail",
-                emailData
-              );
+              await axios.post("/corredor/sendmail", emailData);
             }
           } else if (
             client[i].instagram.trim() !== "" &&
             client[i].level !== "-"
           ) {
-            // Realizar el put si Instagram no está vacío
-            const response = await axios.put(
-              `http://localhost:3001/lead/${client[i]._id}`,
-              {
-                _id: client[i]._id,
-                name: client[i].name,
-                url: client[i].url,
-                instagram: client[i].instagram,
-                level: client[i].level,
-                checked: client[i].checked,
-              }
-            );
+            const response = await axios.put(`/lead/${client[i]._id}`, {
+              _id: client[i]._id,
+              name: client[i].name,
+              url: client[i].url,
+              instagram: client[i].instagram,
+              email: client[i].email,
+              level: client[i].level,
+              checked: true,
+              view: false,
+              corredor: user.fullName,
+            });
             console.log(response.data);
-          }else {
-          await swal("Atencion!", `Al Cliente: ${client[i].name} le falta asignar instagram`, "warning");   
-        }
+          } else {
+            SendLeadsErrorInsta(client[i].name);
+          }
         } else {
-          await swal("Atencion!", `Al Cliente: ${client[i].name} le falta asignar nivel`, "warning",);
+          SendLeadsErrorLevel(client[i].name);
         }
       }
-      await swal("Good job!", "informacion enviada correctamente!", "success");
+      SendLeadsSuccess();
       dispatch(getLeadUnchecked10());
     } catch (error) {
-      await swal(":(", "error al enviar la informacion!", "error");
-      console.log({error: error.message});
+      SendLeadsError();
+      console.log({ error: error.message });
     }
   };
 
   return (
     <>
       <Nav />
-      <Card className="w-full m-5 bg-[#39394b]">
+      <Card className="w-full m-5 bg-[#222131]">
+        <ToastContainer />
         <form onSubmit={handleSubmit}>
           <div className="flex justify-between items-center">
             <div className="flex gap-10  mt-2 mx-5 ">
@@ -186,7 +289,10 @@ const CorredoresDashboard = () => {
                 <Link to={"/corredores"}>
                   <IoGrid className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
                 </Link>
-                <Link className="text-5xl" to={"/corredores/analytics"}>
+                <Link className="text-5xl" to={"/corredores/history"}>
+                  <FaHistory className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
+                </Link>
+                <Link className="text-5xl" to={"/corredores/history"}>
                   <IoStatsChart className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
                 </Link>
               </div>
@@ -198,11 +304,9 @@ const CorredoresDashboard = () => {
           <Table className={style.table}>
             <TableHead className={style.tableHead}>
               <TableRow className={style.tableRow}>
-                <TableHeaderCell className="text-start">
-                  Invoice Id
-                </TableHeaderCell>
                 <TableHeaderCell className="text-start">Name</TableHeaderCell>
                 <TableHeaderCell className="text-start">Web</TableHeaderCell>
+                <TableHeaderCell className="text-start">Mail</TableHeaderCell>
                 <TableHeaderCell className="text-start">
                   Instagram
                 </TableHeaderCell>
@@ -214,13 +318,6 @@ const CorredoresDashboard = () => {
               {client.map((item, index) => (
                 <TableRow key={item._id} className={style.tableCards}>
                   <TableCell className="flex justify-start items-center p-0">
-                    <div className="w-24 p-1 px-3 rounded-full text-ellipsis opacity-1 overflow-hidden hover:overflow-visible hover:bg-[#ffffff] hover:w-fit hover:text-black z-111 hover:absolute">
-                      <div type="text" id="id" value={client[index]._id}>
-                        <p>{client[index]._id}</p>
-                      </div>
-                    </div>
-                  </TableCell>
-                  <TableCell className="flex justify-start items-center p-0">
                     <div type="text" id="name" value={client[index].name}>
                       <p className="w-96 p-1 px-3 rounded-full text-ellipsis opacity-1 whitespace-nowrap overflow-hidden ">
                         {client[index].name}
@@ -229,7 +326,6 @@ const CorredoresDashboard = () => {
                   </TableCell>
 
                   <TableCell className="flex justify-start items-center p-0">
-                    {/* Botón de web */}
                     <Link to={client[index].url} target="_blank">
                       <p value={client[index].url}>
                         <CiGlobe className="text-[2rem] text-[#418df0]" />
@@ -237,19 +333,38 @@ const CorredoresDashboard = () => {
                     </Link>
                   </TableCell>
 
-                  <TableCell className="flex justify-start items-center gap-3 p-0 mx-3">
+                  <TableCell className="flex justify-start w-[10rem] items-center gap-3 p-0 mx-3">
+                    <div>
+                      <CiMail className="text-[2rem] text-[#418df0]" />
+                    </div>
+                    <input
+                      className={`bg-transparent  w-[12rem] rounded-full border-2 border-gray-300 py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 placeholder-white focus:placeholder-black ${
+                        client[index].email !== "-" &&
+                        client[index].email !== ""
+                          ? "border-green-500"
+                          : ""
+                      }`}
+                      type="text"
+                      name="email"
+                      value={client[index].email}
+                      onChange={(event) => handleChangeEmail(event, index)}
+                      placeholder="Ingrese un mail..."
+                    />
+                  </TableCell>
+
+                  <TableCell className="flex justify-start w-[10rem] items-center gap-3 p-0 mx-3">
                     <div>
                       <GrInstagram className="text-[2rem] text-[#418df0]" />
                     </div>
                     <input
-                      className={`bg-transparent rounded-full border-2 border-gray-300 py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 placeholder-white focus:placeholder-black ${
+                      className={`bg-transparent w-[12rem] rounded-full border-2 border-gray-300 py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 placeholder-white focus:placeholder-black ${
                         client[index].instagram ? "border-green-500" : ""
                       }`}
                       type="text"
                       name="instagram"
                       value={client[index].instagram}
                       onChange={(event) => handleChangeInstagram(event, index)}
-                      placeholder="Ingrese un instagram"
+                      placeholder="Ingrese instagram..."
                     />
                   </TableCell>
 

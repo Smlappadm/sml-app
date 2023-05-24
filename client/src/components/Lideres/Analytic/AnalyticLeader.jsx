@@ -1,18 +1,14 @@
-import style from "./TableEmployees.module.css";
+import { Link } from "react-router-dom";
+import style from "./AnalyticLeader.module.css";
 import PaginationOutlined from "../../pagination/PaginationOutlined";
-import {
-  Card,
-  Table,
-  TableHead,
-  TableRow,
-  TableHeaderCell,
-  TableBody,
-  TableCell,
-  Text,
-  Title,
-  Badge,
-} from "@tremor/react";
-import { CiMail, CiInstagram, CiPhone } from "react-icons/ci";
+import { Card, Text, Title } from "@tremor/react";
+import { CiMail, CiInstagram, CiPhone, CiWarning } from "react-icons/ci";
+import InputRunner from "./MaterialUi/InputRunner";
+import InputSeller from "./MaterialUi/InputSeller";
+import SelectLevel from "./MaterialUi/SelectLevel";
+import SelectStatus from "./MaterialUi/SelectStatus";
+import ModalCient from "./MaterialUi/ModalClient";
+import AddLead from "./MaterialUi/ModalAddLead";
 import Nav from "../../Nav/Nav";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,6 +19,9 @@ import {
   orderCategory,
   orderClients,
 } from "../../../redux/actions";
+import { IoGrid, IoStatsChart } from "react-icons/io5";
+import { FaHistory } from "react-icons/fa";
+
 //
 export const AnalyticLeader = () => {
   const [data, setData] = useState([]);
@@ -31,17 +30,24 @@ export const AnalyticLeader = () => {
   useEffect(() => {
     dispatch(getLeadChecked());
   }, [dispatch]);
+  useEffect(() => {
+    setData(leaderDashboard);
+  }, [leaderDashboard]);
 
   const [pageStyle, setPageStyle] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [cardXPage, setCardXpage] = useState(10);
   const indexLastCard = currentPage * cardXPage;
   const indexFirstCard = indexLastCard - cardXPage;
-  const currentCard = data.slice(indexFirstCard, indexLastCard);
+  const showData = data.filter((item) => {
+    return item.status !== "No responde";
+  });
+  const currentCard = showData.slice(indexFirstCard, indexLastCard);
   const pages = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
   const [clientOrder, setClientOrder] = useState("");
+  const [categoryOrder, setCategoryOrder] = useState("");
   const [filters, setFilters] = useState({
     level: false,
     runner: false,
@@ -61,6 +67,7 @@ export const AnalyticLeader = () => {
   const handleOrderByClient = () => {
     if (clientOrder === "ASC" || clientOrder === "") {
       setClientOrder("DES");
+      setCategoryOrder("");
       dispatch(orderClients(clientOrder));
       setData(leaderDashboard);
     } else {
@@ -71,22 +78,23 @@ export const AnalyticLeader = () => {
     setCurrentPage(1);
   };
   const headerCategory = () => {
-    if (clientOrder === "ASC") {
+    if (categoryOrder === "ASC") {
       return "Profesion ⤴";
-    } else if (clientOrder === "DES") {
+    } else if (categoryOrder === "DES") {
       return "Profesion ⤵";
     } else {
       return "Profesion";
     }
   };
   const handleOrderByCategory = () => {
-    if (clientOrder === "ASC" || clientOrder === "") {
-      setClientOrder("DES");
-      dispatch(orderCategory(clientOrder));
+    if (categoryOrder === "ASC" || categoryOrder === "") {
+      setCategoryOrder("DES");
+      setClientOrder("");
+      dispatch(orderCategory(categoryOrder));
       setData(leaderDashboard);
     } else {
-      setClientOrder("ASC");
-      dispatch(orderCategory(clientOrder));
+      setCategoryOrder("ASC");
+      dispatch(orderCategory(categoryOrder));
       setData(leaderDashboard);
     }
     setCurrentPage(1);
@@ -104,7 +112,6 @@ export const AnalyticLeader = () => {
   };
   const [levelValue, setLevelValue] = useState("");
   const onChangeLevel = (value) => {
-    console.log(value);
     setLevelValue(value);
     dispatch(filterLevel(value));
     setData(leaderDashboard);
@@ -118,271 +125,267 @@ export const AnalyticLeader = () => {
     setCurrentPage(1);
   };
 
-  useEffect(() => {
-    console.log(leaderDashboard);
-    setData(leaderDashboard);
-  }, [leaderDashboard]);
+  const [open, setOpen] = useState(false);
+  const [modalItems, setModalItems] = useState([]);
+  const handleOpen = (item, index) => {
+    setOpen(true);
+    setModalItems(item);
+  };
+  const handleClose = () => setOpen(false);
 
   return (
     <>
       <Nav />
-      <div className="w-full h-screen flex flex-col">
-        <Card className="w-full h-full bg-[#222131] rounded-none p-5">
-          <div className="flex justify-between items-center mx-5">
-            <Title className={style.title}>Analisis</Title>
-            {filters.level === true ? (
-              <select
-                name="level"
-                id="level"
-                onChange={(event) => {
-                  onChangeLevel(event.target.value);
-                }}
-                className="w-1/5 text-center bg-transparent border border-white rounded-md p-1 "
-              >
-                <option value="" disabled selected className="bg-[#222131]">
-                  Seleccione un nivel
-                </option>
-                <option value="0" className="bg-[#222131]">
-                  0
-                </option>
-                <option value="1" className="bg-[#222131]">
-                  1
-                </option>
-                <option value="2" className="bg-[#222131]">
-                  2
-                </option>
-                <option value="incidencia" className="bg-[#222131]">
-                  Incidencia
-                </option>
-              </select>
-            ) : (
-              ""
-            )}
-            {filters.runner === true ? (
-              <input
-                type="text"
-                id="level"
-                placeholder="Buscar por corredor"
-                className="w-1/5 text-center bg-transparent border border-white rounded-md p-1 "
-              />
-            ) : (
-              ""
-            )}
-            {filters.sellers === true ? (
-              <input
-                className="w-1/5 text-center bg-transparent border border-white rounded-md p-1 "
-                type="text"
-                id="level"
-                placeholder="Buscar por Vendedores"
-              />
-            ) : (
-              ""
-            )}
-            {filters.status === true ? (
-              <select
-                name="status"
-                id="status"
-                onChange={(event) => {
-                  onChangeStatus(event.target.value);
-                }}
-                className="w-1/5 text-center bg-transparent border border-white rounded-md p-1 "
-              >
-                <option value="" disabled selected className="bg-[#222131]">
-                  Seleccione un estado
-                </option>
-                <option value="contratado" className="bg-[#222131]">
-                  Contratado
-                </option>
-                <option value="rechazado" className="bg-[#222131]">
-                  Rechazado
-                </option>
-                <option value="sin-contactar" className="bg-[#222131]">
-                  Sin Contactar
-                </option>
-                <option value="no-responde" className="bg-[#222131]">
-                  No Responde
-                </option>
-              </select>
-            ) : (
-              ""
-            )}
-            <button className="bg-gray-700 w-fit h-fit p-2 rounded-md">
-              Agregar Clientes
-            </button>
+      <Card className="w-full h-full bg-[#222131] rounded-none p-5">
+        <div className="flex justify-between items-center mx-5 mb-0">
+          <div className="flex gap-5">
+            <Title className={style.title}>Dashboard</Title>
+            <Link to={"/lideres/"}>
+              <IoGrid className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
+            </Link>
+            <Link className="text-5xl" to={"/lideres/employees"}>
+              <FaHistory className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
+            </Link>
+            <Link className="text-5xl" to={"/lideres/employees"}>
+              <IoStatsChart className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
+            </Link>
           </div>
-          <Table>
-            <TableHead className="text-gray-300 text-14 font-thin">
-              <TableRow className="flex items-center justify-around p-3 ">
-                <TableHeaderCell className="flex justify-center items-center p-0">
-                  <Text className="text-start w-8 p-0">ID</Text>
-                </TableHeaderCell>
-                <TableHeaderCell className="flex justify-center items-center p-0">
-                  <button onClick={() => handleOrderByClient()}>
-                    <Text className="text-center w-28 p-0">
-                      {headerClient()}
-                    </Text>
-                  </button>
-                </TableHeaderCell>
-                <TableHeaderCell className="flex justify-center items-center p-0">
-                  <button onClick={() => handleOrderByCategory()}>
-                    <Text className="text-center w-28 p-0">
-                      {headerCategory()}
-                    </Text>
-                  </button>
-                </TableHeaderCell>
-                <TableHeaderCell className="flex justify-center items-center p-0">
-                  <button onClick={() => handlerFilter("level")}>
-                    <Text className="text-center w-6 p-0">Nivel</Text>
-                  </button>
-                </TableHeaderCell>
-                <TableHeaderCell className="flex justify-center items-center p-0">
-                  <Text className="text-center w-6 p-0">Email</Text>
-                </TableHeaderCell>
-                <TableHeaderCell className="flex justify-center items-center p-0">
-                  <Text className="text-center w-6 p-0">Instagram</Text>
-                </TableHeaderCell>
-                <TableHeaderCell className="flex justify-center items-center p-0">
-                  <Text className="text-center w-6 p-0">Telefono</Text>
-                </TableHeaderCell>
-                <TableHeaderCell className="flex justify-center items-center p-0">
-                  <button onClick={() => handlerFilter("runner")}>
-                    <Text className="text-center w-28 p-0">Corredor</Text>
-                  </button>
-                </TableHeaderCell>
-                <TableHeaderCell className="flex justify-center items-center p-0">
-                  <button onClick={() => handlerFilter("sellers")}>
-                    <Text className="text-center w-28 p-0">Vendedor</Text>
-                  </button>
-                </TableHeaderCell>
-                <TableHeaderCell className="flex justify-center items-center p-0">
-                  <button onClick={() => handlerFilter("status")}>
-                    <Text className="text-center w-48 p-0">Estado</Text>
-                  </button>
-                </TableHeaderCell>
-              </TableRow>
-            </TableHead>
+          {filters.level === true ? (
+            <SelectLevel onChange={onChangeLevel} value={levelValue} />
+          ) : (
+            ""
+          )}
+          {filters.runner === true ? <InputRunner /> : ""}
+          {filters.sellers === true ? <InputSeller /> : ""}
+          {filters.status === true ? (
+            <SelectStatus onChange={onChangeStatus} value={statusValue} />
+          ) : (
+            ""
+          )}
+          <AddLead />
+        </div>
+        <div className="w-full">
+          <div className="text-white text-14 font-thin">
+            <div className="flex items-center justify-around p-3 ">
+              <div className="flex justify-center items-center p-0">
+                <Text className="text-start w-8 p-0 text-white">ID</Text>
+              </div>
+              <div className="flex justify-center items-center p-0">
+                <button onClick={() => handleOrderByClient()}>
+                  <Text className="text-center w-28 p-0 text-white">
+                    {headerClient()}
+                  </Text>
+                </button>
+              </div>
+              <div className="flex justify-center items-center p-0">
+                <button onClick={() => handleOrderByCategory()}>
+                  <Text className="text-center w-28 p-0 text-white">
+                    {headerCategory()}
+                  </Text>
+                </button>
+              </div>
+              <div className="flex justify-center items-center p-0">
+                <button onClick={() => handlerFilter("level")}>
+                  <Text className="text-center w-6 p-0 text-white">Nivel</Text>
+                </button>
+              </div>
+              <div className="flex justify-center items-center p-0">
+                <Text className="text-center w-6 p-0 text-white">Email</Text>
+              </div>
+              <div className="flex justify-center items-center p-0">
+                <Text className="text-center w-6 p-0 text-white">
+                  Instagram
+                </Text>
+              </div>
+              <div className="flex justify-center items-center p-0">
+                <Text className="text-center w-6 p-0 text-white">Telefono</Text>
+              </div>
+              <div className="flex justify-center items-center p-0">
+                <button onClick={() => handlerFilter("runner")}>
+                  <Text className="text-center w-28 p-0 text-white">
+                    Corredor
+                  </Text>
+                </button>
+              </div>
+              <div className="flex justify-center items-center p-0">
+                <button onClick={() => handlerFilter("sellers")}>
+                  <Text className="text-center w-28 p-0 text-white">
+                    Vendedor
+                  </Text>
+                </button>
+              </div>
+              <div className="flex justify-center items-center p-0">
+                <button onClick={() => handlerFilter("status")}>
+                  <Text className="text-center w-48 p-0 text-white">
+                    Estado
+                  </Text>
+                </button>
+              </div>
+            </div>
+          </div>
 
-            <TableBody>
-              {currentCard.map((item) => (
-                <TableRow
-                  key={item._id}
-                  className="flex items-center justify-around bg-gray-700 text-gray-400 text-sm p-3 rounded-lg h-14 my-5"
-                >
-                  <TableCell className="flex justify-center items-center p-0  ">
-                    <div className="text-ellipsis w-8  flex justify-start items-center p-0">
-                      <Text className=" opacity-1 overflow-hidden hover:overflow-visible  hover:bg-[#ffffff] hover:w-fit hover:text-black z-111 hover:absolute ">
-                        {item._id}
-                      </Text>
+          <div>
+            <ModalCient
+              open={open}
+              handleClose={handleClose}
+              name={modalItems.name}
+              category={modalItems.category}
+              level={modalItems.level}
+              email={modalItems.email}
+              instagram={modalItems.instagram}
+              telephone={modalItems.telephone}
+              status={modalItems.status}
+              city={modalItems.city}
+              province={modalItems.province}
+              corredor={modalItems.corredor}
+              vendedor={modalItems.vendedor}
+              op={modalItems.status_op}
+            />
+            {currentCard.map((item, index) => (
+              <div
+                key={item._id}
+                className="flex bg-[#39394b] text-gray-400 text-sm p-3 rounded-lg h-14 my-5"
+              >
+                <div className="w-full flex justify-around items-center">
+                  <button
+                    className="w-full flex justify-around items-center"
+                    onClick={(index) => handleOpen(item, index)}
+                  >
+                    <div className="flex justify-center items-center p-0  ">
+                      <div className="text-ellipsis w-8  flex justify-start items-center p-0 text-start">
+                        <Text className="text-white rounded-full text-ellipsis  opacity-1 overflow-hidden whitespace-nowrap hover:overflow-visible hover:bg-[#e3e1e1] hover:w-fit hover:text-black z-111 hover:absolute">
+                          {item._id}
+                        </Text>
+                      </div>
                     </div>
-                  </TableCell>
-                  <TableCell className="flex justify-center items-center p-0 ">
-                    <div className="w-28 text-ellipsis  flex justify-start items-center p-0">
-                      <Text className=" opacity-1 overflow-hidden hover:overflow-visible hover:bg-[#ffffff] hover:w-fit hover:text-black z-111 hover:absolute">
-                        {item.name}
-                      </Text>
+                    <div className="flex justify-center items-center p-0 ">
+                      <div className="w-28 text-ellipsis  flex justify-start items-center p-0">
+                        <Text className=" text-white rounded-full text-ellipsis  opacity-1 overflow-hidden whitespace-nowrap hover:overflow-visible hover:bg-[#e3e1e1] hover:w-fit hover:text-black z-111 hover:absolute">
+                          {item.name}
+                        </Text>
+                      </div>
                     </div>
-                  </TableCell>
-                  <TableCell className="flex justify-center items-center p-0">
-                    <div className="w-28 text-ellipsis  flex justify-start items-center p-0 ">
-                      <Text className=" opacity-1 overflow-hidden hover:overflow-visible hover:bg-[#ffffff] hover:w-fit hover:text-black z-111 hover:absolute">
-                        {item.category}
-                      </Text>
+                    <div className="flex justify-center items-center p-0">
+                      <div className="w-28 text-ellipsis  flex justify-start items-center p-0 ">
+                        <Text className="text-white rounded-full text-ellipsis  opacity-1 overflow-hidden whitespace-nowrap hover:overflow-visible hover:bg-[#e3e1e1] hover:w-fit hover:text-black z-111 hover:absolute">
+                          {item.category}
+                        </Text>
+                      </div>
                     </div>
-                  </TableCell>
-                  <TableCell className="flex justify-center items-center p-0">
-                    <div className="flex w-6 text-ellipsis justify-start items-center p-0 ">
-                      <Text className=" opacity-1 overflow-hidden hover:overflow-visible hover:bg-[#ffffff] hover:w-fit hover:text-black z-111 hover:absolute">
-                        {item.level}
-                      </Text>
-                    </div>
-                  </TableCell>
-                  <TableCell className="flex justify-center items-center p-0 ">
-                    <div className="flex w-6 text-ellipsis justify-start items-center p-0 ">
-                      {item.email !== "-" ? (
-                        <div className=" flex opacity-1 overflow-hidden hover:overflow-visible hover:bg-[#ffffff] hover:w-fit hover:text-black z-111 hover:absolute">
-                          <div>
-                            <CiMail className={style.mail} />
-                          </div>
-                          <Text>{item.email}</Text>
+                    <div className="flex justify-center items-center p-0 ">
+                      {item.level !== "incidencia" ? (
+                        <div className="flex w-6 text-ellipsis justify-start items-center p-0">
+                          <p className="bg-[#6254ff] text-[#ffffff] w-6 rounded flex items-center justify-center  ">
+                            {item.level}
+                          </p>
                         </div>
                       ) : (
-                        <div>
-                          <CiMail className={style.notMail} />
+                        <div className="bg-[#6254ff] text-[#e8e8e9] w-6 rounded  flex items-center justify-center text-24  ">
+                          <CiWarning className="text-[#fdfa3a] p-0  font-bold" />
                         </div>
                       )}
                     </div>
-                  </TableCell>
-                  <TableCell className="flex justify-center items-center p-0 ">
-                    <div className="flex w-6 text-ellipsis justify-start items-center p-0 ">
-                      {item.instagram !== "" ? (
-                        <div className=" flex opacity-1 overflow-hidden hover:overflow-visible hover:bg-[#ffffff] hover:w-fit hover:text-black z-111 hover:absolute">
-                          <div>
-                            <CiInstagram className={style.mail} />
+                    <div className="flex justify-center items-center p-0 ">
+                      <div className="flex w-6 text-ellipsis justify-start items-center p-0 ">
+                        {item.email !== "-" ? (
+                          <div className=" flex opacity-1 overflow-hidden whitespace-nowrap hover:overflow-visible hover:bg-[#ffffff] hover:w-fit hover:text-black z-111 hover:absolute">
+                            <div>
+                              <CiMail className={style.mail} />
+                            </div>
+                            <Text>{item.email}</Text>
                           </div>
-                          <Text>{item.instagram}</Text>
-                        </div>
+                        ) : (
+                          <div>
+                            <CiMail className={style.notMail} />
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex justify-center items-center p-0 ">
+                      <div className="flex w-6 text-ellipsis justify-start items-center p-0 ">
+                        {item.instagram !== "" ? (
+                          <div className=" flex opacity-1 overflow-hidden whitespace-nowrap hover:overflow-visible hover:bg-[#ffffff] hover:w-fit hover:text-black z-111 hover:absolute">
+                            <div>
+                              <CiInstagram className={style.ig} />
+                            </div>
+                            <Text>{item.instagram}</Text>
+                          </div>
+                        ) : (
+                          <div>
+                            <CiInstagram className={style.notIg} />
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex justify-center items-center p-0 ">
+                      <div className="flex w-6 text-ellipsis justify-start items-center p-0 ">
+                        {item.telephone !== "" ? (
+                          <div className=" flex opacity-1 overflow-hidden whitespace-nowrap hover:overflow-visible hover:bg-[#ffffff] hover:w-fit hover:text-black z-111 hover:absolute">
+                            <div>
+                              <CiPhone className={style.mail} />
+                            </div>
+                            <p className="">{item.telephone}</p>
+                          </div>
+                        ) : (
+                          <div>
+                            <CiPhone className={style.not} />
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex justify-center items-center p-0 ">
+                      <div className="w-28 text-ellipsis  flex justify-start items-center p-0">
+                        <Text className="text-white rounded-full text-ellipsis  opacity-1 overflow-hidden whitespace-nowrap hover:overflow-visible hover:bg-[#e3e1e1] hover:w-fit hover:text-black z-111 hover:absolute">
+                          {item.corredor ? item.corredor : "-"}
+                        </Text>
+                      </div>
+                    </div>
+                    <div className="flex justify-center items-center p-0 ">
+                      <div className="w-28 text-ellipsis  flex justify-start items-center p-0">
+                        <Text className="text-white rounded-full text-ellipsis  opacity-1 overflow-hidden whitespace-nowrap hover:overflow-visible hover:bg-[#e3e1e1] hover:w-fit hover:text-black z-111 hover:absolute">
+                          {item.vendedor ? item.vendedor : "-"}
+                        </Text>
+                      </div>
+                    </div>
+                    <div className="flex justify-center items-center p-0">
+                      {item.status === "Contratado" ? (
+                        <Text className="bg-[#26af7f]  text-[#1f1e1e]   px-2 py-1.5 rounded-xl text-center w-48">
+                          Contratado
+                        </Text>
                       ) : (
-                        <div>
-                          <CiInstagram className={style.notMail} />
-                        </div>
+                        ""
+                      )}
+                      {item.status === "Sin contactar" ? (
+                        <Text className="bg-[#b44f82]  text-[#e0dfdf]   px-2 py-1.5 rounded-xl text-center w-48">
+                          Sin Contactar
+                        </Text>
+                      ) : (
+                        ""
+                      )}
+
+                      {item.status === "Rechazado" ? (
+                        <Text className="bg-[#b44f82] text-[#e0dfdf] px-2 py-1.5 rounded-xl text-center w-48">
+                          Rechazado
+                        </Text>
+                      ) : (
+                        ""
                       )}
                     </div>
-                  </TableCell>
-                  <TableCell className="flex justify-center items-center p-0 ">
-                    <div className="flex w-6 text-ellipsis justify-start items-center p-0 ">
-                      {item.telephone !== "-" ? (
-                        <div className=" flex opacity-1 overflow-hidden hover:overflow-visible hover:bg-[#ffffff] hover:w-fit hover:text-black z-111 hover:absolute">
-                          <div>
-                            <CiPhone className={style.mail} />
-                          </div>
-                          <Text>{item.telephone}</Text>
-                        </div>
-                      ) : (
-                        <div>
-                          <CiPhone className={style.notMail} />
-                        </div>
-                      )}
-                    </div>
-                  </TableCell>
-                  <TableCell className="flex justify-center items-center p-0 ">
-                    <div className="w-28 text-ellipsis  flex justify-start items-center p-0">
-                      <Text className=" opacity-1 overflow-hidden hover:overflow-visible hover:bg-[#ffffff] hover:w-fit hover:text-black z-111 hover:absolute">
-                        Nombre del Corredor
-                      </Text>
-                    </div>
-                  </TableCell>
-                  <TableCell className="flex justify-center items-center p-0 ">
-                    <div className="w-28 text-ellipsis  flex justify-start items-center p-0">
-                      <Text className=" opacity-1 overflow-hidden hover:overflow-visible hover:bg-[#ffffff] hover:w-fit hover:text-black z-111 hover:absolute">
-                        Nombre del Vendedor
-                      </Text>
-                    </div>
-                  </TableCell>
-                  <TableCell className="flex justify-center items-center p-0">
-                    {item.status ? (
-                      <Text className="bg-[#26af7f]  text-[#1f1e1e]   px-2 py-1.5 rounded-xl text-center w-48">
-                        Contratado
-                      </Text>
-                    ) : (
-                      <Text className="bg-[#b44f82] text-[#e0dfdf] w-full px-2 py-1.5 rounded-xl text-center">
-                        No Contactado
-                      </Text>
-                    )}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-          <PaginationOutlined
-            pageStyle={pageStyle}
-            setPageStyle={setPageStyle}
-            cardXPage={cardXPage}
-            data={data}
-            pages={pages}
-            current={currentPage}
-          />
-        </Card>
-      </div>
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <PaginationOutlined
+          pageStyle={pageStyle}
+          setPageStyle={setPageStyle}
+          cardXPage={cardXPage}
+          data={data}
+          pages={pages}
+          current={currentPage}
+        />
+      </Card>
     </>
   );
 };

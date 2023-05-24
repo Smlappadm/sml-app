@@ -30,17 +30,9 @@ const VendedorSchema = new mongoose.Schema(
     description: {
       type: String,
     },
-    leads_contacted: {
-      type: String,
-    },
-    hired_leads: {
-      type: String,
-    },
-    declined_leads: {
-      type: String,
-    },
-    unanswered_leads: {
-      type: String,
+    leads: {
+      type:Array,
+      default: []
     },
     rol: {
       type: String,

@@ -4,30 +4,22 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import PaginationOutlined from "../../pagination/PaginationOutlined";
 import { filterLevel, getLeadCheckedInactive100 } from "../../../redux/actions";
-import { SiGooglemaps } from "react-icons/si";
-import { AiOutlinePhone, AiTwotonePhone } from "react-icons/ai";
+import { AiOutlinePhone} from "react-icons/ai";
 import Modal from "./Modal/Modal";
-import { FaRegEdit } from "react-icons/fa";
-import { BiEdit } from "react-icons/bi";
-import { IoGrid, IoStatsChart } from "react-icons/io5";
+import { IoGrid, IoStatsChart} from "react-icons/io5";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { FaHistory } from "react-icons/fa";
+import {MdOutlineAttachMoney } from "react-icons/md";
+import SelectLevel from "./SelectLevel"
 
-import {
-  CiGlobe,
-  CiWarning,
-  CiInstagram,
-  CiMail,
-  CiEdit,
-} from "react-icons/ci";
-import { AiOutlineSend } from "react-icons/ai";
-import { IoIosClose } from "react-icons/io";
+import { CiWarning, CiInstagram, CiMail } from "react-icons/ci";
 
 import Nav from "../../Nav/Nav";
 
 const VendedoresDashboard = () => {
   const [data, setData] = useState([]);
-  const { leadCheckedInactive100 } = useSelector((state) => state);
+  const { vendedoresDashboard } = useSelector((state) => state);
   const dispatch = useDispatch();
   const [showCopiedMessage, setShowCopiedMessage] = useState(false);
 
@@ -35,9 +27,8 @@ const VendedoresDashboard = () => {
     dispatch(getLeadCheckedInactive100());
   }, [dispatch]);
   useEffect(() => {
-    setData(leadCheckedInactive100);
-  }, [leadCheckedInactive100]);
-
+    setData(vendedoresDashboard);
+  }, [vendedoresDashboard]);
 
   const [pageStyle, setPageStyle] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
@@ -75,7 +66,7 @@ const VendedoresDashboard = () => {
   const onChangeLevel = (value) => {
     setLevelValue(value);
     dispatch(filterLevel(value));
-    setData(leadCheckedInactive100);
+    setData(vendedoresDashboard);
     setCurrentPage(1);
   };
   //********************************* */
@@ -137,70 +128,77 @@ const VendedoresDashboard = () => {
   };
   const updateLeads = () => {
     dispatch(getLeadCheckedInactive100());
-    setData(leadCheckedInactive100);
+    setData(vendedoresDashboard);
   };
 
   return (
     <>
       <Nav />
 
-      {leadCheckedInactive100.length ? (
-        <div className="flex flex-col justify-between items-center w-screen  z-0">
-          {showCopiedMessage && (
-            <p className="mt-2 p-3 bg-[#b9b9b978] text-white rounded-md absolute">
-              Copiado al portapapeles
-            </p>
-          )}
+      <div className="flex flex-col justify-between items-center w-screen  z-0">
+        {showCopiedMessage && (
+          <p className="mt-2 p-3 bg-[#b9b9b978] text-white rounded-md absolute">
+            Copiado al portapapeles
+          </p>
+        )}
 
-          <div className="w-full flex flex-col justify-center items-center">
-            <div className={style.divTitle}>
-              <h1 className="font-bold text-[#e2e2e2] text-lg mx-5 mt-2">
-                Dashboard
-              </h1>
-              <div className="flex gap-5">
-                <Link to={"/vendedores"}>
-                  <IoGrid className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
-                </Link>
-                <Link className="text-5xl" to={"/vendedores/analytics"}>
-                  <IoStatsChart className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
-                </Link>
-              </div>
-              {filters.level === true ? (
-                <select
-                  name="level"
-                  id="level"
-                  onChange={(event) => {
-                    onChangeLevel(event.target.value);
-                  }}
-                  className="w-1/5 text-center bg-transparent border border-white rounded-md p-1 absolute left-[40%] "
-                >
-                  <option value="" disabled selected className="bg-[#222131]">
-                    Seleccione un nivel
-                  </option>
-                  <option value="0" className="bg-[#222131]">
-                    0
-                  </option>
-                  <option value="1" className="bg-[#222131]">
-                    1
-                  </option>
-                  <option value="2" className="bg-[#222131]">
-                    2
-                  </option>
-                  <option value="incidencia" className="bg-[#222131]">
-                    Incidencia
-                  </option>
-                </select>
-              ) : (
-                ""
-              )}
+        <div className="w-full flex flex-col justify-center items-center">
+          <div className={style.divTitle}>
+            <h1 className="font-bold text-[#e2e2e2] w-28 text-lg mx-5 mt-2">
+              Dashboard
+            </h1>
+            <div className="flex gap-7">
+              <Link to={"/vendedores"}>
+                <IoGrid className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
+              </Link>
+              <Link to={"/vendedores-ventas"}>
+                <MdOutlineAttachMoney className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
+              </Link>
+              <Link className="text-5xl" to={"/vendedores-history"}>
+                <FaHistory className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
+              </Link>
+              <Link className="text-5xl" to={"/vendedores-analytics"}>
+                <IoStatsChart className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
+              </Link>
             </div>
+            {filters.level === true ? (
+            <SelectLevel onChange={onChangeLevel} value={levelValue} />
+
+              // <select
+              //   name="level"
+              //   id="level"
+              //   onChange={(event) => {
+              //     onChangeLevel(event.target.value);
+              //   }}
+              //   className="w-1/5 text-center bg-transparent border border-white rounded-md p-1 absolute left-[40%] "
+              // >
+              //   <option value="" disabled selected className="bg-[#222131]">
+              //     Seleccione un nivel
+              //   </option>
+              //   <option value="0" className="bg-[#222131]">
+              //     0
+              //   </option>
+              //   <option value="1" className="bg-[#222131]">
+              //     1
+              //   </option>
+              //   <option value="2" className="bg-[#222131]">
+              //     2
+              //   </option>
+              //   <option value="incidencia" className="bg-[#222131]">
+              //     Incidencia
+              //   </option>
+              // </select>
+            ) : (
+              ""
+            )}
+          </div>
+          {vendedoresDashboard.length ? (
             <table className={style.table}>
               <thead className="text-gray-400 text-14 font-thin">
                 <tr className={style.tableRow}>
-                  <th className="text-start">Invoice Id</th>
-                  <th className="text-start">Name</th>
-                  <th className="text-start">Profesion</th>
-                  <th className="text-start">Country</th>
+                  <th className="text-start">Nombre</th>
+                  <th className="text-start">Sector</th>
+                  <th className="text-start">País</th>
                   <th className="text-start">Email</th>
                   <th className="text-start">Instagram</th>
                   <th className="text-start">Phone</th>
@@ -217,13 +215,8 @@ const VendedoresDashboard = () => {
               <tbody className="">
                 {currentCard.map((item, index) => (
                   <tr key={item._id} className={style.tableCards}>
-                    <td className="flex justify-start items-center p-0 w-fit">
-                      <div className="w-24 p-1 px-3 rounded-full text-ellipsis text-18 opacity-1 overflow-hidden whitespace-nowrap hover:overflow-visible hover:bg-[#e3e1e1] hover:w-fit hover:text-black z-111 hover:absolute">
-                        {item._id}
-                      </div>
-                    </td>
                     <td className="flex justify-start items-center  p-0 w-fit">
-                      <p className="w-52 p-1 px-3 rounded-full text-ellipsis text-18 opacity-1 overflow-hidden whitespace-nowrap hover:overflow-visible hover:bg-[#e3e1e1] hover:w-fit hover:text-black z-111 hover:absolute">
+                      <p className="w-64 p-1 px-3 rounded-full text-ellipsis text-18 opacity-1 overflow-hidden whitespace-nowrap hover:overflow-visible hover:bg-[#e3e1e1] hover:w-fit hover:text-black z-111 hover:absolute">
                         {item.name}
                       </p>
                     </td>
@@ -233,8 +226,8 @@ const VendedoresDashboard = () => {
                       </p>
                     </td>
 
-                    <td className="flex justify-center items-center p-0 w-fit">
-                      <p className="w-24 p-1 px-3 rounded-full text-ellipsis text-18 opacity-1 overflow-hidden whitespace-nowrap hover:overflow-visible hover:bg-[#e3e1e1] hover:w-fit hover:text-black z-111 hover:absolute">
+                    <td className="flex justify-start items-center p-0 w-fit">
+                      <p className="text-start w-24 p-1 px-3 rounded-full text-ellipsis text-18 opacity-1 overflow-hidden whitespace-nowrap hover:overflow-visible hover:bg-[#e3e1e1] hover:w-fit hover:text-black z-111 hover:absolute">
                         {item.province}
                       </p>
                     </td>
@@ -243,7 +236,7 @@ const VendedoresDashboard = () => {
                       {item.email !== "-" ? (
                         <div onClick={() => handleCopyClick(item.email)}>
                           <div className="cursor-pointer">
-                            <CiMail className="text-[35px] mr-5 text-[#418df0]" />
+                            <CiMail className="text-[35px] mr-5 text-[#418df0] z-0" />
                           </div>
                         </div>
                       ) : (
@@ -266,17 +259,9 @@ const VendedoresDashboard = () => {
                       )}
                     </td>
                     <td className="flex justify-start items-center p-0 w-fit">
-                      {item.telephone ? (
-                        <div onClick={() => handleCopyClick(item.telephone)}>
-                          <div className="cursor-pointer">
-                            <AiOutlinePhone className="text-[35px] mr-5 text-[#418df0]" />
-                          </div>
-                        </div>
-                      ) : (
-                        <div>
-                          <AiOutlinePhone className="text-[35px] mr-5 text-[#9eabbe]" />
-                        </div>
-                      )}
+                    <p onClick={() => handleCopyClick(item.telephone)} className="text-start w-44 p-1 cursor-pointer px-3 rounded-full text-ellipsis text-18 opacity-1 overflow-hidden whitespace-nowrap hover:overflow-visible hover:bg-[#e3e1e1] hover:w-fit hover:text-black z-111 hover:absolute">
+                        {item.telephone}
+                      </p>
                     </td>
                     <td className="flex justify-start items-center p-0 w-fit">
                       {item.level !== "incidencia" ? (
@@ -290,8 +275,14 @@ const VendedoresDashboard = () => {
                       )}
                     </td>
                     <td className="flex justify-start items-start p-0 w-fit">
-                      {item.status !== "Contratado" && (
-                        <p className="bg-[#e95ea3] w-44 h-11 flex justify-center items-center text-white rounded-3xl text-18">
+                      {item.status === "Sin contactar" && (
+                        <p className="bg-[#ff69b4] w-44 h-11 flex justify-center items-center text-white rounded-3xl text-18">
+                          {item.status}
+                        </p>
+                      )}
+                      {item.status === "No responde" && (
+                        // <p className="bg-[#b4215e] w-44 h-11 flex justify-center items-center text-white rounded-3xl text-18">
+                        <p className="bg-[#2148b4] w-44 h-11 flex justify-center items-center text-white rounded-3xl text-18">
                           {/* bg-[#ff69b4]  */}
                           {item.status}
                         </p>
@@ -310,26 +301,26 @@ const VendedoresDashboard = () => {
                 ))}
               </tbody>
             </table>
-          </div>
-          {pages.length > 1 && (
-            <div className="mb-5">
-              <PaginationOutlined
-                pageStyle={pageStyle}
-                setPageStyle={setPageStyle}
-                cardXPage={cardXPage}
-                data={data}
-                pages={pages}
-                current={currentPage}
-              />
+          ) : (
+            <div className="flex items-center justify-center w-full h-screen">
+              <h1>LEADS NOT FOUND...</h1>
             </div>
           )}
-          <ToastContainer />
         </div>
-      ) : (
-        <div className="flex items-center justify-center w-full h-screen">
-          <h1>LEADS NOT FOUND...</h1>
-        </div>
-      )}
+        {data.length > 10 && (
+          <div className="mb-5">
+            <PaginationOutlined
+              pageStyle={pageStyle}
+              setPageStyle={setPageStyle}
+              cardXPage={cardXPage}
+              data={data}
+              pages={pages}
+              current={currentPage}
+            />
+          </div>
+        )}
+        <ToastContainer />
+      </div>
     </>
   );
 };

@@ -7,6 +7,8 @@ const updateLeadById = require("../controllers/Lead/updateLeadById");
 const getLeadUnchecked = require("../controllers/Lead/getLeadUnchecked");
 const getLeadCheckedInactive100 = require("../controllers/Lead/getLeadCheckedInactive100");
 const getLead10Unchecked = require("../controllers/Lead/getLead10Unchecked");
+const updateLeadVendedorById = require("../controllers/Lead/updateLeadVendedorById");
+const getLeadVendedorById = require("../controllers/Lead/getLeadVendedorById");
 
 const getAllLeadHandler = async (req, res) => {
   try {
@@ -53,7 +55,6 @@ const getLeadCheckedInactive100Handler = async (req, res) => {
 
 const postLeadHandler = async (req, res) => {
   const data = req.body;
-  console.log(data);
   try {
     const lead = await postLead(data);
     res.status(200).json(data);
@@ -67,6 +68,16 @@ const updateLeadHandler = async (req, res) => {
     const id = req.params.id;
     const updatedData = req.body;
     const lead = await updateLeadById(id, updatedData);
+    res.status(200).json(lead);
+  } catch (error) {
+    res.status(404).json({ error: error.message });
+  }
+};
+const updateLeadVendedorHandler = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const updatedData = req.body;
+    const lead = await updateLeadVendedorById(id, updatedData);
     res.status(200).json(lead);
   } catch (error) {
     res.status(404).json({ error: error.message });
@@ -94,6 +105,16 @@ const getLeadByIdHandler = async (req, res) => {
     res.status(404).json({ error: error.message });
   }
 };
+const getLeadVendedorHandler = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const updatedData = req.body;
+    const lead = await getLeadVendedorById(id, updatedData);
+    res.status(200).json(lead);
+  } catch (error) {
+    res.status(404).json({ error: error.message });
+  }
+};
 
 module.exports = {
   getAllLeadHandler,
@@ -105,4 +126,6 @@ module.exports = {
   getLead10UncheckedHandler,
   getLeadByIdHandler,
   getLeadByNameHandler,
+  updateLeadVendedorHandler,
+  getLeadVendedorHandler,
 };
