@@ -13,6 +13,11 @@ import {
   getAllLeader,
   getAllVendedores,
 } from "../../../../../redux/actions";
+import {
+  useUser,
+  useOrganization,
+  useOrganizationList,
+} from "@clerk/clerk-react";
 
 const style = {
   position: "absolute",
@@ -38,6 +43,7 @@ function ChildModal({
 }) {
   const [open, setOpen] = React.useState(false);
   const dispatch = useDispatch();
+  const user = useUser().user;
   const handleOpen = () => {
     setOpen(true);
   };
@@ -87,16 +93,15 @@ function ChildModal({
       CreateEmployees(inputName);
       console.log(response.data);
 
-      // const emailData = {
-      //   clientName: client[i].name,
-      //   recipientEmail: inputEmail,
-      //   message: `Bienvenido a la empresa ${inputName}, su mail es ${inputEmail} y su contraseña es ${selectEmployees}`,
-      // };
+      const emailData = {
+         clientName: user.fullName,
+         recipientEmail: user.emailAddresses[0].emailAddress,
+       };
 
-      // await axios.post(
-      //   "/corredor/sendmail",
-      //   emailData
-      // );
+       await axios.post(
+         "/corredor/sendmail",
+         emailData
+       );
     } catch (error) {
       ErrorCreateEmployees(inputName);
       console.log(`No se pudo enviar el post de ${selectEmployees}`);
