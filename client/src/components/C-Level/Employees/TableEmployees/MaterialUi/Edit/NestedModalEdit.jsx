@@ -80,16 +80,29 @@ function ChildModalDelete({
     dispatch(getAllClevel());
     setOpen(false);
   };
-
+  const user = useUser().user;
+  const employees = useSelector(state => state.employees);
+  if (!user || !user.emailAddresses || user.emailAddresses.length === 0) {
+    return <div>Loading...</div>;
+  }
+  const email = user.emailAddresses[0].emailAddress;
+  const rol = () => {
+    const employee = employees.find(employees => employees.email === email);
+    if (employee) {
+      return employee.rol;
+    }
+    return null;
+  };
   return (
     <React.Fragment>
-      <Button
+      {rol() !== "leader" && <Button
         variant="contained"
         sx={{ marginTop: "2rem" }}
         onClick={handleOpen}
       >
         Delete Employ
-      </Button>
+      </Button>}
+
       <Modal
         open={open}
         onClose={handleCreate}
