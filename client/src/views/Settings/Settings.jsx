@@ -5,6 +5,8 @@ import {
 useOrganization,
 useOrganizationList,
 } from "@clerk/clerk-react";
+import { Container, FormGroup, Input } from 'reactstrap'
+import { useState } from 'react';
 
 export default function Settings() {
 const user= useUser().user;
@@ -14,9 +16,44 @@ const orgList= useOrganizationList();
 console.log(user);
 console.log(org);
 console.log(orgList.organizationList[0]);
+
+const [image, setImage] = useState("");
+const [loading, setLoading] = useState(false);
+
+const upLoadImage = async (e) => {
+  const files = e.target.files;
+  const data = new FormData();
+  data.append("file", files[0]);
+  data.append("upload_preset", "sml-app");
+  setLoading(true);
+  const res = await fetch(
+    "https://api.cloudinary.com/v1_1/dfbafogea/image/upload",
+    {
+      method: "POST",
+      body: data,
+    }
+  )
+  const file = await res.json();
+  console.log(res)
+  setImage(file.secure_url)
+  setLoading(false)
+}
   return (
 
     <>
+    <Container>
+      <h1>
+        subiendo imagen
+      </h1>
+      <FormGroup>
+        <Input
+          type='file'
+          name='file'
+          placeholder='sube tu imagen aqui'
+          onChange={(e) => upLoadImage(e)}
+        />
+      </FormGroup>
+    </Container>
       <Nav />
       {(
         <div className="flex justify-center items-center w-full">
