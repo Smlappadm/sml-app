@@ -24,6 +24,8 @@ import Clevel from "./components/C-Level/Clevel";
 import Analytic from "./components/C-Level/Analytics/Analytic";
 import Incidences from "./components/Lideres/incidences/incidencias";
 import { useSelector } from "react-redux";
+import { useState } from "react";
+import { useEffect } from "react";
 
 if (!"pk_test_ZmFtb3VzLWRyYWdvbi0xMi5jbGVyay5hY2NvdW50cy5kZXYk") {
   throw new Error("Missing Publishable Key");
@@ -51,9 +53,26 @@ function ProtectedPage() {
 function ClerkProviderWithRoutes() {
   const navigate = useNavigate();
 
-  const role = useSelector(state => state.rol);
-  const access = useSelector(state => state.isEmployee);
+   const roleReady = useSelector(state => state.rol);
+  // const [roleReady, setRoleReady] = useState(null);
 
+  // useEffect(() => {
+  //   const fetchRole = async () => {
+  //     await new Promise((resolve) => setTimeout(resolve, 3000)); // Esperar 3 segundos
+
+  //     const role = roles; // Obtener el valor de role (puedes reemplazar esto con tu lógica real)
+
+  //     setRoleReady(role); // Establecer roleReady con el valor de role después de 3 segundos
+  //   };
+
+  //   fetchRole();
+  // }, []);
+
+  // if (roleReady === null) {
+  //   return <h1>cargando</h1>; // Renderizar algo mientras roleReady sea null (puede ser un mensaje de carga, por ejemplo)
+  // }
+
+   console.log(roleReady);
   return (
     <ClerkProvider publishableKey={clerkPubKey} navigate={(to) => navigate(to)}>
       <Routes>
@@ -69,18 +88,18 @@ function ClerkProviderWithRoutes() {
         <Route path="*" element={<h1>error 404</h1>} />
         <Route path="/home" element={ <Landing />} />
         <Route path="/" element={<Login />} />
-        <Route path="/lideres" element={role === "clevel" || role === "leader" ? <AnalyticLeader /> : <h1>error 404</h1>} />
-        <Route path="/lideres/analytics" element={role === "clevel" || role === "leader" ? <AnalyticLeader /> : <h1>error 404</h1>} />
-        <Route path="/lideres/analytics/incidences" element={role === "clevel" || role === "leader" ? <Incidences /> : <h1>error 404</h1>} />
-        <Route path="/clevel" element={role === "clevel" || role === "leader" ? <Clevel /> : <h1>error 404</h1>} />
-        <Route path="/clevel/analytics" element={role === "clevel" || role === "leader" ? <Analytic /> : <h1>error 404</h1>} />
-        <Route path="/corredores" element={role === "corredor" || role === "clevel" || role === "leader" ? <CorredoresDashboard /> : <h1>error 404</h1>} />
-        <Route path="/corredores/history" element={role === "corredor" || role === "clevel" || role === "leader" ? <CorredoresAnlaytics /> : <h1>error 404</h1>} />
+        <Route path="/lideres" element={roleReady === "clevel" || roleReady === "leader" ? <AnalyticLeader /> : <h1>error 404</h1>} />
+        <Route path="/lideres/analytics" element={roleReady === "clevel" || roleReady === "leader" ? <AnalyticLeader /> : <h1>error 404</h1>} />
+        <Route path="/lideres/analytics/incidences" element={roleReady === "clevel" || roleReady === "leader" ? <Incidences /> : <h1>error 404</h1>} />
+        <Route path="/clevel" element={roleReady === "clevel" || roleReady === "leader" ? <Clevel /> : <h1>error 404</h1>} />
+        <Route path="/clevel/analytics" element={roleReady === "clevel" || roleReady === "leader" ? <Analytic /> : <h1>error 404</h1>} />
+        <Route path="/corredores" element={roleReady === "corredor" || roleReady === "clevel" || roleReady === "leader" ? <CorredoresDashboard /> : <h1>error 404</h1>} />
+        <Route path="/corredores/history" element={roleReady === "corredor" || roleReady === "clevel" || roleReady === "leader" ? <CorredoresAnlaytics /> : <h1>error 404</h1>} />
         <Route path="/analytics" element={<Analytics />} />
         <Route path="/settings" element={<Settings />} />
-        <Route path="/vendedores" element={role === "vendedor" || role === "clevel" || role === "leader" ? <VendedoresDashboard /> : <h1>error 404</h1>} />
-        <Route path="/vendedores/history" element={role === "vendedor" || role === "clevel" || role === "leader" ? <VendedoresHistory /> : <h1>error 404</h1>} />
-        <Route path="/vendedores/analytics" element={role === "vendedor" || role === "clevel" || role === "leader" ? <VendedoresAnalytics /> : <h1>error 404</h1>} />
+        <Route path="/vendedores" element={roleReady === "vendedor" || roleReady === "clevel" || roleReady === "leader" ? <VendedoresDashboard /> : <h1>error 404</h1>} />
+        <Route path="/vendedores/history" element={roleReady === "vendedor" || roleReady === "clevel" || roleReady === "leader" ? <VendedoresHistory /> : <h1>error 404</h1>} />
+        <Route path="/vendedores/analytics" element={roleReady === "vendedor" || roleReady === "clevel" || roleReady === "leader" ? <VendedoresAnalytics /> : <h1>error 404</h1>} />
         <Route
           path="/protected"
           element={
