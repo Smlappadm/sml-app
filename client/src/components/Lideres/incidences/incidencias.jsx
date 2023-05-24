@@ -163,7 +163,7 @@ const Incidences = () => {
           ) : (
             ""
           )}
-          <button className="bg-blue-500 w-44 h-9 flex justify-center items-center text-white rounded-md text-10">SEND</button>
+          
         </div>
         <table className="w-full">
           <div className="text-white text-14 font-thin">
