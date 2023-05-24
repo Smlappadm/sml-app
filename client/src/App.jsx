@@ -54,7 +54,7 @@ function ClerkProviderWithRoutes() {
   const role = useSelector((state) => state.rol);
 
   function isRoleAllowed(role) {
-    const allowedRoles = ["vendedor", "clevel", "leader"];
+    const allowedRoles = ["vendedor", "clevel", "leader","corredor"];
     return allowedRoles.includes(role);
   }
 
