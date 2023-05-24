@@ -14,6 +14,9 @@ export const GET_ALL_VENDEDORES = "GET_ALL_VENDEDORES";
 export const GET_ALL_LEADER = "GET_ALL_LEADER";
 export const GET_ALL_CLEVEL = "GET_ALL_CLEVEL";
 export const GET_VENDEDOR_ALL_LEADS = "GET_VENDEDOR_ALL_LEADS";
+export const GET_EMPLOYEES = "GET_EMPLOYEES";
+export const SET_ROL = "SET_ROL";
+export const SET_ACCESS = "SET_ACCESS";
 
 export const getAllLead = () => {
   return async (dispatch) => {
@@ -83,6 +86,23 @@ export const getLeadCheckedInactive100 = () => {
       type: GET_LEAD_CHEQUED_INACTIVE_100,
       payload: LeadCheckedInactive100,
     });
+  };
+};
+
+export const getEmployees = employees => ({
+  type: GET_EMPLOYEES,
+  payload: employees,
+});
+export const setRol = (rol) => {
+  return {
+    type: SET_ROL,
+    payload: rol
+  };
+};
+export const setAccess = (access) => {
+  return {
+    type: SET_ACCESS,
+    payload: access,
   };
 };
 
