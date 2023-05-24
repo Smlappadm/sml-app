@@ -10,7 +10,7 @@ const postLead = async (data) => {
         province: Province,
         url: Url ? Url : "-",
         telephone: Telephone ? Telephone : "-",
-        email: email ? email : "-",
+        email: email ? email : "",
         instagram: "",
         level: "-",
         status: "Sin contactar",

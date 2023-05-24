@@ -13,6 +13,7 @@ const updateLeadVendedorById = async (id, updatedData) => {
   // console.log(VendedorArrays);
 
   const leadCountCheck = await Lead.findById(id);
+
   if (
     updatedData.dataLead.status === "No responde" &&
     leadCountCheck.llamados < 2
@@ -35,16 +36,17 @@ const updateLeadVendedorById = async (id, updatedData) => {
   });
 
 
-
+  
   const valor = updatedData.dataVendedor;
-
+  
   const vendedor = await Vendedor.findOneAndUpdate(
-    { email: updatedData.dataLead.vendedor, "leads.lead": valor.lead },
+    { email: updatedData.dataLead.vendedor, "leads.name": valor.name },
     { $set: { "leads.$": valor } },
     { new: true }
-  );
-
-  if (!vendedor) {
+    );
+    
+    if (!vendedor) {
+    console.log("entranding")
     const vendedor = await Vendedor.findOneAndUpdate(
       { email: updatedData.dataLead.vendedor },
       { $addToSet: { leads: { $each: [valor] } } },

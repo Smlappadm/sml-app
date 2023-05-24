@@ -1,20 +1,19 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { IntlProvider } from "react-intl";
 import { Provider } from "react-redux";
-import store from "./redux/store"
+import store from "./redux/store";
+import axios from "axios";
 
-//comnetarioaosiorisoirosi
-// axios.defaults.baseURL = "https://henry-food-api-production.up.railway.app/";
-// axios.defaults.baseURL = "https://sml-app-api.onrender.com";
-
+// axios.defaults.baseURL = "http://localhost:3001";
+//axios.defaults.baseURL = "https://sml-app-api.onrender.com";
+axios.defaults.baseURL = "https://sml-app.com/api";
 
 const container = document.getElementById("root");
-const root = createRoot(container); // createRoot(container!) if you use TypeScript
+const root = createRoot(container);
 root.render(
   <IntlProvider locale="en-US" massages={{}}>
     <Provider store={store}>
@@ -24,4 +23,3 @@ root.render(
     </Provider>
   </IntlProvider>
 );
-

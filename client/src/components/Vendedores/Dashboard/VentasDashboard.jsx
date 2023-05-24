@@ -1,23 +1,23 @@
-import style from "./VendedoresDashboard.module.css";
+import style from "./VentasDashboard.module.css";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import PaginationOutlined from "../../pagination/PaginationOutlined";
 import { filterLevel, getLeadCheckedInactive100 } from "../../../redux/actions";
-import { AiOutlinePhone} from "react-icons/ai";
+import { AiOutlinePhone } from "react-icons/ai";
 import Modal from "./Modal/Modal";
-import { IoGrid, IoStatsChart} from "react-icons/io5";
+import { IoGrid, IoStatsChart } from "react-icons/io5";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaHistory } from "react-icons/fa";
-import {MdOutlineAttachMoney } from "react-icons/md";
-import SelectLevel from "./SelectLevel"
+import { MdOutlineAttachMoney } from "react-icons/md";
+import SelectLevel from "./SelectLevel";
 
 import { CiWarning, CiInstagram, CiMail } from "react-icons/ci";
 
 import Nav from "../../Nav/Nav";
 
-const VendedoresDashboard = () => {
+const VentasDashboard = () => {
   const [data, setData] = useState([]);
   const { vendedoresDashboard } = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -162,8 +162,8 @@ const VendedoresDashboard = () => {
               </Link>
             </div>
             {filters.level === true ? (
-            <SelectLevel onChange={onChangeLevel} value={levelValue} />
-
+              <SelectLevel onChange={onChangeLevel} value={levelValue} />
+            ) : (
               // <select
               //   name="level"
               //   id="level"
@@ -188,7 +188,6 @@ const VendedoresDashboard = () => {
               //     Incidencia
               //   </option>
               // </select>
-            ) : (
               ""
             )}
           </div>
@@ -259,7 +258,10 @@ const VendedoresDashboard = () => {
                       )}
                     </td>
                     <td className="flex justify-start items-center p-0 w-fit">
-                    <p onClick={() => handleCopyClick(item.telephone)} className="text-start w-44 p-1 cursor-pointer px-3 rounded-full text-ellipsis text-18 opacity-1 overflow-hidden whitespace-nowrap hover:overflow-visible hover:bg-[#e3e1e1] hover:w-fit hover:text-black z-111 hover:absolute">
+                      <p
+                        onClick={() => handleCopyClick(item.telephone)}
+                        className="text-start w-44 p-1 cursor-pointer px-3 rounded-full text-ellipsis text-18 opacity-1 overflow-hidden whitespace-nowrap hover:overflow-visible hover:bg-[#e3e1e1] hover:w-fit hover:text-black z-111 hover:absolute"
+                      >
                         {item.telephone}
                       </p>
                     </td>
@@ -325,4 +327,4 @@ const VendedoresDashboard = () => {
   );
 };
 
-export default VendedoresDashboard;
+export default VentasDashboard;

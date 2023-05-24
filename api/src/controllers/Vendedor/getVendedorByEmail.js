@@ -1,8 +1,8 @@
 const Vendedor = require('../../models/Vendedor');
 
-const getVendedorByName = async (email) => {
-	const vendedor = await Vendedor.find(email);
+const getVendedorByEmail = async (email) => {
+	const vendedor = await Vendedor.findOne({ email: email });
 	return vendedor;
 };
 
-module.exports = getVendedorByName;
+module.exports = getVendedorByEmail;

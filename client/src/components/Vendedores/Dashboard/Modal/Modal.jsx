@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { CiWarning, CiEdit } from "react-icons/ci";
 import { useUser } from "@clerk/clerk-react";
-
+import { orderCategory } from "../../../../redux/actions";
 
 const style = {
   position: "absolute",
@@ -46,15 +46,29 @@ function ChildModal({
     let dataVendedor = {};
     if (statusObj.status === "No responde") {
       dataVendedor = {
-        lead: item.name,
+        name: item.name,
         status: statusObj.status,
         status_op: statusObj.status_op,
+        province: item.province,
+        category: item.category,
+        telephone: item.telephone,
+        url: item.url,
+        instagram: item.instagram,
+        level: item.level,
+
+        
       };
     } else {
       dataVendedor = {
-        lead: item.name,
+        name: item.name,
         status: statusObj.status,
         status_op: statusObj.status_op,
+        province: item.province,
+        category: item.category,
+        telephone: item.telephone,
+        url: item.url,
+        instagram: item.instagram,
+        level: item.level,
       };
     }
 
@@ -72,9 +86,12 @@ function ChildModal({
       dataLead,
       dataVendedor,
     };
-
+console.log(dataUpdate)
     axios
-      .put(`https://sml-app-api.onrender.com/lead/vendedor/${item._id}`, dataUpdate)
+      .put(
+        `/lead/vendedor/${item._id}`,
+        dataUpdate
+      )
       .then((response) => {
         // Si la respuesta es exitosa, redirige a otra página
         if (response.data.title) {
@@ -294,7 +311,8 @@ export default function NestedModal({
     let fechaYear = "";
     let fechaMonth = "";
     let fechaDay = "";
-    let time = "";
+    let timeHour = "";
+    let timeMinute = "";
     for (let i = 0; i < item.updatedAt.length; i++) {
       if (i < 4) {
         fechaYear += item.updatedAt[i];
@@ -303,14 +321,17 @@ export default function NestedModal({
       } else if (i >= 8 && i < 10) {
         fechaDay += item.updatedAt[i];
       }
-      if (i >= 11 && i < 19) {
-        time += item.updatedAt[i];
+      else if (i >= 11 && i < 13) {
+        timeHour += item.updatedAt[i];
+      }
+      if (i >= 13 && i < 19) {
+        timeMinute += item.updatedAt[i];
       }
     }
 
     return (
       <p htmlFor="" className="text-white m-2">
-        {`Date: ${fechaDay}/${fechaMonth}/${fechaYear} - Hour: ${time}`}
+        {`Date: ${fechaDay}/${fechaMonth}/${fechaYear} - Hour: ${timeHour-3}${timeMinute}`}
       </p>
     );
   };
@@ -415,7 +436,7 @@ export default function NestedModal({
                 {/* <option selected>Choose a country</option> */}
                 <option value="Sin contactar">Sin Contactar</option>
                 <option value="Contratado">Contratado</option>
-                <option value="Rechazado">Rechazadado</option>
+                <option value="Rechazado">Rechazado</option>
                 <option value="No responde">No Responde</option>
               </select>
             </div>

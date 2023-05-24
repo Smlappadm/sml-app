@@ -39,7 +39,7 @@ const status = {
   instagram: instagram.value,
   level:level.value,
   }
-  await axios.put('https://sml-app-api.onrender.com/:id', fixed)
+  await axios.put('/:id', fixed)
  }
 
 

@@ -10,8 +10,8 @@ import VendedoresDashboard from "./components/Vendedores/Dashboard/VendedoresDas
 import { AnalyticLeader } from "./components/Lideres/Analytic/AnalyticLeader";
 import CorredoresAnlaytics from "./components/Corredores/Analitycs/CorredoresAnalytics";
 import VendedoresHistory from "./components/Vendedores/analytics/VendedoresHistory";
+import VentasDashboard from "./components/Vendedores/Dashboard/VentasDashboard";
 import VendedoresAnalytics from "./components/Vendedores/analytics/VendedoresAnalytics";
-import { useSelector } from "react-redux";
 import {
   ClerkProvider,
   SignedIn,
@@ -142,7 +142,7 @@ function ClerkProviderWithRoutes() {
         <Route
           path="/vendedores"
           element={
-            isRoleAllowed(role) ? <VendedoresDashboard /> : <ReturnToPage />
+            isRoleAllowed(role) ? <VentasDashboard/> : <ReturnToPage />
           }
         />
         <Route
