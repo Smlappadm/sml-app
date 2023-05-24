@@ -72,8 +72,8 @@ export default function BasicModal(props) {
     }))
   }
   
-  const stringId = JSON.stringify(_id);
-
+  console.log(url)
+ console.log(_id)
   const handleFixClick = () => {
     const updatedData = {
       email: filledEmail,
@@ -83,7 +83,7 @@ export default function BasicModal(props) {
     }
 
     axios
-      .put(`lead/${stringId}`, updatedData)
+      .put(`lead/${_id}`, updatedData)
       .then((response) => {
         console.log("Datos actualizados correctamente:", response.data)
       })
