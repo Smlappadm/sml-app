@@ -70,12 +70,9 @@ const CorredoresDashboard = () => {
     console.log("Enviado el view");
     try {
       for (let i = 0; i < leadUnchecked10.length; i++) {
-        const response = await axios.put(
-          `/lead/${client[i]._id}`,
-          {
-            view: client[i].view,
-          }
-        );
+        const response = await axios.put(`/lead/${client[i]._id}`, {
+          view: client[i].view,
+        });
         console.log(response.data);
       }
       console.log("view seteados");
@@ -196,19 +193,16 @@ const CorredoresDashboard = () => {
             client[i].instagram.trim() === "" &&
             (client[i].level === "incidencia" || client[i].level === "0")
           ) {
-            const response = await axios.put(
-              `/lead/${client[i]._id}`,
-              {
-                _id: client[i]._id,
-                name: client[i].name,
-                url: client[i].url,
-                instagram: client[i].instagram,
-                level: client[i].level,
-                checked: true,
-                view: false,
-                corredor: user.fullName,
-              }
-            );
+            const response = await axios.put(`/lead/${client[i]._id}`, {
+              _id: client[i]._id,
+              name: client[i].name,
+              url: client[i].url,
+              instagram: client[i].instagram,
+              level: client[i].level,
+              checked: true,
+              view: false,
+              corredor: user.fullName,
+            });
             console.log(response.data);
 
             if (client[i].level === "incidencia") {
@@ -218,28 +212,22 @@ const CorredoresDashboard = () => {
                 message: `Se ha detectado una incidencia clasificada por el corredor ${user.emailAddresses[0].emailAddress} para el cliente ${client[i].name} con el numero de id ${client[i]._id}. Por favor, revisa la situación y toma las medidas necesarias.`,
               };
 
-              await axios.post(
-                "/corredor/sendmail",
-                emailData
-              );
+              await axios.post("/corredor/sendmail", emailData);
             }
           } else if (
             client[i].instagram.trim() !== "" &&
             client[i].level !== "-"
           ) {
-            const response = await axios.put(
-              `/lead/${client[i]._id}`,
-              {
-                _id: client[i]._id,
-                name: client[i].name,
-                url: client[i].url,
-                instagram: client[i].instagram,
-                level: client[i].level,
-                checked: true,
-                view: false,
-                corredor: user.fullName,
-              }
-            );
+            const response = await axios.put(`/lead/${client[i]._id}`, {
+              _id: client[i]._id,
+              name: client[i].name,
+              url: client[i].url,
+              instagram: client[i].instagram,
+              level: client[i].level,
+              checked: true,
+              view: false,
+              corredor: user.fullName,
+            });
             console.log(response.data);
           } else {
             SendLeadsErrorInsta(client[i].name);
@@ -259,7 +247,7 @@ const CorredoresDashboard = () => {
   return (
     <>
       <Nav />
-      <Card className="w-full m-5 bg-[#222131]">
+      {/* <Card className="w-full m-5 bg-[#222131]">
         <ToastContainer />
         <form onSubmit={handleSubmit}>
           <div className="flex justify-between items-center">
@@ -383,8 +371,8 @@ const CorredoresDashboard = () => {
             </TableBody>
           </Table>
         </form>
-      </Card>
-      {/* <Card className="w-full m-5 bg-[#222131]">
+      </Card> */}
+      <Card className="w-full m-5 bg-[#222131]">
         <ToastContainer />
         <form onSubmit={handleSubmit}>
           <div className="flex justify-between items-center">
@@ -514,7 +502,7 @@ const CorredoresDashboard = () => {
             </TableBody>
           </Table>
         </form>
-      </Card> */}
+      </Card>
     </>
   );
 };
