@@ -13,6 +13,7 @@ import {
   GET_VENDEDOR_QUERY,
   GET_ALL_LEADER,
   GET_ALL_CLEVEL,
+  GET_EMPLOYEES,
   GET_VENDEDOR_ALL_LEADS
 } from "./actions";
 
@@ -29,6 +30,7 @@ const initialState = {
   vendedor:[],
   leader: [],
   clevel: [],
+  employees: [],
   vendedorAllLeads: []
 };
 
