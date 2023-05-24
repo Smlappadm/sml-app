@@ -46,12 +46,9 @@ function ChildModalDelete({
 
   const handleCreate = async () => {
     try {
-      const response = await axios.put(
-        `/${itemRol}/${itemId}`,
-        {
-          deleted: true,
-        }
-      );
+      const response = await axios.put(`/${itemRol}/${itemId}`, {
+        deleted: true,
+      });
 
       console.log(response.data);
     } catch (error) {
@@ -60,12 +57,9 @@ function ChildModalDelete({
     }
 
     try {
-      const response = await axios.put(
-        `/employees/?email=${inputEmail}`,
-        {
-          deleted: true,
-        }
-      );
+      const response = await axios.put(`/employees/?email=${inputEmail}`, {
+        deleted: true,
+      });
 
       BannedEmployees(inputName);
       onModalClose();
@@ -154,15 +148,12 @@ function ChildModal({
     console.log(itemRol);
 
     try {
-      const response = await axios.put(
-        `/${itemRol}/${itemId}`,
-        {
-          name: inputName,
-          email: inputEmail,
-          rol: selectEmployees,
-          contactNumber: inputPhone,
-        }
-      );
+      const response = await axios.put(`/${itemRol}/${itemId}`, {
+        name: inputName,
+        email: inputEmail,
+        rol: selectEmployees,
+        contactNumber: inputPhone,
+      });
       EditEmployees(inputName);
       onModalClose();
       console.log(response.data);
