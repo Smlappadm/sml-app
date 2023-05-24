@@ -26,7 +26,7 @@ function Landing() {
 	useEffect(() => {
 		const fetchEmployees = async () => {
 			try {
-				const response = await axios.get('https://sml-app-api.onrender.com/employees');
+				const response = await axios.get('/employees');
 				const employeesData = response.data;
 
 				dispatch(getEmployees(employeesData));
