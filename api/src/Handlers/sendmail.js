@@ -4,15 +4,16 @@ const { APIKEY } = process.env;
 
 const sendmail = async (req, res) => {
   try {
-    const { clientName, recipientEmail, message } = req.body;
+    const { clientName, recipientEmail, html } = req.body;
 
     sendGrid.setApiKey(APIKEY);
 
     const emailData = {
       to: recipientEmail,
-      from: "voeffray.jonathan@gmail.com", // Reemplaza con tu dirección de correo electrónico de SendGrid
+      from: "droneaoficial@gmail.com", // Reemplaza con tu dirección de correo electrónico de SendGrid
       subject: "Incidencia detectada",
-      text: message,
+      //text: message,
+      html: html
     };
 
     await sendGrid.send(emailData);
