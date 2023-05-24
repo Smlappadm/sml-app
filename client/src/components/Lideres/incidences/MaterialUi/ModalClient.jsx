@@ -1,7 +1,7 @@
-import React, { useState } from "react"
-import Box from "@mui/material/Box"
-import Modal from "@mui/material/Modal"
-import axios from "axios"
+import * as React from "react";
+import { useState } from "react";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
 
 const style = {
   position: "absolute",
@@ -20,7 +20,6 @@ const style = {
 
 export default function BasicModal(props) {
   const {
-    _id,
     name,
     category,
     level,
@@ -30,67 +29,37 @@ export default function BasicModal(props) {
     status,
     city,
     province,
-    url
-  } = props
+    corredor,
+    vendedor,
+    op,
+  } = props;
 
-
-  const [filledEmail, setFilledEmail] = useState(email || "")
-  const [filledInstagram, setFilledInstagram] = useState(instagram || "")
-  const [filledTelephone, setFilledTelephone] = useState(telephone || "")
+  // State variables to track the filled values
+  const [filledEmail, setFilledEmail] = useState(email || "");
+  const [filledInstagram, setFilledInstagram] = useState(instagram || "");
+  const [filledTelephone, setFilledTelephone] = useState(telephone || "");
+  const [filledOp, setFilledOp] = useState(op || "");
   const [filledLevel, setFilledLevel] = useState(level || "");
 
-  const [inputVisibility, setInputVisibility] = useState({
-    email: false,
-    instagram: false,
-    telephone: false,
-    level: false,
-  })
+  const handleEmailChange = (e) => {
+    setFilledEmail(e.target.value);
+  };
 
-  const handleEmailChange = (event) => {
-    const updatedValue = event.target.value;
-    const newValue = updatedValue !== "" ? updatedValue : email;
-    setFilledEmail(newValue);
-  }
+  const handleInstagramChange = (e) => {
+    setFilledInstagram(e.target.value);
+  };
 
-  const handleInstagramChange = (event) => {
-    const updatedValue = event.target.value;
-    const newValue = updatedValue !== "" ? updatedValue : instagram;
-    setFilledInstagram(newValue);
-  }
+  const handleTelephoneChange = (e) => {
+    setFilledTelephone(e.target.value);
+  };
 
-  const handleTelephoneChange = (event) => {
-    const updatedValue = event.target.value;
-    const newValue = updatedValue !== "" ? updatedValue : telephone;
-    setFilledTelephone(newValue);
-  }
+  const handleOpChange = (e) => {
+    setFilledOp(e.target.value);
+  };
 
-
-  const handleLevelChange = () => {
-    setInputVisibility((prevState) => ({
-      ...prevState,
-      level: true,
-    }))
-  }
-  
-  const stringId = JSON.stringify(_id);
-
-  const handleFixClick = () => {
-    const updatedData = {
-      email: filledEmail,
-      instagram: filledInstagram,
-      telephone: filledTelephone,
-      level: filledLevel,
-    }
-
-    axios
-      .put(`lead/${stringId}`, updatedData)
-      .then((response) => {
-        console.log("Datos actualizados correctamente:", response.data)
-      })
-      .catch((error) => {
-        console.error("Error al actualizar los datos:", error)
-      })
-  }
+  const handleLevelClick = () => {
+    setFilledLevel("");
+  };
 
   return (
     <div>
@@ -109,7 +78,7 @@ export default function BasicModal(props) {
           <div className="flex flex-col justify-between h-full">
             <div className="font-semibold flex flex-col gap-3 items-center text-24 mb-5">
               <h1>{name} </h1>
-              <hr className="border-gray-400 w-5/6 text-center" />
+              <hr className=" border-gray-400 w-5/6 text-center" />
             </div>
             <div className="font-semibold flex gap-3">
               <p>CATEGORIA: </p>
@@ -121,117 +90,92 @@ export default function BasicModal(props) {
                 {province}, {city}{" "}
               </p>
             </div>
-            {!inputVisibility.level ? (
+            {level ? (
               <div className="font-semibold flex gap-3">
                 <p>NIVEL: </p>
-                <p className="font-normal">{level}</p>
-                <button onClick={handleLevelChange} className="font-semibold">
-                  Change
-                </button>
+                <p className="font-normal">{level} </p>
               </div>
             ) : (
               <div className="font-semibold flex gap-3">
                 <p>NIVEL: </p>
-                <input
-                  type="text"
-                  value="-"
-                  disabled
-                  className="font-normal"
-                />
+                <p className="font-normal" onClick={handleLevelClick}>
+                  {filledLevel}
+                </p>
               </div>
             )}
-            {!inputVisibility.email ? (
-              <div className="font-semibold flex gap-3">
-                <p>EMAIL: </p>
-                <p className="font-normal">{email}</p>
-                <button
-                  onClick={() =>
-                    setInputVisibility({ ...inputVisibility, email: true })
-                  }
-                >
-                  Change
-                </button>
-              </div>
-            ) : (
+            {email === "" ? (
               <div className="font-semibold flex gap-3">
                 <p>EMAIL: </p>
                 <input
                   type="text"
                   value={filledEmail}
                   onChange={handleEmailChange}
-                  className="font-normal bg-gray-600"
+                  className="font-normal"
                 />
-              </div>
-            )}
-            {!inputVisibility.instagram ? (
-              <div className="font-semibold flex gap-3">
-                <p>INSTAGRAM: </p>
-                <p className="font-normal">{instagram}</p>
-                <button
-                  onClick={() =>
-                    setInputVisibility({ ...inputVisibility, instagram: true })
-                  }
-                >
-                  Change
-                </button>
               </div>
             ) : (
               <div className="font-semibold flex gap-3">
-                <p>INSTAGRAM: </p>
+                <p>EMAIL: </p>
+                <p className="font-normal">{email}</p>
+              </div>
+            )}
+            <div className="font-semibold flex gap-3">
+              <p>INSTAGRAM: </p>
+              {instagram ? (
+                <p className="font-normal">{instagram}</p>
+              ) : (
                 <input
                   type="text"
                   value={filledInstagram}
                   onChange={handleInstagramChange}
-                  className="font-normal bg-gray-600"
+                  className="font-normal"
                 />
-              </div>
-            )}
-            {!inputVisibility.telephone ? (
-              <div className="font-semibold flex gap-3">
-                <p>TELEFONO: </p>
+              )}
+            </div>
+            <div className="font-semibold flex gap-3">
+              <p>TELEFONO: </p>
+              {telephone ? (
                 <p className="font-normal">{telephone}</p>
-                <button
-                  onClick={() =>
-                    setInputVisibility({ ...inputVisibility, telephone: true })
-                  }
-                >
-                  Change
-                </button>
-              </div>
-            ) : (
-              <div className="font-semibold flex gap-3">
-                <p>TELEFONO: </p>
+              ) : (
                 <input
                   type="text"
                   value={filledTelephone}
                   onChange={handleTelephoneChange}
-                  className="font-normal bg-gray-600"
+                  className="font-normal"
                 />
-              </div>
-            )}
-            <div className="font-semibold flex gap-3">
-              <p>WEB: </p>
-              <p className="font-normal">{url}</p>
+              )}
             </div>
-
+            <div className="font-semibold flex gap-3">
+              <p>CORREDOR: </p>
+              <p className="font-normal">{corredor}</p>
+            </div>
+            <div className="font-semibold flex gap-3">
+              <p>VENDEDOR: </p>
+              <p className="font-normal">{vendedor}</p>
+            </div>
             <div className="font-semibold flex gap-3">
               <p>ESTADO: </p>
               <p className="font-normal">{status} </p>
             </div>
-
-            <div>
-              <button onClick={handleFixClick} className="bg-blue-500 w-44 h-9 flex justify-center items-center text-white rounded-md text-10 ml-[350px]">
-                FIX
-              </button>
+            <div className="font-semibold flex gap-3">
+              <p>DETALLE: </p>
+              {op ? (
+                <p className="font-normal">{op}</p>
+              ) : (
+                <input
+                  type="text"
+                  value={filledOp}
+                  onChange={handleOpChange}
+                  className="font-normal"
+                />
+              )}
             </div>
-
+            <button className="bg-blue-500 w-44 h-9 flex justify-center items-center text-white rounded-md text-10">
+              FIX
+            </button>
           </div>
         </Box>
       </Modal>
     </div>
-  )
+  );
 }
-
-
-
-
