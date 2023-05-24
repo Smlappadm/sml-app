@@ -11,7 +11,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaHistory } from "react-icons/fa";
 import {MdOutlineAttachMoney } from "react-icons/md";
-import SelectLevel from "./SelectLevel"
 
 import { CiWarning, CiInstagram, CiMail } from "react-icons/ci";
 
@@ -19,7 +18,7 @@ import Nav from "../../Nav/Nav";
 
 const VendedoresDashboard = () => {
   const [data, setData] = useState([]);
-  const { vendedoresDashboard } = useSelector((state) => state);
+  const { leadCheckedInactive100 } = useSelector((state) => state);
   const dispatch = useDispatch();
   const [showCopiedMessage, setShowCopiedMessage] = useState(false);
 
@@ -27,8 +26,8 @@ const VendedoresDashboard = () => {
     dispatch(getLeadCheckedInactive100());
   }, [dispatch]);
   useEffect(() => {
-    setData(vendedoresDashboard);
-  }, [vendedoresDashboard]);
+    setData(leadCheckedInactive100);
+  }, [leadCheckedInactive100]);
 
   const [pageStyle, setPageStyle] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
@@ -66,7 +65,7 @@ const VendedoresDashboard = () => {
   const onChangeLevel = (value) => {
     setLevelValue(value);
     dispatch(filterLevel(value));
-    setData(vendedoresDashboard);
+    setData(leadCheckedInactive100);
     setCurrentPage(1);
   };
   //********************************* */
@@ -128,7 +127,7 @@ const VendedoresDashboard = () => {
   };
   const updateLeads = () => {
     dispatch(getLeadCheckedInactive100());
-    setData(vendedoresDashboard);
+    setData(leadCheckedInactive100);
   };
 
   return (
@@ -162,37 +161,35 @@ const VendedoresDashboard = () => {
               </Link>
             </div>
             {filters.level === true ? (
-            <SelectLevel onChange={onChangeLevel} value={levelValue} />
-
-              // <select
-              //   name="level"
-              //   id="level"
-              //   onChange={(event) => {
-              //     onChangeLevel(event.target.value);
-              //   }}
-              //   className="w-1/5 text-center bg-transparent border border-white rounded-md p-1 absolute left-[40%] "
-              // >
-              //   <option value="" disabled selected className="bg-[#222131]">
-              //     Seleccione un nivel
-              //   </option>
-              //   <option value="0" className="bg-[#222131]">
-              //     0
-              //   </option>
-              //   <option value="1" className="bg-[#222131]">
-              //     1
-              //   </option>
-              //   <option value="2" className="bg-[#222131]">
-              //     2
-              //   </option>
-              //   <option value="incidencia" className="bg-[#222131]">
-              //     Incidencia
-              //   </option>
-              // </select>
+              <select
+                name="level"
+                id="level"
+                onChange={(event) => {
+                  onChangeLevel(event.target.value);
+                }}
+                className="w-1/5 text-center bg-transparent border border-white rounded-md p-1 absolute left-[40%] "
+              >
+                <option value="" disabled selected className="bg-[#222131]">
+                  Seleccione un nivel
+                </option>
+                <option value="0" className="bg-[#222131]">
+                  0
+                </option>
+                <option value="1" className="bg-[#222131]">
+                  1
+                </option>
+                <option value="2" className="bg-[#222131]">
+                  2
+                </option>
+                <option value="incidencia" className="bg-[#222131]">
+                  Incidencia
+                </option>
+              </select>
             ) : (
               ""
             )}
           </div>
-          {vendedoresDashboard.length ? (
+          {leadCheckedInactive100.length ? (
             <table className={style.table}>
               <thead className="text-gray-400 text-14 font-thin">
                 <tr className={style.tableRow}>

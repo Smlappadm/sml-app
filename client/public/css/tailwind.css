@@ -988,12 +988,12 @@ video {
   width: 83.333333%;
 }
 
-.w-6 {
-  width: 1.5rem;
+.w-52 {
+  width: 13rem;
 }
 
-.w-64 {
-  width: 16rem;
+.w-6 {
+  width: 1.5rem;
 }
 
 .w-8 {
@@ -1681,6 +1681,11 @@ video {
 .text-\[\#ffffff\] {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.text-black {
+  --tw-text-opacity: 1;
+  color: rgb(0 0 0 / var(--tw-text-opacity));
 }
 
 .text-gray-200 {

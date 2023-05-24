@@ -19,7 +19,7 @@ function Nav() {
 	  }
 	  const email = user.emailAddresses[0].emailAddress;
 	const rol = () => {
-		const employee = employees?.find(employees => employees.email === email);
+		const employee = employees.find(employees => employees.email === email);
 		if (employee) {
 			return employee.rol;
 		}
