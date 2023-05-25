@@ -3,6 +3,7 @@ import Box from "@mui/material/Box"
 import Modal from "@mui/material/Modal"
 import axios from "axios"
 
+
 const style = {
   position: "absolute",
   top: "40%",
@@ -38,12 +39,14 @@ export default function BasicModal(props) {
   const [filledInstagram, setFilledInstagram] = useState(instagram || "")
   const [filledTelephone, setFilledTelephone] = useState(telephone || "")
   const [filledLevel, setFilledLevel] = useState(level || "");
+  const [filledUrl, setfilledUrl] = useState(level || "");
 
   const [inputVisibility, setInputVisibility] = useState({
     email: false,
     instagram: false,
     telephone: false,
     level: false,
+    url: false
   })
 
   const handleEmailChange = (event) => {
@@ -64,6 +67,11 @@ export default function BasicModal(props) {
     setFilledTelephone(newValue);
   }
 
+  const handleUrlChange = (event) => {
+    const updatedValue = event.target.value;
+    const newValue = updatedValue !== "" ? updatedValue : url;
+    setFilledUrl(newValue);
+  }
 
   const handleLevelChange = () => {
     setInputVisibility((prevState) => ({
@@ -71,15 +79,16 @@ export default function BasicModal(props) {
       level: true,
     }))
   }
-  
+
   console.log(url)
- console.log(_id)
+  console.log(_id)
   const handleFixClick = () => {
     const updatedData = {
       email: filledEmail,
       instagram: filledInstagram,
       telephone: filledTelephone,
       level: filledLevel,
+      url: filledUrl
     }
 
     axios
@@ -211,13 +220,30 @@ export default function BasicModal(props) {
             )}
             <div className="font-semibold flex gap-3">
               <p>WEB: </p>
-              <p className="font-normal">{url}</p>
+              <div className="font-semibold flex gap-3">
+  {!inputVisibility.url ? (
+    <p className="font-normal truncate text-white w-48 overflow-hidden overflow-ellipsis" title={url}>
+      {url}
+    </p>
+  ) : (
+    <input
+      type="text"
+      value={filledUrl}
+      onChange={handleUrlChange}
+      className="font-normal bg-gray-600"
+    />
+  )}
+  {!inputVisibility.url && (
+    <button
+      onClick={() => setInputVisibility({ ...inputVisibility, url: true })}
+      className="text-white"
+    >
+      Change
+    </button>
+  )}
+</div>
             </div>
 
-            <div className="font-semibold flex gap-3">
-              <p>ESTADO: </p>
-              <p className="font-normal">{status} </p>
-            </div>
 
             <div>
               <button onClick={handleFixClick} className="bg-blue-500 w-44 h-9 flex justify-center items-center text-white rounded-md text-10 ml-[350px]">

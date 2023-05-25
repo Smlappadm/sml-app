@@ -229,6 +229,7 @@ const Incidences = () => {
             <ModalCient
               open={open}
               handleClose={handleClose}
+              _id={modalItems._id}
               name={modalItems.name}
               category={modalItems.category}
               level={modalItems.level}
@@ -238,6 +239,7 @@ const Incidences = () => {
               status={modalItems.status}
               city={modalItems.city}
               province={modalItems.province}
+              url={modalItems.url}
               corredor={modalItems.corredor}
               vendedor={modalItems.vendedor}
               op={modalItems.status_op}
