@@ -10,8 +10,9 @@ import store from "./redux/store"
 import axios from "axios";
 
 //comnetarioaosiorisoirosi
-axios.defaults.baseURL = "http://localhost:3001";
+//axios.defaults.baseURL = "http://localhost:3001";
 // axios.defaults.baseURL = "https://sml-app-api.onrender.com";
+axios.defaults.baseURL = "https://sml-app.com/api"
 
 
 const container = document.getElementById("root");
