@@ -1,13 +1,11 @@
 import React from 'react';
 import style from './Landing.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Nav from '../../components/Nav/Nav';
 import { getEmployees, setRol, setAccess } from '../../redux/actions';
-import {
-	useUser,
-} from "@clerk/clerk-react";
+import { useUser } from "@clerk/clerk-react";
 import axios from 'axios';
 
 function Landing() {
@@ -42,8 +40,6 @@ function Landing() {
 
 		fetchEmployees();
 	}, [dispatch, isEmployee()]);
-	
-	console.log(employees);
 	return (
 		<div className={style.container}>
 

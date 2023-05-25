@@ -783,10 +783,6 @@ video {
   margin-top: 1.25rem;
 }
 
-.mt-\[2\%\] {
-  margin-top: 2%;
-}
-
 .mt-\[25px\] {
   margin-top: 25px;
 }
@@ -1001,6 +997,14 @@ video {
 
 .w-96 {
   width: 24rem;
+}
+
+.w-\[10rem\] {
+  width: 10rem;
+}
+
+.w-\[12rem\] {
+  width: 12rem;
 }
 
 .w-\[1500px\] {
@@ -1673,10 +1677,6 @@ video {
 .placeholder-white::placeholder {
   --tw-placeholder-opacity: 1;
   color: rgb(255 255 255 / var(--tw-placeholder-opacity));
-}
-
-.opacity-20 {
-  opacity: 0.2;
 }
 
 .opacity-80 {
