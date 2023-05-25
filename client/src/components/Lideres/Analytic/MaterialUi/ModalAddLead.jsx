@@ -4,6 +4,7 @@ import Button from "@mui/material/Button";
 import React, { useRef, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { AddLeads } from "../../../../redux/actions";
+import { ToastContainer, toast } from "react-toastify";
 
 const style = {
   position: "absolute",
@@ -52,8 +53,18 @@ export default function ChildModal() {
   const [body, setBody] = useState([]);
   const dispatch = useDispatch();
   const onClickAdd = () => {
-    dispatch(AddLeads(body));
-    console.log("se agrego");
+    if (body[0]) {
+      SendAddLeads();
+      dispatch(AddLeads(body));
+      console.log("se agrego");
+      console.log(body);
+      if (inputRef.current) {
+        inputRef.current.value = null;
+        setBody([]);
+      }
+    } else {
+      SendAddLeadsError();
+    }
   };
 
   const [selectedFile, setSelectedFile] = useState(null);
@@ -71,8 +82,36 @@ export default function ChildModal() {
     const jsonData = JSON.parse(content);
     setBody(jsonData);
   };
+
+  const SendAddLeads = () => {
+    toast.info(`✔ ADD LEADS! `, {
+      position: "top-center",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+  };
+
+  const SendAddLeadsError = () => {
+    toast.error(`❌ SELECCIONA UN ARCHIVO!`, {
+      position: "top-center",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+  };
+
   return (
     <React.Fragment>
+      <ToastContainer />
       <Button variant="contained" sx={{}} onClick={handleOpen}>
         Add Leads
       </Button>
@@ -94,7 +133,12 @@ export default function ChildModal() {
             <h2>Añadir Clientes</h2>
             <label>json</label>
             <div>
-              <input type="file" accept=".json" onChange={handleFileChange} />
+              <input
+                type="file"
+                accept=".json"
+                onChange={handleFileChange}
+                ref={inputRef}
+              />
             </div>
             <div>
               <Button
