@@ -13,7 +13,7 @@ export default function Settings() {
   }
 
   const email = user.emailAddresses[0].emailAddress;
-
+console.log(email);
   return (
     <>
       <Nav />

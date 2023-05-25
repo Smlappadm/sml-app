@@ -1,8 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { useEffect } from 'react';
-import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 import {
 	UserButton,
@@ -11,20 +9,21 @@ import {
 import { IoStatsChart, IoSettingsSharp, IoBagSharp } from 'react-icons/io5';
 
 function Nav() {
-	const user = useUser().user;
-	const employees = useSelector(state => state.employees);
-	if (!user || !user.emailAddresses || user.emailAddresses.length === 0) {
-		// Return a loading state or handle the absence of user data
-		return <div>Loading...</div>;
-	  }
-	  const email = user.emailAddresses[0].emailAddress;
-	const rol = () => {
-		const employee = employees.find(employees => employees.email === email);
-		if (employee) {
-			return employee.rol;
-		}
-		return null;
-	};
+	const role = useSelector(state => state.rol);
+	// const user = useUser().user;
+	// const employees = useSelector(state => state.employees);
+	// if (!user || !user.emailAddresses || user.emailAddresses.length === 0) {
+	// 	// Return a loading state or handle the absence of user data
+	// 	return <div>Loading...</div>;
+	//   }
+	//   const email = user.emailAddresses[0].emailAddress;
+	// const rol = () => {
+	// 	const employee = employees.find(employees => employees.email === email);
+	// 	if (employee) {
+	// 		return employee.rol;
+	// 	}
+	// 	return null;
+	// };
 	
 	return (
 		<div className='bg-[#39394B] flex flex-col justify-between items-center h-screen min-w-[190px]'>
@@ -39,7 +38,7 @@ function Nav() {
 				</div>
 				<div />
 				<div className=' flex  w-fit mt-12 '>
-					{rol() === "clevel" || rol() === "leader"
+					{role === "clevel" || role === "leader"
 						?
 						<ul className='flex flex-col gap-2'>
 							<li className='flex gap-2 items-center text-[18px] text-white'>
@@ -74,7 +73,7 @@ function Nav() {
 									<Link
 										to='/clevel'
 										className='text-[#e0dddd] hover:text-white'>
-										Employees
+										Dashboard
 									</Link>
 								</span>
 							</li>
