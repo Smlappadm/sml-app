@@ -25,3 +25,4 @@ smlapp
 **node_modules
 api/.env
 apiProduccion/.env
+smlapp.zip
