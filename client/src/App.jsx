@@ -1,3 +1,4 @@
+
 import "./App.css";
 import Landing from "./views/Landing/Landing";
 import Analytics from "./views/Analytics/Analytics.jsx";
@@ -29,14 +30,6 @@ if (!"pk_test_ZmFtb3VzLWRyYWdvbi0xMi5jbGVyay5hY2NvdW50cy5kZXYk") {
 }
 
 const clerkPubKey = "pk_test_ZmFtb3VzLWRyYWdvbi0xMi5jbGVyay5hY2NvdW50cy5kZXYk";
-function PublicPage() {
-  return (
-    <>
-      <h1>Public page</h1>
-      <a href="/protected">Go to protected page</a>
-    </>
-  );
-}
 
 function ClerkProviderWithRoutes() {
   const navigate = useNavigate();
@@ -59,15 +52,19 @@ function ClerkProviderWithRoutes() {
     const storedRoleReady = localStorage.getItem("roleReady");
     if (storedRoleReady) {
       setRoleReady(storedRoleReady);
-    } else {
-      checkRole();
     }
-  }, [role]);
+    checkRole();
 
-  console.log(isRoleAllowed(roleReady));
+  }, [role]);
+  
+  const handleSignOut = () => {
+    localStorage.removeItem("roleReady");
+    setRoleReady("");
+  };
+
 
   return (
-    <ClerkProvider publishableKey={clerkPubKey} navigate={(to) => navigate(to)}>
+    <ClerkProvider publishableKey={clerkPubKey} navigate={(to) => navigate(to)} onSignOut={handleSignOut} >
       <Routes>
         <Route path="/" element={<Login />} />
         <Route
@@ -81,18 +78,18 @@ function ClerkProviderWithRoutes() {
         <Route path="*" element={<h1>error 404</h1>} />
         <Route path="/home" element={<Landing />} />
         <Route path="/" element={<Login />} />
-        <Route path="/lideres" element={isRoleAllowed(roleReady) ? <AnalyticLeader /> : <h1>error 404</h1>} />
-        <Route path="/lideres/analytics" element={isRoleAllowed(roleReady) ? <AnalyticLeader /> : <h1>error 404</h1>} />
+        <Route path="/lideres" element={isRoleAllowed(roleReady) && (roleReady === "clevel" || roleReady === "leader") ? <AnalyticLeader /> : <h1>error 404</h1>} />
+        <Route path="/lideres/analytics" element={isRoleAllowed(roleReady) && (roleReady === "clevel" || roleReady === "leader") ? <AnalyticLeader /> : <h1>error 404</h1>} />
         <Route path="/lideres/analytics/incidences" element={isRoleAllowed(roleReady) ? <Incidences /> : <h1>error 404</h1>} />
-        <Route path="/clevel" element={isRoleAllowed(roleReady) && roleReady === "clevel" ? <Clevel /> : <h1>error 404</h1>} />
-        <Route path="/clevel/analytics" element={isRoleAllowed(roleReady) ? <Analytic /> : <h1>error 404</h1>} />
-        <Route path="/corredores" element={isRoleAllowed(roleReady) ? <CorredoresDashboard /> : <h1>error 404</h1>} />
-        <Route path="/corredores/history" element={isRoleAllowed(roleReady) ? <CorredoresAnlaytics /> : <h1>error 404</h1>} />
+        <Route path="/clevel" element={isRoleAllowed(roleReady) && (roleReady === "clevel" || roleReady === "leader") ? <Clevel /> : <h1>error 404</h1>} />
+        <Route path="/clevel/analytics" element={isRoleAllowed(roleReady) && (roleReady === "clevel" || roleReady === "leader") ? <Analytic /> : <h1>error 404</h1>} />
+        <Route path="/corredores" element={isRoleAllowed(roleReady) && roleReady === "corredor" ? <CorredoresDashboard /> : <h1>error 404</h1>} />
+        <Route path="/corredores/history" element={isRoleAllowed(roleReady) && roleReady === "corredor" ? <CorredoresAnlaytics /> : <h1>error 404</h1>} />
         <Route path="/analytics" element={<Analytics />} />
         <Route path="/settings" element={<Settings />} />
-        <Route path="/vendedores" element={isRoleAllowed(roleReady) ? <VendedoresDashboard /> : <h1>error 404</h1>} />
-        <Route path="/vendedores/history" element={isRoleAllowed(roleReady) ? <VendedoresHistory /> : <h1>error 404</h1>} />
-        <Route path="/vendedores/analytics" element={isRoleAllowed(roleReady) ? <VendedoresAnalytics /> : <h1>error 404</h1>} />
+        <Route path="/vendedores" element={isRoleAllowed(roleReady) && roleReady === "vendedor" ? <VendedoresDashboard /> : <h1>error 404</h1>} />
+        <Route path="/vendedores/history" element={isRoleAllowed(roleReady) && roleReady === "vendedor" ? <VendedoresHistory /> : <h1>error 404</h1>} />
+        <Route path="/vendedores/analytics" element={isRoleAllowed(roleReady) && roleReady === "vendedor" ? <VendedoresAnalytics /> : <h1>error 404</h1>} />
         <Route
           path="/protected"
           element={
