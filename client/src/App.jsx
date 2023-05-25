@@ -101,32 +101,6 @@ function App() {
     <div className="App">
       <ClerkProviderWithRoutes />
     </div>
-    // <div className="App">
-    //   <Routes>
-    //     <Route path="/home" element={<Landing />} />
-    //     <Route path="/" element={<Login />} />
-    //     <Route path="/employees" element={<Employees />} />
-    //     <Route path="/employees/analytics" element={<AnalyticLeader />} />
-    //     <Route path="/corredores" element={<CorredoresDashboard />} />
-    //     <Route path="/corredores/analytics" element={<CorredoresAnlaytics />}/>
-    //     <Route path="/analytics" element={<Analytics />} />
-    //     <Route path="/settings" element={<Settings />} />
-    //     <Route
-    //       path="/vendedores"
-    //       element={<VendedoresDashboard/>}
-    //     />
-    //     <Route path="/vendedores/analytics" element={<VendedoresHistory/>} />
-    //   </Routes>
-
-    //   {(
-    //     <div className="App flex items-center justify-center">
-    //       <img
-    //         className="opacity-20 w-4/5 mt-[2%]"
-    //         src="https://cdn.discordapp.com/attachments/1105243107555037294/1106577865698459788/White_Logo_Social_Media_Lab.png"
-    //       />
-    //     </div>
-    //   )}
-    // </div>
   );
 }
 

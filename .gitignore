@@ -10,6 +10,8 @@ dist
 dist-ssr
 *.local
 
+smlapp
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -22,3 +24,5 @@ dist-ssr
 *.sw?
 **node_modules
 api/.env
+apiProduccion/.env
+smlapp.zip

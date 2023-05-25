@@ -10,10 +10,8 @@ import {
   FILTER_STATUS,
   GET_ALL_CORREDORES,
   GET_ALL_VENDEDORES,
-  GET_VENDEDOR_QUERY,
   GET_ALL_LEADER,
   GET_ALL_CLEVEL,
-  GET_EMPLOYEES,
   GET_VENDEDOR_ALL_LEADS
 } from "./actions";
 
@@ -27,10 +25,8 @@ const initialState = {
   vendedoresDashboard: [],
   corredores: [],
   vendedores: [],
-  vendedor:[],
   leader: [],
   clevel: [],
-  employees: [],
   vendedorAllLeads: []
 };
 
@@ -207,11 +203,6 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         vendedores: action.payload,
       };
-    case GET_VENDEDOR_QUERY:
-      return{
-        ...state,
-        vendedor:action.payload
-      } 
     case GET_ALL_LEADER:
       return {
         ...state,
@@ -228,11 +219,6 @@ const rootReducer = (state = initialState, action) => {
         vendedorAllLeads: action.payload,
       };
 
-      case GET_EMPLOYEES:
-        return {
-          ...state,
-          employees: action.payload,
-        };
     default:
       return { ...state };
   }

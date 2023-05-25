@@ -1,5 +1,4 @@
 import style from "./TableEmployees.module.css";
-import { StatusOnlineIcon } from "@heroicons/react/outline";
 import {
   Card,
   Table,

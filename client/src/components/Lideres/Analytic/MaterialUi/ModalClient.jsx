@@ -31,6 +31,7 @@ export default function BasicModal(props) {
     corredor,
     vendedor,
     op,
+    web,
   } = props;
   return (
     <div>
@@ -64,6 +65,10 @@ export default function BasicModal(props) {
             <div className="font-semibold flex gap-3">
               <p>NIVEL: </p>
               <p className="font-normal">{level} </p>
+            </div>
+            <div className="font-semibold flex gap-3">
+              <p>WEB: </p>
+              <link className="font-normal">{web} </link>
             </div>
             <div className="font-semibold flex gap-3">
               <p>EMAIL: </p>

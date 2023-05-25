@@ -45,12 +45,9 @@ function ChildModalDelete({
 
   const handleCreate = async () => {
     try {
-      const response = await axios.put(
-        `/${itemRol}/${itemId}`,
-        {
-          deleted: true,
-        }
-      );
+      const response = await axios.put(`/${itemRol}/${itemId}`, {
+        deleted: true,
+      });
 
       BannedEmployees(inputName);
       onModalClose();
@@ -125,15 +122,12 @@ function ChildModal({
     }
 
     try {
-      const response = await axios.put(
-        `/${itemRol}/${itemId}`,
-        {
-          name: inputName,
-          email: inputEmail,
-          rol: selectEmployees,
-          contactNumber: inputPhone,
-        }
-      );
+      const response = await axios.put(`/${itemRol}/${itemId}`, {
+        name: inputName,
+        email: inputEmail,
+        rol: selectEmployees,
+        contactNumber: inputPhone,
+      });
       EditEmployees(inputName);
       onModalClose();
       console.log(response.data);
@@ -231,10 +225,6 @@ export default function NestedModalEdit({
                 inputPhone={inputPhone}
                 setInputPhone={setInputPhone}
               />
-              {/* <BasicSelect
-                employees={selectEmployees}
-                setEmployees={setSelectEmployees}
-              /> */}
             </div>
           </div>
           <div className="flex gap-3 justify-center items-center">

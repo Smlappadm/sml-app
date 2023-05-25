@@ -12,7 +12,6 @@
 }
 
 .table {
-  /* border: 1px solid violet; */
   display: flex;
 }
 
@@ -20,7 +19,6 @@
   color: rgb(189, 189, 189);
   font-size: 12px;
   font-weight: 100;
-  /* border: 1px solid violet; */
 }
 
 .tableRow {
@@ -28,14 +26,12 @@
   display: grid;
 
   grid-template-columns: 26% 31% 19.7% 10% auto;
-  /* grid-template-columns: repeat(5, 1fr); */
   margin-left: 30px;
 }
 
 .tableCards {
   display: grid;
   grid-template-columns: 28% 30% 20% 15% 5%;
-  /* grid-template-columns: repeat(5, 1fr); */
   align-items: center;
   justify-content: space-between;
   background-color: #39394b;
@@ -51,12 +47,6 @@
   padding: 0;
 }
 
-.tableBody {
-  /* border: 1px solid green; */
-}
-
-.tableCards {
-}
 .icon {
   color: rgb(116, 136, 201);
   font-size: 23px;

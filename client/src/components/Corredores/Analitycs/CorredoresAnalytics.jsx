@@ -15,7 +15,6 @@ import {
   TableCell,
   Text,
   Title,
-  Badge,
 } from "@tremor/react";
 
 import { CiGlobe, CiWarning, CiInstagram, CiMail } from "react-icons/ci";
@@ -39,10 +38,6 @@ const CorredoresAnlaytics = () => {
 
   const pages = (pageNumber) => {
     setCurrentPage(pageNumber);
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
   };
 
   if (currentCard.length === 1 && currentCard[0].hasOwnProperty("error")) {
@@ -160,12 +155,6 @@ const CorredoresAnlaytics = () => {
               ))}
             </TableBody>
           </Table>
-          {/* <Pagination2
-        pageStyle={pageStyle}
-        setPageStyle={setPageStyle}
-        cardXPage={cardXPage}
-        data={leadChequed}
-      pages={pages}/> */}
         </Card>
         <div className=" mb-5">
           <PaginationOutlined

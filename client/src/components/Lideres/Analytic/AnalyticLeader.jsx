@@ -39,7 +39,12 @@ export const AnalyticLeader = () => {
   const [cardXPage, setCardXpage] = useState(10);
   const indexLastCard = currentPage * cardXPage;
   const indexFirstCard = indexLastCard - cardXPage;
-  const currentCard = data.slice(indexFirstCard, indexLastCard);
+  const showData = data.filter((item) => {
+    return (
+      item.status !== "No responde" && item.status !== "Agendar 2do llamado"
+    );
+  });
+  const currentCard = showData.slice(indexFirstCard, indexLastCard);
   const pages = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
@@ -164,7 +169,7 @@ export const AnalyticLeader = () => {
           )}
           <AddLead />
         </div>
-        <table className="w-full">
+        <div className="w-full">
           <div className="text-white text-14 font-thin">
             <div className="flex items-center justify-around p-3 ">
               <div className="flex justify-center items-center p-0">
@@ -224,13 +229,14 @@ export const AnalyticLeader = () => {
             </div>
           </div>
 
-          <tbody>
+          <div>
             <ModalCient
               open={open}
               handleClose={handleClose}
               name={modalItems.name}
               category={modalItems.category}
               level={modalItems.level}
+              web={modalItems.url}
               email={modalItems.email}
               instagram={modalItems.instagram}
               telephone={modalItems.telephone}
@@ -375,8 +381,8 @@ export const AnalyticLeader = () => {
                 </div>
               </div>
             ))}
-          </tbody>
-        </table>
+          </div>
+        </div>
         <PaginationOutlined
           pageStyle={pageStyle}
           setPageStyle={setPageStyle}

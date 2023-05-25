@@ -46,12 +46,9 @@ function ChildModalDelete({
 
   const handleCreate = async () => {
     try {
-      const response = await axios.put(
-        `/${itemRol}/${itemId}`,
-        {
-          deleted: true,
-        }
-      );
+      const response = await axios.put(`/${itemRol}/${itemId}`, {
+        deleted: true,
+      });
 
       console.log(response.data);
     } catch (error) {
@@ -60,12 +57,9 @@ function ChildModalDelete({
     }
 
     try {
-      const response = await axios.put(
-        `/employees/?email=${inputEmail}`,
-        {
-          deleted: true,
-        }
-      );
+      const response = await axios.put(`/employees/?email=${inputEmail}`, {
+        deleted: true,
+      });
 
       BannedEmployees(inputName);
       onModalClose();
@@ -80,29 +74,16 @@ function ChildModalDelete({
     dispatch(getAllClevel());
     setOpen(false);
   };
-  const user = useUser().user;
-  const employees = useSelector(state => state.employees);
-  if (!user || !user.emailAddresses || user.emailAddresses.length === 0) {
-    return <div>Loading...</div>;
-  }
-  const email = user.emailAddresses[0].emailAddress;
-  const rol = () => {
-    const employee = employees.find(employees => employees.email === email);
-    if (employee) {
-      return employee.rol;
-    }
-    return null;
-  };
+
   return (
     <React.Fragment>
-      {rol() !== "leader" && <Button
+      <Button
         variant="contained"
         sx={{ marginTop: "2rem" }}
         onClick={handleOpen}
       >
         Delete Employ
-      </Button>}
-
+      </Button>
       <Modal
         open={open}
         onClose={handleCreate}
@@ -154,15 +135,12 @@ function ChildModal({
     console.log(itemRol);
 
     try {
-      const response = await axios.put(
-        `/${itemRol}/${itemId}`,
-        {
-          name: inputName,
-          email: inputEmail,
-          rol: selectEmployees,
-          contactNumber: inputPhone,
-        }
-      );
+      const response = await axios.put(`/${itemRol}/${itemId}`, {
+        name: inputName,
+        email: inputEmail,
+        rol: selectEmployees,
+        contactNumber: inputPhone,
+      });
       EditEmployees(inputName);
       onModalClose();
       console.log(response.data);

@@ -7,7 +7,7 @@ import { AddLeads } from "../../../../redux/actions";
 
 const style = {
   position: "absolute",
-  top: "50%",
+  top: "30%",
   left: "50%",
   transform: "translate(-50%, -50%)",
   boxShadow: 24,
@@ -50,33 +50,31 @@ export default function ChildModal() {
   };
 
   const [body, setBody] = useState([]);
-  const [eventBody, setEventBody] = useState([]);
   const dispatch = useDispatch();
-  const OnchangeTextArea = (event) => {
-    setEventBody(event);
-  };
   const onClickAdd = () => {
-    setBody(() => {
-      let updatedBody = eventBody;
-      const trimmedData = updatedBody.trim();
-      const dataWithoutCommas = trimmedData.replace(/,\s*$/, "");
-      const objectsArray = dataWithoutCommas.split("},");
-      const formattedArray = objectsArray.map((obj, index) => {
-        if (index === objectsArray.length - 1) {
-          return `${obj.trim()}`;
-        } else {
-          return `${obj.trim()}}`;
-        }
-      });
-      const dataArray = formattedArray.map((objStr) => JSON.parse(objStr));
-      dispatch(AddLeads(dataArray));
-      return updatedBody;
-    });
+    dispatch(AddLeads(body));
+    console.log("se agrego");
+  };
+
+  const [selectedFile, setSelectedFile] = useState(null);
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    setSelectedFile(file);
+
+    const reader = new FileReader();
+    reader.onload = handleFileRead;
+    reader.readAsText(file);
+  };
+
+  const handleFileRead = (event) => {
+    const content = event.target.result;
+    const jsonData = JSON.parse(content);
+    setBody(jsonData);
   };
   return (
     <React.Fragment>
       <Button variant="contained" sx={{}} onClick={handleOpen}>
-        Añadir Clientes
+        Add Leads
       </Button>
       <Modal
         open={open}
@@ -87,32 +85,16 @@ export default function ChildModal() {
         <Box
           sx={{
             ...style,
-            width: "30%",
+            width: "40%",
             backgroundColor: "#39394b",
-            height: "700px",
+            height: "300px",
           }}
         >
           <div className="flex flex-col gap-5 p-8 h-full ">
             <h2>Añadir Clientes</h2>
             <label>json</label>
-            <div className="flex flex-col h-full text-black">
-              <textarea
-                onChange={(event) => {
-                  OnchangeTextArea(event.target.value);
-                }}
-                ref={inputRef}
-                type="array"
-                style={{
-                  width: "100%",
-                  height: "400px",
-                  color: "black",
-                  textAlign: "start",
-                  fontSize: "13px",
-                  backgroundColor: "transparent",
-                  border: "1px solid white",
-                }}
-                placeholder="Agregar json de clientes"
-              />
+            <div>
+              <input type="file" accept=".json" onChange={handleFileChange} />
             </div>
             <div>
               <Button
@@ -120,7 +102,7 @@ export default function ChildModal() {
                 sx={{
                   width: "50px",
                 }}
-                onClick={() => onClickAdd(eventBody)}
+                onClick={() => onClickAdd()}
               >
                 Add
               </Button>

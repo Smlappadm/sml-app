@@ -56,13 +56,13 @@
 .tableRow {
   margin-top: 20px;
   display: grid;
-  grid-template-columns: 27% 24% 29% auto;
+  grid-template-columns: 29% 16% 22% 20% auto;
   margin-left: 0px;
 }
 
 .tableCards {
   display: grid;
-  grid-template-columns: 8% 1% 12% 1% 1%;
+  grid-template-columns: 23% 4% 15% 16% 1% 1% 1%;
   align-items: center;
   justify-content: space-between;
   background-color: #39394b;
@@ -71,6 +71,9 @@
   margin: 12px;
   padding: 6px;
   border-radius: 10px;
+}
+.tableCards:hover {
+  background-color: #303040;
 }
 
 .tableCell {

@@ -5,7 +5,8 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { CiWarning, CiEdit } from "react-icons/ci";
 import { useUser } from "@clerk/clerk-react";
-import { orderCategory } from "../../../../redux/actions";
+import ResponsiveDateTimePickers from "./ResponsiveDateTimePickers";
+
 
 const style = {
   position: "absolute",
@@ -55,8 +56,6 @@ function ChildModal({
         url: item.url,
         instagram: item.instagram,
         level: item.level,
-
-        
       };
     } else {
       dataVendedor = {
@@ -86,12 +85,9 @@ function ChildModal({
       dataLead,
       dataVendedor,
     };
-console.log(dataUpdate)
+    console.log(dataUpdate);
     axios
-      .put(
-        `/lead/vendedor/${item._id}`,
-        dataUpdate
-      )
+      .put(`/lead/vendedor/${item._id}`, dataUpdate)
       .then((response) => {
         // Si la respuesta es exitosa, redirige a otra página
         if (response.data.title) {
@@ -113,7 +109,7 @@ console.log(dataUpdate)
 
   return (
     <React.Fragment>
-      <div className="flex justify-around items-center">
+      <div className="flex justify-around items-center relative">
         <button
           type="button"
           className="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
@@ -170,8 +166,89 @@ console.log(dataUpdate)
     </React.Fragment>
   );
 }
+
 function IncidenceModal({ setOpen, SendIncidenceAlert }) {
   const [openIncidenceChild, setOpenIncidenceChild] = React.useState(false);
+  const handleOpen = () => {
+    // setOpenChild(true);
+  };
+  const handleClose = () => {
+    setOpenIncidenceChild(false);
+  };
+  const confirmSendIncidence = () => {
+    // setOpenChild(false);
+    setOpen(false);
+    // SendLeadAlert();
+    SendIncidenceAlert();
+  };
+  const handleCancel = () => {
+    // setOpen(false);
+  };
+
+  const sendIncidence = () => {
+    setOpenIncidenceChild(true);
+  };
+  return (
+    <React.Fragment>
+      <div className="flex justify-around items-center">
+        <CiWarning
+          className="text-[#ffffff] p-0 text-[35px] font-bold cursor-pointer"
+          onClick={sendIncidence}
+        />
+      </div>
+      <Modal
+        open={openIncidenceChild}
+        onClose={handleClose}
+        aria-labelledby="child-modal-title"
+        aria-describedby="child-modal-description"
+      >
+        <Box
+          sx={{
+            ...style,
+            width: 500,
+            backgroundColor: "#39394B",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignContent: "center",
+          }}
+        >
+          <h2 id="child-modal-title" className="text-white text-center mb-5">
+            Send Incidence?
+          </h2>
+          <textarea
+            name=""
+            id=""
+            cols="30"
+            rows="5"
+            placeholder="Observation"
+            className="bbg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          ></textarea>
+          <div className="flex justify-around items-center m-5">
+            <button
+              type="button"
+              className="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+              onClick={handleClose}
+            >
+              No
+            </button>
+            <button
+              type="button"
+              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+              onClick={confirmSendIncidence}
+            >
+              Yes
+            </button>
+          </div>
+        </Box>
+      </Modal>
+    </React.Fragment>
+  );
+}
+
+function intelligentInfo({ setOpen }) {
+  const [openIntelligentInfo, setOpenIntelligentInfo] = React.useState(false);
+
   const handleOpen = () => {
     // setOpenChild(true);
   };
@@ -257,13 +334,14 @@ export default function NestedModal({
   updateLeads,
 }) {
   const [open, setOpen] = React.useState(false);
-
+  const [dateHour, setDateHour] = React.useState({});
+  const [openTimeHour, setOpenTimeHour] = React.useState(false);
   const [statusObj, setStatusObj] = React.useState({
     status: item.status,
     status_op: item.status_op,
     llamados: item.llamados,
   });
-
+  // const [selectedDate, setSelectedDate] = React.useState(dayjs());
   useEffect(() => {
     setStatusObj({
       ...statusObj,
@@ -287,6 +365,7 @@ export default function NestedModal({
   };
 
   const handleSelectChange = (event) => {
+    setOpenTimeHour(false);
     const value = event.target.value;
     const property = event.target.name;
     if (value === "No responde" || value === "Sin contactar") {
@@ -295,7 +374,7 @@ export default function NestedModal({
         [property]: value,
         status_op: "",
       });
-    } else if (value === "Contratado") {
+    } else if (value === "Agendar 2do llamado") {
       setStatusObj({
         ...statusObj,
         [property]: value,
@@ -320,8 +399,7 @@ export default function NestedModal({
         fechaMonth += item.updatedAt[i];
       } else if (i >= 8 && i < 10) {
         fechaDay += item.updatedAt[i];
-      }
-      else if (i >= 11 && i < 13) {
+      } else if (i >= 11 && i < 13) {
         timeHour += item.updatedAt[i];
       }
       if (i >= 13 && i < 19) {
@@ -336,19 +414,40 @@ export default function NestedModal({
     );
   };
 
+  const setDateTime = () => {
+    setOpenTimeHour(!openTimeHour);
+  };
+  const closeDateHour = () => {
+    setOpenTimeHour(false);
+  };
+  const changeTime = async (date) => {
+    await setDateHour({ ...date });
+  };
+
   return (
-    <div>
-      <CiEdit
-        className="bg-[#6254ff] text-1 text-white w-10 h-8 rounded-md cursor-pointer"
-        onClick={handleOpen}
-      />
+    <div className="">
+      <div className="flex gap-4">
+        <CiEdit
+          className="bg-[#6254ff] text-1 text-white w-10 h-8 rounded-md cursor-pointer "
+          onClick={handleOpen}
+        />
+      </div>
       <Modal
         open={open}
         onClose={handleClose}
         aria-labelledby="parent-modal-title"
         aria-describedby="parent-modal-description"
       >
-        <Box sx={{ ...style, width: 550, height: 480, borderRadius: 5 }}>
+        <Box
+          sx={{
+            ...style,
+            width: 550,
+            borderRadius: 5,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+          }}
+        >
           <div className="w-full flex justify-center items-center mt-3 mb-10">
             <h2 id="parent-modal-title" className="text-center text-white">
               {item.name}
@@ -418,7 +517,7 @@ export default function NestedModal({
             </div> */}
           </div>
 
-          <div className="h-52 flex items-center justify-start flex-col mb-10">
+          <div className=" h-fit flex items-center justify-start flex-col mb-10">
             <div className="">
               <label
                 htmlFor="countries"
@@ -435,7 +534,7 @@ export default function NestedModal({
               >
                 {/* <option selected>Choose a country</option> */}
                 <option value="Sin contactar">Sin Contactar</option>
-                <option value="Contratado">Contratado</option>
+                <option value="Agendar 2do llamado">Agendar 2do llamado</option>
                 <option value="Rechazado">Rechazado</option>
                 <option value="No responde">No Responde</option>
               </select>
@@ -467,18 +566,15 @@ export default function NestedModal({
                 </select>
               </div>
             )}
-            {statusObj.status === "Contratado" && (
-              <div className="flex flex-col justify-center items-center mt-5">
+            {statusObj.status === "Agendar 2do llamado" && (
+              <div className="flex flex-col justify-center items-center mt-5 ">
                 <label
                   htmlFor="last_name"
                   className="block mb-2 text-sm text-center font-medium text-gray-900 dark:text-white"
                 >
-                  Price
+                  Contacto
                 </label>
                 <div className="flex justify-center items-center">
-                  <label htmlFor="" className="text-white m-2">
-                    USD
-                  </label>
                   <input
                     onChange={handleSelectChange}
                     type="text"
@@ -486,12 +582,61 @@ export default function NestedModal({
                     name="status_op"
                     // defaultValue={item.status_op}
                     value={statusObj.status_op}
-                    className="bbg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-28 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    className="bbg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-96 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     // placeholder={item.email}
                     placeholder=""
                     // value="USD"
                     required
                   />
+                </div>
+                <label
+                  htmlFor="last_name"
+                  className="block mb-2 text-sm text-center font-medium text-gray-900 dark:text-white mt-8"
+                >
+                  Observaciones
+                </label>
+                <div className="flex justify-center items-center">
+                  <textarea
+                    onChange={handleSelectChange}
+                    type="text"
+                    id="last_name"
+                    name="status_op"
+                    // defaultValue={item.status_op}
+                    value={statusObj.status_op}
+                    className="bbg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-96 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    // placeholder={item.email}
+                    placeholder=""
+                    // value="USD"
+                    required
+                  />
+                </div>
+                <div className="flex items-center justify-center gap-7 mt-8">
+                  {dateHour.$D ? (<label
+                    htmlFor="last_name"
+                    className="block mb-2 text-sm text-center font-medium text-gray-900 dark:text-white"
+                  >
+                    {`Dia: ${dateHour.$D}/${dateHour.$M}/${dateHour.$y} Hora: ${
+                      dateHour.$H && String(dateHour.$H).length === 1
+                        ? `0${dateHour.$H}`
+                        : dateHour.$H
+                    }:${
+                      dateHour.$m && String(dateHour.$m).length === 1
+                        ? `0${dateHour.$m}`
+                        : dateHour.$m
+                    }`}
+                  </label>) : (<label
+                    htmlFor="last_name"
+                    className="block mb-2 text-sm text-center font-medium text-gray-900 dark:text-white"
+                  >
+                    Fecha y Hora
+                  </label>)}
+                  <button
+                    type="button"
+                    className="py-2 px-3 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                    onClick={setDateTime}
+                  >
+                    Cambiar
+                  </button>
                 </div>
               </div>
             )}
@@ -504,6 +649,15 @@ export default function NestedModal({
                   {formattedUpdate()}
                 </div>
               </div>
+            )}
+          </div>
+          <div className="flex justify-center items-center absolute -right-80 top-0">
+            {openTimeHour && (
+              <ResponsiveDateTimePickers
+                closeDateHour={closeDateHour}
+                changeTime={changeTime}
+                className={style.dateTime}
+              />
             )}
           </div>
 
