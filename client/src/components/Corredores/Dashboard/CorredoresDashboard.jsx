@@ -32,9 +32,15 @@ import "react-toastify/dist/ReactToastify.css";
 
 const CorredoresDashboard = () => {
   const [client, setClient] = useState([]);
+  const [clientCorredor, setClientCorredor] = useState([]);
+  const [dataLoaded, setDataLoaded] = useState(false);
+  const { leadUnchecked10 } = useSelector((state) => state);
+  const dispatch = useDispatch();
+
   const user = useUser().user;
   const org = useOrganization();
   const orgList = useOrganizationList();
+  // const { emailAddress } = user.primaryEmailAddress;
 
   const handleChangeInstagram = (event, index) => {
     const { name, value } = event.target;
@@ -79,7 +85,6 @@ const CorredoresDashboard = () => {
   };
 
   const handleView = async () => {
-    console.log("Enviado el view");
     try {
       for (let i = 0; i < leadUnchecked10.length; i++) {
         const response = await axios.put(`/lead/${client[i]._id}`, {
@@ -87,19 +92,39 @@ const CorredoresDashboard = () => {
         });
         console.log(response.data);
       }
-      console.log("view seteados");
     } catch (error) {
       console.log("No se envio el put de view");
     }
   };
 
-  const { leadUnchecked10 } = useSelector((state) => state);
-  const dispatch = useDispatch();
+  const handleSubmitLeadsCorredor = async (clientCorredor) => {
+    console.log("se cargar los valores", clientCorredor);
+
+    try {
+      // const response = await axios.put(`/corredor/?email=${inputEmail}`, clientCorredor);
+      const response = await axios.put(
+        `/corredor/?email=voeffray.jonathan@gmail.com`,
+        clientCorredor
+      );
+      console.log(response.data);
+      console.log("se cargan las leads a un corredor");
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
-    dispatch(getLeadUnchecked10());
-    handleView();
+    dispatch(getLeadUnchecked10()).then(() => {
+      setDataLoaded(true);
+    });
   }, [dispatch]);
+
+  useEffect(() => {
+    if (dataLoaded) {
+      handleView();
+      handleSubmitLeadsCorredor(clientCorredor);
+    }
+  }, [dataLoaded]);
 
   useEffect(() => {
     let clientes = [];
@@ -114,12 +139,26 @@ const CorredoresDashboard = () => {
           instagram: "",
           level: "-",
           checked: false,
+          leads: [],
           view: true,
         });
       }
     }
     setClient(clientes);
   }, [leadUnchecked10]);
+
+  useEffect(() => {
+    let leadData = [];
+    if (leadUnchecked10.length > 0) {
+      leadData = leadUnchecked10.map((lead) => ({
+        ...lead,
+        leads: [], // Puedes inicializar el array de leads aquí si es necesario
+      }));
+    }
+    setClientCorredor(leadData);
+  }, [leadUnchecked10]);
+
+  console.log(clientCorredor);
 
   const SendLeads = (name) => {
     toast.info(`✔ ${name} Send Leads! `, {
@@ -214,6 +253,7 @@ const CorredoresDashboard = () => {
               email: client[i].email,
               level: client[i].level,
               checked: true,
+              leads: clientIds,
               view: false,
               corredor: user.fullName,
             });
@@ -240,6 +280,7 @@ const CorredoresDashboard = () => {
               email: client[i].email,
               level: client[i].level,
               checked: true,
+              leads: clientIds,
               view: false,
               corredor: user.fullName,
             });
@@ -258,6 +299,8 @@ const CorredoresDashboard = () => {
       console.log({ error: error.message });
     }
   };
+
+  console.log(leadUnchecked10);
 
   return (
     <>

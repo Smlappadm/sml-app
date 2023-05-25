@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 
-const CorredorSchema = new mongoose.Schema(
+const LeaderSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -16,7 +16,7 @@ const CorredorSchema = new mongoose.Schema(
       },
     },
     birthdate: {
-      type: String,
+      type: Date,
     },
     photo: {
       type: String,
@@ -30,29 +30,9 @@ const CorredorSchema = new mongoose.Schema(
     description: {
       type: String,
     },
-    classifications: {
-      type: String,
-    },
-    average_delay: {
-      type: String,
-    },
-    incidences: {
-      type: String,
-    },
-    hired_leads: {
-      type: String,
-    },
     rol: {
       type: String,
       required: true,
-    },
-    leads: {
-      type: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Lead",
-        },
-      ],
     },
     deleted: {
       type: Boolean,
@@ -63,10 +43,10 @@ const CorredorSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-CorredorSchema.pre("find", function () {
+LeaderSchema.pre("find", function () {
   this.where({ deleted: false });
 });
 
-const Corredor = new mongoose.model("corredor", CorredorSchema);
+const Leader = new mongoose.model("leader", LeaderSchema);
 
-module.exports = Corredor;
+module.exports = Leader;

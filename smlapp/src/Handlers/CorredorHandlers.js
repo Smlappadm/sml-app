@@ -3,7 +3,6 @@ const getCorredorById = require("../controllers/Corredor/getCorredorById");
 const getCorredorByName = require("../controllers/Corredor/getCorredorByName");
 const postCorredor = require("../controllers/Corredor/postCorredor");
 const updateCorredorById = require("../controllers/Corredor/updateCorredorById");
-const updateLeadsCorredorByEmail = require("../controllers/Corredor/updateLeadsCorredor");
 
 const getAllCorredoresHandler = async (req, res) => {
   try {
@@ -59,24 +58,10 @@ const getCorredorByIdHandler = async (req, res) => {
   }
 };
 
-const updateCorredorByEmailHandler = async (req, res) => {
-  const email = req.query.email;
-  const newLeads = req.body;
-
-  try {
-    const updatedCorredor = await updateLeadsCorredorByEmail(email, newLeads);
-    return res.json(updatedCorredor);
-  } catch (error) {
-    console.error("Error al actualizar el corredor:", error);
-    return res.status(500).json({ error: "Error al actualizar el corredor" });
-  }
-};
-
 module.exports = {
   getAllCorredoresHandler,
   postCorredorHandler,
   updateCorredorHandler,
   getCorredorByIdHandler,
   getCorredorByNameHandler,
-  updateCorredorByEmailHandler,
 };
