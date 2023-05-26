@@ -49,7 +49,7 @@ function Landing() {
 						?
 						<div className={style.containerWellcome}>
 							<h1 className={style.wellcome}>Bienvenido {user.fullName} </h1>
-							<h3 className={style.role}>role: {role} </h3>
+							<h3 className={style.role}>rol: {role} </h3>
 						</div>
 						:
 						<h1 className={style.notWellcome}>entrada no autorizada</h1>
