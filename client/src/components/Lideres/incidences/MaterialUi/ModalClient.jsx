@@ -2,7 +2,8 @@ import React, { useState } from "react"
 import Box from "@mui/material/Box"
 import Modal from "@mui/material/Modal"
 import axios from "axios"
-
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const style = {
   position: "absolute",
@@ -69,7 +70,7 @@ export default function BasicModal(props) {
   const handleUrlChange = (event) => {
     const updatedValue = event.target.value;
     const newValue = updatedValue !== "" ? updatedValue : url;
-    setFilledUrl(newValue);
+    setfilledUrl(newValue);
   }
 
   const handleLevelChange = () => {
@@ -78,6 +79,27 @@ export default function BasicModal(props) {
       level: true,
     }))
   }
+
+  const handleClose = () => {
+    // Reset form values
+    setFilledEmail(email || "");
+    setFilledInstagram(instagram || "");
+    setFilledTelephone(telephone || "");
+    setFilledLevel(level || "");
+    setfilledUrl(url || "");
+  
+    // Reset input visibility
+    setInputVisibility({
+      email: false,
+      instagram: false,
+      telephone: false,
+      level: false,
+      url: false
+    });
+  
+    // Close the modal
+    props.handleClose();
+  };
 
   console.log(url)
   console.log(_id)
@@ -94,17 +116,31 @@ export default function BasicModal(props) {
       .put(`lead/${_id}`, updatedData)
       .then((response) => {
         console.log("Datos actualizados correctamente:", response.data)
+        toast.success("✔ Lead Update!", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark", 
+          onClose: handleClose
+        });
       })
       .catch((error) => {
         console.error("Error al actualizar los datos:", error)
+        alert("Error updating data. Please try again.");
       })
   }
 
   return (
+    
     <div>
+      <ToastContainer />
       <Modal
         open={props.open}
-        onClose={props.handleClose}
+        onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
         BackdropProps={{
@@ -114,6 +150,7 @@ export default function BasicModal(props) {
         }}
       >
         <Box sx={style}>
+        
           <div className="flex flex-col justify-between h-full">
             <div className="font-semibold flex flex-col gap-3 items-center text-24 mb-5">
               <h1>{name} </h1>
