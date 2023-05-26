@@ -28,7 +28,6 @@ export default function BasicModal(props) {
     email,
     instagram,
     telephone,
-    status,
     city,
     province,
     url
