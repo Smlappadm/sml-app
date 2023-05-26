@@ -16,9 +16,8 @@ import {
   GET_LEADS_LLAMADA_VENTA,
   GET_EMPLOYEES,
   SET_ROL,
-  SET_ACCESS
-
-
+  SET_ACCESS,
+  GET_CORREDOR_LEAD,
 } from "./actions";
 
 const initialState = {
@@ -37,29 +36,29 @@ const initialState = {
   LeadsLlamadaVenta: [],
   employees: [],
   rol: undefined,
-  isEmployee: undefined
+  isEmployee: undefined,
+  corredorLead: [],
 };
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_ROL:
-        return {
-          ...state,
-          rol: action.payload
+      return {
+        ...state,
+        rol: action.payload,
       };
-      // ...
-      case SET_ACCESS:
-        return {
-          ...state,
-          isEmployee: action.payload,
-        };
+    // ...
+    case SET_ACCESS:
+      return {
+        ...state,
+        isEmployee: action.payload,
+      };
 
-case GET_EMPLOYEES:
+    case GET_EMPLOYEES:
       return {
         ...state,
         employees: action.payload,
       };
-
 
     case GET_ALL_LEAD:
       return {
@@ -251,6 +250,11 @@ case GET_EMPLOYEES:
       return {
         ...state,
         LeadsLlamadaVenta: action.payload,
+      };
+    case GET_CORREDOR_LEAD:
+      return {
+        ...state,
+        corredorLead: action.payload,
       };
 
     default:

@@ -46,6 +46,11 @@ const CorredorSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    leads: {
+      type: Array,
+      required: true,
+      default: [],
+    },
     deleted: {
       type: Boolean,
       default: false,

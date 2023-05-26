@@ -130,8 +130,6 @@ function ChildModal({
       return;
     }
 
-    console.log(itemRol);
-
     try {
       const response = await axios.put(`/${itemRol}/${itemId}`, {
         name: inputName,

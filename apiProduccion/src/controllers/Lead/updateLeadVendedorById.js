@@ -11,8 +11,12 @@ const updateLeadVendedorById = async (id, updatedData) => {
   // });
 
   // console.log(VendedorArrays);
-
   const leadCountCheck = await Lead.findById(id);
+  // console.log(leadCountCheck.llamados)
+
+  if (!updatedData.dataLead.llamados) {
+    updatedData.dataLead.llamados = 0;
+  }
 
   if (
     updatedData.dataLead.status === "No responde" &&
@@ -51,8 +55,6 @@ const updateLeadVendedorById = async (id, updatedData) => {
       { $addToSet: { leads: { $each: [valor] } } },
       { new: true }
     );
-    // vendedor.leads.push(valor);
-    // await vendedor.save();
   } else {
     await vendedor.save();
   }
@@ -62,7 +64,6 @@ const updateLeadVendedorById = async (id, updatedData) => {
     vendedor,
   };
 
-  // Imprimir la publicación completa
   return data;
 };
 

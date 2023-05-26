@@ -18,6 +18,7 @@ export const GET_LEADS_LLAMADA_VENTA = "GET_LEADS_LLAMADA_VENTA";
 export const SET_ROL = "SET_ROL";
 export const SET_ACCESS = "SET_ACCESS";
 export const GET_EMPLOYEES = "GET_EMPLOYEES";
+export const GET_CORREDOR_LEAD = "GET_CORREDOR_LEAD";
 //
 export const setRol = (rol) => {
   return async (dispatch) => {
@@ -190,5 +191,13 @@ export const getLeadsLLamadaVenta = (email) => {
       type: GET_LEADS_LLAMADA_VENTA,
       payload: allLeadsVentaMaps,
     });
+  };
+};
+
+export const getCorredoresLead = (email) => {
+  return async (dispatch) => {
+    const response = await axios.get(`/corredor/email/?email=${email}`);
+    const corredorLead = response.data;
+    dispatch({ type: GET_CORREDOR_LEAD, payload: corredorLead });
   };
 };
