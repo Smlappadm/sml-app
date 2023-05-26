@@ -25,8 +25,8 @@
   margin-top: 20px;
   display: grid;
 
-  grid-template-columns: 26% 31% 19.7% 10% auto;
-  margin-left: 30px;
+  grid-template-columns: 27% 31% 19.7% 10% auto;
+  margin-left: 50px;
 }
 
 .tableCards {
@@ -46,11 +46,30 @@
 .tableCell {
   padding: 0;
 }
-
-.icon {
+.mail {
   color: rgb(116, 136, 201);
-  font-size: 23px;
-  margin-right: 5px;
+  font-size: 25px;
+  width: 25px;
+  text-overflow: ellipsis;
+}
+.notMail {
+  color: gray;
+  font-size: 25px;
+  width: 25px;
+  text-overflow: ellipsis;
+}
+
+.ig {
+  color: #ff598b;
+  font-size: 25px;
+  width: 25px;
+  text-overflow: ellipsis;
+}
+.notIg {
+  color: gray;
+  font-size: 25px;
+  width: 25px;
+  text-overflow: ellipsis;
 }
 
 @media screen and (max-width: 1500px) {

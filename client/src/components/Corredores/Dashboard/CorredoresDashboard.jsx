@@ -32,10 +32,12 @@ import "react-toastify/dist/ReactToastify.css";
 
 const CorredoresDashboard = () => {
   const [client, setClient] = useState([]);
-  const [clientCorredor, setClientCorredor] = useState([]);
   const [dataLoaded, setDataLoaded] = useState(false);
   const { leadUnchecked10 } = useSelector((state) => state);
+  const { LeadValue } = useSelector((state) => state);
   const dispatch = useDispatch();
+
+  console.log(LeadValue);
 
   const user = useUser().user;
   const org = useOrganization();
@@ -84,32 +86,28 @@ const CorredoresDashboard = () => {
     });
   };
 
+  const leadUncheckedAsignedCorredor = async () => {
+    try {
+      for (let i = 0; i < leadUnchecked10.length; i++) {
+        const response = await axios.put(
+          `/corredor/?email=voeffray.jonathan@gmail.com`,
+          leadUnchecked10[i]
+        );
+      }
+    } catch (error) {
+      console.log("No se envio el lead");
+    }
+  };
+
   const handleView = async () => {
     try {
       for (let i = 0; i < leadUnchecked10.length; i++) {
         const response = await axios.put(`/lead/${client[i]._id}`, {
           view: client[i].view,
         });
-        console.log(response.data);
       }
     } catch (error) {
       console.log("No se envio el put de view");
-    }
-  };
-
-  const handleSubmitLeadsCorredor = async (clientCorredor) => {
-    console.log("se cargar los valores", clientCorredor);
-
-    try {
-      // const response = await axios.put(`/corredor/?email=${inputEmail}`, clientCorredor);
-      const response = await axios.put(
-        `/corredor/?email=voeffray.jonathan@gmail.com`,
-        clientCorredor
-      );
-      console.log(response.data);
-      console.log("se cargan las leads a un corredor");
-    } catch (error) {
-      console.error(error);
     }
   };
 
@@ -122,7 +120,7 @@ const CorredoresDashboard = () => {
   useEffect(() => {
     if (dataLoaded) {
       handleView();
-      handleSubmitLeadsCorredor(clientCorredor);
+      leadUncheckedAsignedCorredor();
     }
   }, [dataLoaded]);
 
@@ -139,26 +137,12 @@ const CorredoresDashboard = () => {
           instagram: "",
           level: "-",
           checked: false,
-          leads: [],
           view: true,
         });
       }
     }
     setClient(clientes);
   }, [leadUnchecked10]);
-
-  useEffect(() => {
-    let leadData = [];
-    if (leadUnchecked10.length > 0) {
-      leadData = leadUnchecked10.map((lead) => ({
-        ...lead,
-        leads: [], // Puedes inicializar el array de leads aquí si es necesario
-      }));
-    }
-    setClientCorredor(leadData);
-  }, [leadUnchecked10]);
-
-  console.log(clientCorredor);
 
   const SendLeads = (name) => {
     toast.info(`✔ ${name} Send Leads! `, {
@@ -253,7 +237,6 @@ const CorredoresDashboard = () => {
               email: client[i].email,
               level: client[i].level,
               checked: true,
-              leads: clientIds,
               view: false,
               corredor: user.fullName,
             });
@@ -280,7 +263,6 @@ const CorredoresDashboard = () => {
               email: client[i].email,
               level: client[i].level,
               checked: true,
-              leads: clientIds,
               view: false,
               corredor: user.fullName,
             });
@@ -300,8 +282,6 @@ const CorredoresDashboard = () => {
     }
   };
 
-  console.log(leadUnchecked10);
-
   return (
     <>
       <Nav />
@@ -318,9 +298,6 @@ const CorredoresDashboard = () => {
                   <IoGrid className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
                 </Link>
                 <Link className="text-5xl" to={"/corredores-history"}>
-                  <FaHistory className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
-                </Link>
-                <Link className="text-5xl" to={"/corredores/history"}>
                   <IoStatsChart className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
                 </Link>
               </div>

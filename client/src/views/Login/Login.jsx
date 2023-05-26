@@ -1,19 +1,13 @@
+import { useSelector } from 'react-redux';
 import style from './Login.module.css';
-import {
-	ClerkProvider,
-	SignedIn,
-	SignedOut,
-	RedirectToSignIn,
-	SignIn,
-	SignUp,
-	UserButton,
-} from "@clerk/clerk-react";
+
 
 function Login() {
-
+	const access = useSelector(state => state.isEmployee);
 	return (
 		<div className={style.container}>
-			<UserButton />
+			<h1>SOCIAL MEDIA LAB</h1>
+			<a className={style.loginbtn} href="/protected">ingresar</a>
 		</div>
 	);
 }

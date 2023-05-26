@@ -14,7 +14,37 @@ export const GET_ALL_VENDEDORES = "GET_ALL_VENDEDORES";
 export const GET_ALL_LEADER = "GET_ALL_LEADER";
 export const GET_ALL_CLEVEL = "GET_ALL_CLEVEL";
 export const GET_VENDEDOR_ALL_LEADS = "GET_VENDEDOR_ALL_LEADS";
+export const GET_LEADS_LLAMADA_VENTA = "GET_LEADS_LLAMADA_VENTA";
+export const SET_ROL = "SET_ROL";
+export const SET_ACCESS = "SET_ACCESS";
+export const GET_EMPLOYEES = "GET_EMPLOYEES";
+//
+export const setRol = (rol) => {
+  return async (dispatch) => {
+    // Simular una operación asincrónica para obtener el valor de rol
+    const fetchedRol = await new Promise((resolve) =>
+      setTimeout(() => resolve(rol), 2000)
+    );
 
+    dispatch({
+      type: SET_ROL,
+      payload: fetchedRol,
+    });
+  };
+};
+
+export const setAccess = (access) => {
+  return {
+    type: SET_ACCESS,
+    payload: access,
+  };
+};
+export const getEmployees = (employees) => ({
+  type: GET_EMPLOYEES,
+  payload: employees,
+});
+
+//
 export const getAllLead = () => {
   return async (dispatch) => {
     const response = await axios.get("/lead");
@@ -124,9 +154,41 @@ export const getVendedorAllLeads = (email) => {
   return async (dispatch) => {
     const response = await axios.get(`/vendedor/email?email=${email}`);
     const allLeads = response.data.leads;
+    console.log(allLeads);
+
+    const allLeadsMaps = allLeads
+      .map((item) => {
+        if (
+          item.status !== "Sin contactar" &&
+          item.status !== "Agendar 2do llamado"
+        ) {
+          return item;
+        }
+      })
+      .filter((item) => item !== undefined);
     dispatch({
       type: GET_VENDEDOR_ALL_LEADS,
-      payload: allLeads,
+      payload: allLeadsMaps,
+    });
+  };
+};
+export const getLeadsLLamadaVenta = (email) => {
+  return async (dispatch) => {
+    const response = await axios.get(`/vendedor/email?email=${email}`);
+    const allLeads = response.data.leads;
+
+    const allLeadsVentaMaps = allLeads
+      .map((item) => {
+        if (item.status === "Agendar 2do llamado") {
+          return item;
+        }
+      })
+      .filter((item) => item !== undefined);
+
+    console.log(allLeadsVentaMaps);
+    dispatch({
+      type: GET_LEADS_LLAMADA_VENTA,
+      payload: allLeadsVentaMaps,
     });
   };
 };

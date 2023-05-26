@@ -163,31 +163,6 @@ const VendedoresDashboard = () => {
             </div>
             {filters.level === true ? (
             <SelectLevel onChange={onChangeLevel} value={levelValue} />
-
-              // <select
-              //   name="level"
-              //   id="level"
-              //   onChange={(event) => {
-              //     onChangeLevel(event.target.value);
-              //   }}
-              //   className="w-1/5 text-center bg-transparent border border-white rounded-md p-1 absolute left-[40%] "
-              // >
-              //   <option value="" disabled selected className="bg-[#222131]">
-              //     Seleccione un nivel
-              //   </option>
-              //   <option value="0" className="bg-[#222131]">
-              //     0
-              //   </option>
-              //   <option value="1" className="bg-[#222131]">
-              //     1
-              //   </option>
-              //   <option value="2" className="bg-[#222131]">
-              //     2
-              //   </option>
-              //   <option value="incidencia" className="bg-[#222131]">
-              //     Incidencia
-              //   </option>
-              // </select>
             ) : (
               ""
             )}
@@ -247,10 +222,10 @@ const VendedoresDashboard = () => {
                     </td>
                     <td className="flex justify-center items-center p-0 w-fit">
                       {item.instagram ? (
-                        <div onClick={() => handleCopyClick(item.instagram)}>
-                          <div className="cursor-pointer">
+                        <div>
+                          <a href={item.instagram} target="_blank" className="cursor-pointer">
                             <CiInstagram className="text-[35px] mr-5 text-[#ff598b]" />
-                          </div>
+                          </a>
                         </div>
                       ) : (
                         <div>
@@ -276,7 +251,7 @@ const VendedoresDashboard = () => {
                     </td>
                     <td className="flex justify-start items-start p-0 w-fit">
                       {item.status === "Sin contactar" && (
-                        <p className="bg-[#ff69b4] w-44 h-11 flex justify-center items-center text-white rounded-3xl text-18">
+                        <p className="bg-[#d0da3d] w-44 h-11 flex justify-center items-center text-white rounded-3xl text-18">
                           {item.status}
                         </p>
                       )}

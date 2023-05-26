@@ -86,17 +86,31 @@ function ChildModal({
       });
       CreateEmployees(inputName);
       console.log(response.data);
+
+      // const emailData = {
+      //   clientName: client[i].name,
+      //   recipientEmail: inputEmail,
+      //   message: `Bienvenido a la empresa ${inputName}, su mail es ${inputEmail} y su contraseña es ${selectEmployees}`,
+      // };
+
+      // await axios.post(
+      //   "/corredor/sendmail",
+      //   emailData
+      // );
     } catch (error) {
       ErrorCreateEmployees(inputName);
       console.log(`No se pudo enviar el post de ${selectEmployees}`);
     }
 
     try {
-      const responseEmployees = await axios.post("/employees", {
-        name: inputName,
-        email: inputEmail,
-        rol: selectEmployees,
-      });
+      const responseEmployees = await axios.post(
+        "/employees",
+        {
+          name: inputName,
+          email: inputEmail,
+          rol: selectEmployees,
+        }
+      );
       console.log(responseEmployees.data);
     } catch (error) {
       console.log(`No se pudo enviar el post de Employees`);

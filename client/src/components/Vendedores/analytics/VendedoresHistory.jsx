@@ -26,21 +26,23 @@ const VendedoresHistory = () => {
   const [data, setData] = useState([]);
   const { leadCheckedInactive100 } = useSelector((state) => state);
   const { vendedorAllLeads } = useSelector((state) => state);
-  const user = useUser().user;
   // const { emailAddress } = user.primaryEmailAddress;
   const dispatch = useDispatch();
   const [showCopiedMessage, setShowCopiedMessage] = useState(false);
+  const user = useUser().user;
+  const email = user?.emailAddresses[0].emailAddress;
+  console.log(email);
+
 
   // console.log(emailAddress)
 
   useEffect(() => {
-    dispatch(getVendedorAllLeads("smlappadm@gmail.com"));
-    dispatch(getLeadCheckedInactive100());
+    dispatch(getVendedorAllLeads(email));
+
   }, [dispatch]);
   useEffect(() => {
     setData(vendedorAllLeads);
   }, [vendedorAllLeads]);
-  console.log(data);
   const [pageStyle, setPageStyle] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [cardXPage, setCardXpage] = useState(10);
@@ -101,7 +103,7 @@ const VendedoresHistory = () => {
   };
 
   const updateLeads = () => {
-    dispatch(getVendedorAllLeads("smlappadm@gmail.com"));
+    dispatch(getVendedorAllLeads(email));
     setData(vendedorAllLeads);
   };
 
@@ -141,7 +143,8 @@ const VendedoresHistory = () => {
               </div>
             </div>
           </div>
-          {vendedorAllLeads.length ? (
+
+          {vendedorAllLeads.length > 0 ? (
             <table className={style.table}>
   <thead className="text-gray-400 text-14 font-thin">
     <tr className={style.tableRow}>
@@ -230,6 +233,11 @@ const VendedoresHistory = () => {
                       {item.status === "No responde" && (
                         <p className="bg-[#2148b4] w-44 h-11 flex justify-center items-center text-white rounded-3xl text-18">
                           Sin responder
+                        </p>
+                      )}
+                      {item.status === "Rechazado" && (
+                        <p className="bg-[#ac4242] w-44 h-11 flex justify-center items-center text-white rounded-3xl text-18">
+                          Rechazado
                         </p>
                       )}
                     </td>

@@ -31,6 +31,7 @@ const style = {
 
 function ChildModalDelete({
   inputName,
+  inputEmail,
   itemRol,
   itemId,
   onModalClose,
@@ -49,14 +50,22 @@ function ChildModalDelete({
         deleted: true,
       });
 
-      BannedEmployees(inputName);
-      onModalClose();
       console.log(response.data);
     } catch (error) {
       ErrorEmployees(inputName);
       console.log(`No se pudo enviar el baneado de ${itemRol} ${itemId} `);
     }
+    try {
+      const response = await axios.put(`/employees/?email=${inputEmail}`, {
+        deleted: true,
+      });
 
+      BannedEmployees(inputName);
+      onModalClose();
+      console.log(response.data);
+    } catch (error) {
+      console.log(`No se pudo enviar el baneado de ${itemRol} ${itemId} `);
+    }
     dispatch(getAllCorredores());
     dispatch(getAllVendedores());
     dispatch(getAllLeader());
@@ -225,6 +234,10 @@ export default function NestedModalEdit({
                 inputPhone={inputPhone}
                 setInputPhone={setInputPhone}
               />
+              {/* <BasicSelect
+                employees={selectEmployees}
+                setEmployees={setSelectEmployees}
+              /> */}
             </div>
           </div>
           <div className="flex gap-3 justify-center items-center">
@@ -242,6 +255,7 @@ export default function NestedModalEdit({
             {itemRol !== "clevel" && itemRol !== "leader" ? (
               <ChildModalDelete
                 inputName={inputName}
+                inputEmail={inputEmail}
                 itemRol={itemRol}
                 itemId={itemId}
                 SendEmployees={SendEmployees}

@@ -35,7 +35,9 @@ server.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "client", "dist", "index.html"));
 });
 
+// Error catching endware.
 server.use((err, req, res, next) => {
+  // eslint-disable-line no-unused-vars
   const status = err.status || 500;
   const message = err.message || err;
   console.error(err);

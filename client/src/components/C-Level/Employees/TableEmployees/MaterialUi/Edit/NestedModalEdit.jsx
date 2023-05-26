@@ -57,9 +57,7 @@ function ChildModalDelete({
     }
 
     try {
-      const response = await axios.put(`/employees/?email=${inputEmail}`, {
-        deleted: true,
-      });
+      const response = await axios.delete(`/employees/?email=${inputEmail}`);
 
       BannedEmployees(inputName);
       onModalClose();

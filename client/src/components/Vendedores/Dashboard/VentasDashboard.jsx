@@ -3,7 +3,11 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import PaginationOutlined from "../../pagination/PaginationOutlined";
-import { filterLevel, getLeadCheckedInactive100 } from "../../../redux/actions";
+import {
+  filterLevel,
+  getLeadCheckedInactive100,
+  getLeadsLLamadaVenta,
+} from "../../../redux/actions";
 import { AiOutlinePhone } from "react-icons/ai";
 import Modal from "./Modal/Modal";
 import { IoGrid, IoStatsChart } from "react-icons/io5";
@@ -12,23 +16,26 @@ import "react-toastify/dist/ReactToastify.css";
 import { FaHistory } from "react-icons/fa";
 import { MdOutlineAttachMoney } from "react-icons/md";
 import SelectLevel from "./SelectLevel";
-
+import { useUser } from "@clerk/clerk-react";
 import { CiWarning, CiInstagram, CiMail } from "react-icons/ci";
 
 import Nav from "../../Nav/Nav";
 
 const VentasDashboard = () => {
   const [data, setData] = useState([]);
-  const { vendedoresDashboard } = useSelector((state) => state);
+  const { LeadsLlamadaVenta } = useSelector((state) => state);
   const dispatch = useDispatch();
   const [showCopiedMessage, setShowCopiedMessage] = useState(false);
+  const user = useUser().user;
+  const email = user?.emailAddresses[0].emailAddress;
+  console.log(email);
 
   useEffect(() => {
-    dispatch(getLeadCheckedInactive100());
+    dispatch(getLeadsLLamadaVenta(email));
   }, [dispatch]);
   useEffect(() => {
-    setData(vendedoresDashboard);
-  }, [vendedoresDashboard]);
+    setData(LeadsLlamadaVenta);
+  }, [LeadsLlamadaVenta]);
 
   const [pageStyle, setPageStyle] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
@@ -66,7 +73,7 @@ const VentasDashboard = () => {
   const onChangeLevel = (value) => {
     setLevelValue(value);
     dispatch(filterLevel(value));
-    setData(vendedoresDashboard);
+    setData(LeadsLlamadaVenta);
     setCurrentPage(1);
   };
   //********************************* */
@@ -99,7 +106,7 @@ const VentasDashboard = () => {
       progress: undefined,
       theme: "dark",
     });
-    dispatch(getLeadCheckedInactive100());
+    dispatch(getLeadsLLamadaVenta(email));
   };
   const SendErrorUpdateAlert = () => {
     toast.error("The lead could not be updated!", {
@@ -124,11 +131,11 @@ const VentasDashboard = () => {
       progress: undefined,
       theme: "dark",
     });
-    dispatch(getLeadCheckedInactive100());
+    dispatch(getLeadsLLamadaVenta());
   };
   const updateLeads = () => {
-    dispatch(getLeadCheckedInactive100());
-    setData(vendedoresDashboard);
+    dispatch(getLeadsLLamadaVenta());
+    setData(LeadsLlamadaVenta);
   };
 
   return (
@@ -191,7 +198,7 @@ const VentasDashboard = () => {
               ""
             )}
           </div>
-          {vendedoresDashboard.length ? (
+          {LeadsLlamadaVenta.length > 0 ? (
             <table className={style.table}>
               <thead className="text-gray-400 text-14 font-thin">
                 <tr className={style.tableRow}>
@@ -206,6 +213,7 @@ const VentasDashboard = () => {
                       Nivel
                     </button>
                   </th>
+                  <th className="text-start">Llamar</th>
                   <th className="text-start">Status</th>
                   <th className="text-start"></th>
                 </tr>
@@ -213,7 +221,7 @@ const VentasDashboard = () => {
 
               <tbody className="">
                 {currentCard.map((item, index) => (
-                  <tr key={item._id} className={style.tableCards}>
+                  <tr key={index} className={style.tableCards}>
                     <td className="flex justify-start items-center  p-0 w-fit">
                       <p className="w-64 p-1 px-3 rounded-full text-ellipsis text-18 opacity-1 overflow-hidden whitespace-nowrap hover:overflow-visible hover:bg-[#e3e1e1] hover:w-fit hover:text-black z-111 hover:absolute">
                         {item.name}
@@ -276,15 +284,33 @@ const VentasDashboard = () => {
                         </div>
                       )}
                     </td>
+                    <td className="flex justify-start items-center p-0 w-fit">
+                      {item.llamada_venta.contacto ? (
+                 <div>
+
+                        <p className="w-64  px-3 rounded-full text-ellipsis text-16 opacity-1 overflow-hidden whitespace-nowrap hover:overflow-visible hover:bg-[#e3e1e1] hover:w-fit hover:text-black z-111 ">
+                          {item.llamada_venta.contacto}
+                        </p>
+                        <p className="w-64  px-3 rounded-full text-ellipsis text-16 opacity-1 overflow-hidden whitespace-nowrap hover:overflow-visible hover:bg-[#e3e1e1] hover:w-fit hover:text-black z-111">
+                          {item.llamada_venta.dia_hora}
+                        </p>
+                 </div>
+                      
+                      ) : (
+                        <div className="bg-[#6254ff] text-[#e8e8e9] w-[40px] rounded h-10 flex items-center justify-center text-[35px] drop-shadow-xl">
+                          <CiWarning className="text-[#fdfa3a] p-0 text-[35px] font-bold" />
+                        </div>
+                      )}
+                    </td>
                     <td className="flex justify-start items-start p-0 w-fit">
                       {item.status === "Sin contactar" && (
                         <p className="bg-[#ff69b4] w-44 h-11 flex justify-center items-center text-white rounded-3xl text-18">
                           {item.status}
                         </p>
                       )}
-                      {item.status === "No responde" && (
+                      {item.status === "Agendar 2do llamado" && (
                         // <p className="bg-[#b4215e] w-44 h-11 flex justify-center items-center text-white rounded-3xl text-18">
-                        <p className="bg-[#2148b4] w-44 h-11 flex justify-center items-center text-white rounded-3xl text-18">
+                        <p className="bg-[#21b46f] w-52 h-11 flex justify-center items-center text-white rounded-3xl text-18">
                           {/* bg-[#ff69b4]  */}
                           {item.status}
                         </p>
