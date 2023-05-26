@@ -41,6 +41,7 @@ function Landing() {
 		fetchEmployees();
 	}, [dispatch, isEmployee()]);
 
+	console.log(employees);
 	return (
 		<div className={style.container}>
 
