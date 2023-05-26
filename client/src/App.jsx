@@ -136,7 +136,7 @@ function ClerkProviderWithRoutes() {
           path="/lideres"
           element={
             isRoleAllowed(roleReady) &&
-            (roleReady === "clevel" || roleReady === "leader") ? (
+              (roleReady === "clevel" || roleReady === "leader") ? (
               <LideresDasboard />
             ) : (
               <ReturnToPage />
@@ -147,7 +147,7 @@ function ClerkProviderWithRoutes() {
           path="/lideres-analytics"
           element={
             isRoleAllowed(roleReady) &&
-            (roleReady === "clevel" || roleReady === "leader") ? (
+              (roleReady === "clevel" || roleReady === "leader") ? (
               <AnalyticLeader />
             ) : (
               <ReturnToPage />
@@ -172,7 +172,7 @@ function ClerkProviderWithRoutes() {
           path="/clevel"
           element={
             isRoleAllowed(roleReady) &&
-            (roleReady === "clevel" || roleReady === "leader") ? (
+              (roleReady === "clevel" || roleReady === "leader") ? (
               <Clevel />
             ) : (
               <ReturnToPage />
@@ -192,7 +192,7 @@ function ClerkProviderWithRoutes() {
         <Route
           path="/corredores"
           element={
-            isRoleAllowed(roleReady) && roleReady === "corredor" ? (
+            isRoleAllowed(roleReady) && roleReady === "corredor" || roleReady === "clevel" || roleReady === "leader" ? (
               <CorredoresDashboard />
             ) : (
               <ReturnToPage />
@@ -202,19 +202,19 @@ function ClerkProviderWithRoutes() {
         <Route
           path="/corredores-history"
           element={
-            isRoleAllowed(roleReady) && roleReady === "corredor" ? (
+            isRoleAllowed(roleReady) && roleReady === "corredor" || roleReady === "clevel" || roleReady === "leader" ? (
               <CorredoresAnlaytics />
             ) : (
               <ReturnToPage />
             )
           }
         />
-        <Route path="/analytics" element={<Analytics />} />
+        <Route path="/analytics" element={isRoleAllowed(roleReady) && (roleReady === "clevel" || roleReady === "leader") ? <Analytics /> : <ReturnToPage />} />
         <Route path="/settings" element={<Settings />} />
         <Route
           path="/vendedores"
           element={
-            isRoleAllowed(roleReady) && roleReady === "vendedor" ? (
+            isRoleAllowed(roleReady) && roleReady === "vendedor" || roleReady === "clevel" || roleReady === "leader" ? (
               <VendedoresDashboard />
             ) : (
               <ReturnToPage />
@@ -224,7 +224,7 @@ function ClerkProviderWithRoutes() {
         <Route
           path="/vendedores-history"
           element={
-            isRoleAllowed(roleReady) && roleReady === "vendedor" ? (
+            isRoleAllowed(roleReady) && roleReady === "vendedor" || roleReady === "clevel" || roleReady === "leader" ? (
               <VendedoresHistory />
             ) : (
               <ReturnToPage />
@@ -234,7 +234,7 @@ function ClerkProviderWithRoutes() {
         <Route
           path="/vendedores-ventas"
           element={
-            isRoleAllowed(roleReady) && roleReady === "vendedor" ? (
+            isRoleAllowed(roleReady) && roleReady === "vendedor" || roleReady === "clevel" || roleReady === "leader" ? (
               <VentasDasboard />
             ) : (
               <ReturnToPage />
@@ -244,7 +244,7 @@ function ClerkProviderWithRoutes() {
         <Route
           path="/vendedores-analytics"
           element={
-            isRoleAllowed(roleReady) && roleReady === "vendedor" ? (
+            isRoleAllowed(roleReady) && roleReady === "vendedor" || roleReady === "clevel" || roleReady === "leader" ? (
               <VendedoresAnalytics />
             ) : (
               <ReturnToPage />
