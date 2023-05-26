@@ -90,9 +90,9 @@ export const getLeadUnchecked = () => {
   };
 };
 
-export const getLeadUnchecked10 = () => {
+export const getLeadUnchecked10 = (email) => {
   return async (dispatch) => {
-    const response = await axios.get("/lead/unchecked10");
+    const response = await axios.get(`/lead/unchecked10?email=${email}`);
     const LeadUnchecked10 = response.data;
     dispatch({ type: GET_LEAD_UNCHECKED_10, payload: LeadUnchecked10 });
   };

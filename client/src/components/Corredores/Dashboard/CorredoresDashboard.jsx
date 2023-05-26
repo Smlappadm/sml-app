@@ -21,6 +21,7 @@ import { IoGrid, IoStatsChart } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { getCorredoresLead, getLeadUnchecked10 } from "../../../redux/actions";
 import IconLabelButtons from "./MaterialUi/IconLabelButtons";
+import asignedLead from "./MaterialUi/asignedLead";
 import { useUser } from "@clerk/clerk-react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -28,8 +29,8 @@ import "react-toastify/dist/ReactToastify.css";
 const CorredoresDashboard = () => {
   const [client, setClient] = useState([]);
   const [dataLoaded, setDataLoaded] = useState(false);
+  const [count, setCount] = useState(0);
   const { leadUnchecked10 } = useSelector((state) => state);
-  const { corredorLead } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const user = useUser().user;
@@ -62,6 +63,7 @@ const CorredoresDashboard = () => {
     });
   };
 
+
   const handleClientClick = (event, index) => {
     const { name, value } = event.target;
 
@@ -77,29 +79,21 @@ const CorredoresDashboard = () => {
     });
   };
 
-  const leadUncheckedAsignedCorredor = async () => {
-    try {
-      for (let i = 0; i < corredorLead.length; i++) {
-        const response = await axios.put(`/corredor/?email=${email}`, {
-          id: leadUnchecked10[i]._id,
-        });
-        console.log(response.data);
-      }
-    } catch (error) {
-      console.log("No se envió el lead");
+  const handleAsignedLead = () => {
+    let n = 10;
+    if (leadUnchecked10.length === 0) {
+      leadUncheckedAsignedCorredor(n);
     }
   };
 
-  const leadChecked = async () => {
-    console.log("checked true");
+  const leadUncheckedAsignedCorredor = async (n) => {
+    console.log(n);
     try {
-      const response = await axios.put(`/corredor/checked?email=${email}`, {
-        checked: true,
-      });
-      console.log("Lead marcado como revisado:", response.data);
-    } catch (error) {
-      console.log("Error al marcar el lead como revisado:", error);
-    }
+      const response = await axios.put(
+        `/lead/unchecked10/corredor?email=${email}&limit=${n}`
+      );
+      console.log(response.data);
+    } catch (error) {}
   };
 
   const handleView = async () => {
@@ -108,6 +102,7 @@ const CorredoresDashboard = () => {
         const response = await axios.put(`/lead/${client[i]._id}`, {
           view: client[i].view,
         });
+        console.log(response.data);
       }
     } catch (error) {
       console.log("No se envio el put de view");
@@ -115,10 +110,7 @@ const CorredoresDashboard = () => {
   };
 
   useEffect(() => {
-    dispatch(getLeadUnchecked10()).then(() => {
-      setDataLoaded(true);
-    });
-    dispatch(getCorredoresLead(email)).then(() => {
+    dispatch(getLeadUnchecked10(email)).then(() => {
       setDataLoaded(true);
     });
   }, [dispatch, email]);
@@ -126,13 +118,13 @@ const CorredoresDashboard = () => {
   useEffect(() => {
     if (dataLoaded) {
       handleView();
-      leadUncheckedAsignedCorredor();
     }
   }, [dataLoaded]);
 
   useEffect(() => {
     let clientes = [];
     let i = 0;
+
     if (leadUnchecked10 && leadUnchecked10.length > 0) {
       for (i = 0; i < 10; i++) {
         clientes.push({
@@ -279,12 +271,11 @@ const CorredoresDashboard = () => {
         } else {
           SendLeadsErrorLevel(client[i].name);
         }
-
-        // leadChecked();
       }
+      // leadUnchecked10 &&
+      // leadUncheckedAsignedCorredor(10 - leadUnchecked10.length);
       SendLeadsSuccess();
-      dispatch(getLeadUnchecked10());
-      dispatch(getCorredoresLead());
+      dispatch(getLeadUnchecked10(email));
       // dispatch(getCorredoresLead(email));
     } catch (error) {
       SendLeadsError();
@@ -296,6 +287,9 @@ const CorredoresDashboard = () => {
       <Nav />
       <Card className="w-full m-5 bg-[#222131]">
         <ToastContainer />
+        <div className="flex gap-12">
+          <button onClick={handleAsignedLead}>Asigned Lead</button>
+        </div>
         <form onSubmit={handleSubmit}>
           <div className="flex justify-between items-center">
             <div className="flex gap-10  mt-2 mx-5 ">
@@ -311,6 +305,7 @@ const CorredoresDashboard = () => {
                 </Link>
               </div>
             </div>
+
             <div className="flex gap-12" type="submit" onClick={handleSubmit}>
               <IconLabelButtons />
             </div>
@@ -329,115 +324,117 @@ const CorredoresDashboard = () => {
             </TableHead>
 
             <TableBody className="h-3/4">
-              {client.map((item, index) => (
-                <TableRow key={index} className={style.tableCards}>
-                  <TableCell className="flex justify-start items-center p-0">
-                    <div type="text" id="name" value={client[index].name}>
-                      <p className="w-96 p-1 px-3 rounded-full text-ellipsis opacity-1 whitespace-nowrap overflow-hidden ">
-                        {client[index].name}
-                      </p>
-                    </div>
-                  </TableCell>
+              {client &&
+                client.map((item, index) => (
+                  <TableRow key={index} className={style.tableCards}>
+                    <TableCell className="flex justify-start items-center p-0">
+                      <div type="text" id="name" value={item.name}>
+                        <p className="w-96 p-1 px-3 rounded-full text-ellipsis opacity-1 whitespace-nowrap overflow-hidden ">
+                          {item.name}
+                        </p>
+                      </div>
+                    </TableCell>
 
-                  <TableCell className="flex justify-start items-center p-0">
-                    <Link to={client[index].url} target="_blank">
-                      <p value={client[index].url}>
-                        <CiGlobe className="text-[2rem] text-[#418df0]" />
-                      </p>
-                    </Link>
-                  </TableCell>
+                    <TableCell className="flex justify-start items-center p-0">
+                      <Link to={item.url} target="_blank">
+                        <p value={item.url}>
+                          <CiGlobe className="text-[2rem] text-[#418df0]" />
+                        </p>
+                      </Link>
+                    </TableCell>
 
-                  <TableCell className="flex justify-start w-[10rem] items-center gap-3 p-0 mx-3">
-                    <div>
-                      <CiMail className="text-[2rem] text-[#418df0]" />
-                    </div>
-                    <input
-                      className={`bg-transparent  w-[12rem] rounded-full border-2 border-gray-300 py-2 px-4 leading-tight focus:outline-none  focus:border-gray-500 placeholder-white ${
-                        client[index].email !== "-" &&
-                        client[index].email !== ""
-                          ? "border-green-500"
-                          : ""
-                      }`}
-                      type="text"
-                      name="email"
-                      value={client[index].email}
-                      onChange={(event) => handleChangeEmail(event, index)}
-                      placeholder="Ingrese un mail..."
-                    />
-                  </TableCell>
+                    <TableCell className="flex justify-start w-[10rem] items-center gap-3 p-0 mx-3">
+                      <div>
+                        <CiMail className="text-[2rem] text-[#418df0]" />
+                      </div>
+                      <input
+                        className={`bg-transparent  w-[12rem] rounded-full border-2 border-gray-300 py-2 px-4 leading-tight focus:outline-none  focus:border-gray-500 placeholder-white ${
+                          item.email !== "-" && item.email !== ""
+                            ? "border-green-500"
+                            : ""
+                        }`}
+                        type="text"
+                        name="email"
+                        value={item.email}
+                        onChange={(event) => handleChangeEmail(event, index)}
+                        placeholder="Ingrese un mail..."
+                      />
+                    </TableCell>
 
-                  <TableCell className="flex justify-start w-[10rem] items-center gap-3 p-0 mx-3">
-                    <div>
-                      <GrInstagram className="text-[2rem] text-[#418df0]" />
-                    </div>
-                    <input
-                      className={`bg-transparent w-[12rem] rounded-full border-2 border-gray-300 py-2 px-4 leading-tight focus:outline-none focus:border-gray-500 placeholder-white  ${
-                        client[index].instagram ? "border-green-500" : ""
-                      }`}
-                      type="text"
-                      name="instagram"
-                      value={client[index].instagram}
-                      onChange={(event) => handleChangeInstagram(event, index)}
-                      placeholder="Ingrese instagram..."
-                    />
-                  </TableCell>
+                    <TableCell className="flex justify-start w-[10rem] items-center gap-3 p-0 mx-3">
+                      <div>
+                        <GrInstagram className="text-[2rem] text-[#418df0]" />
+                      </div>
+                      <input
+                        className={`bg-transparent w-[12rem] rounded-full border-2 border-gray-300 py-2 px-4 leading-tight focus:outline-none focus:border-gray-500 placeholder-white  ${
+                          item.instagram ? "border-green-500" : ""
+                        }`}
+                        type="text"
+                        name="instagram"
+                        value={item.instagram}
+                        onChange={(event) =>
+                          handleChangeInstagram(event, index)
+                        }
+                        placeholder="Ingrese instagram..."
+                      />
+                    </TableCell>
 
-                  <TableCell className="flex justify-start items-center p-0">
-                    <button
-                      className={
-                        item.level === "0"
-                          ? style.buttonNivelActive
-                          : style.buttonNivel
-                      }
-                      type="button"
-                      name={item._id}
-                      value="0"
-                      onClick={(event) => handleClientClick(event, index)}
-                    >
-                      0
-                    </button>
-                    <button
-                      className={
-                        item.level === "1"
-                          ? style.buttonNivelActive
-                          : style.buttonNivel
-                      }
-                      type="button"
-                      name={item._id}
-                      value="1"
-                      onClick={(event) => handleClientClick(event, index)}
-                    >
-                      1
-                    </button>
-                    <button
-                      className={
-                        item.level === "2"
-                          ? style.buttonNivelActive
-                          : style.buttonNivel
-                      }
-                      type="button"
-                      name={item._id}
-                      value="2"
-                      onClick={(event) => handleClientClick(event, index)}
-                    >
-                      2
-                    </button>
-                    <button
-                      className={
-                        item.level === "incidencia"
-                          ? style.buttonNivelActive
-                          : style.buttonNivel
-                      }
-                      type="button"
-                      name={item._id}
-                      value="incidencia"
-                      onClick={(event) => handleClientClick(event, index)}
-                    >
-                      ⚠
-                    </button>
-                  </TableCell>
-                </TableRow>
-              ))}
+                    <TableCell className="flex justify-start items-center p-0">
+                      <button
+                        className={
+                          item.level === "0"
+                            ? style.buttonNivelActive
+                            : style.buttonNivel
+                        }
+                        type="button"
+                        name={item._id}
+                        value="0"
+                        onClick={(event) => handleClientClick(event, index)}
+                      >
+                        0
+                      </button>
+                      <button
+                        className={
+                          item.level === "1"
+                            ? style.buttonNivelActive
+                            : style.buttonNivel
+                        }
+                        type="button"
+                        name={item._id}
+                        value="1"
+                        onClick={(event) => handleClientClick(event, index)}
+                      >
+                        1
+                      </button>
+                      <button
+                        className={
+                          item.level === "2"
+                            ? style.buttonNivelActive
+                            : style.buttonNivel
+                        }
+                        type="button"
+                        name={item._id}
+                        value="2"
+                        onClick={(event) => handleClientClick(event, index)}
+                      >
+                        2
+                      </button>
+                      <button
+                        className={
+                          item.level === "incidencia"
+                            ? style.buttonNivelActive
+                            : style.buttonNivel
+                        }
+                        type="button"
+                        name={item._id}
+                        value="incidencia"
+                        onClick={(event) => handleClientClick(event, index)}
+                      >
+                        ⚠
+                      </button>
+                    </TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         </form>

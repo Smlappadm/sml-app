@@ -11,6 +11,7 @@ const {
   getLeadCheckedInactive100Handler,
   updateLeadVendedorHandler,
   getLeadVendedorHandler,
+  getCorredorLead10Handler,
 } = require("../Handlers/LeadHandlers");
 const LeadRouter = Router();
 
@@ -19,6 +20,7 @@ LeadRouter.get("/checked", getLeadCheckedHandler);
 LeadRouter.get("/checkedinactive100", getLeadCheckedInactive100Handler);
 LeadRouter.get("/unchecked", getLeadUncheckedHandler);
 LeadRouter.get("/unchecked10", getLead10UncheckedHandler);
+LeadRouter.put("/unchecked10/corredor", getCorredorLead10Handler);
 LeadRouter.post("/", postLeadHandler);
 LeadRouter.get("/name", getLeadByNameHandler);
 LeadRouter.get("/:id", getLeadByIdHandler);

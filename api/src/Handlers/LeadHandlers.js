@@ -9,6 +9,7 @@ const getLeadCheckedInactive100 = require("../controllers/Lead/getLeadCheckedIna
 const getLead10Unchecked = require("../controllers/Lead/getLead10Unchecked");
 const updateLeadVendedorById = require("../controllers/Lead/updateLeadVendedorById");
 const getLeadVendedorById = require("../controllers/Lead/getLeadVendedorById");
+const getCorredorLead10 = require("../controllers/Lead/getCorredorLead10");
 
 const getAllLeadHandler = async (req, res) => {
   try {
@@ -26,9 +27,20 @@ const getLeadUncheckedHandler = async (req, res) => {
     res.status(404).json({ error: error.message });
   }
 };
-const getLead10UncheckedHandler = async (req, res) => {
+
+const getCorredorLead10Handler = async (req, res) => {
+  const { email, limit } = req.query;
   try {
-    const leadUnchecked = await getLead10Unchecked();
+    const leadCorredor = await getCorredorLead10(email, limit);
+    res.status(200).json(leadCorredor);
+  } catch (error) {
+    res.status(404).json({ error: error.message });
+  }
+};
+const getLead10UncheckedHandler = async (req, res) => {
+  const { email } = req.query;
+  try {
+    const leadUnchecked = await getLead10Unchecked(email);
     res.status(200).json(leadUnchecked.slice(0, 10));
   } catch (error) {
     res.status(404).json({ error: error.message });
@@ -128,4 +140,5 @@ module.exports = {
   getLeadByNameHandler,
   updateLeadVendedorHandler,
   getLeadVendedorHandler,
+  getCorredorLead10Handler,
 };
