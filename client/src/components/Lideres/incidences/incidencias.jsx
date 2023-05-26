@@ -166,21 +166,18 @@ const Incidences = () => {
           
         </div>
         <table className="w-full">
-          <div className="text-white text-14 font-thin">
-            <div className="flex items-center justify-around p-3 ">
-              <div className="flex justify-center items-center p-0">
-                <Text className="text-start w-8 p-0 text-white">ID</Text>
-              </div>
+        <div className="text-white text-14 font-thin">
+            <div className="flex items-center justify-around p-3  ">
               <div className="flex justify-center items-center p-0">
                 <button onClick={() => handleOrderByClient()}>
-                  <Text className="text-center w-28 p-0 text-white">
+                  <Text className="text-start w-28 p-0 text-white">
                     {headerClient()}
                   </Text>
                 </button>
               </div>
               <div className="flex justify-center items-center p-0">
                 <button onClick={() => handleOrderByCategory()}>
-                  <Text className="text-center w-28 p-0 text-white">
+                  <Text className="text-start w-28 p-0 text-white">
                     {headerCategory()}
                   </Text>
                 </button>
@@ -191,7 +188,10 @@ const Incidences = () => {
                 </button>
               </div>
               <div className="flex justify-center items-center p-0">
-                <Text className="text-center w-6 p-0 text-white">Email</Text>
+                <Text className="text-center w-6 p-0 text-white">Web</Text>
+              </div>
+              <div className="flex justify-center items-center p-0">
+                <Text className="text-center w-6 p-0 text-white">Mail</Text>
               </div>
               <div className="flex justify-center items-center p-0">
                 <Text className="text-center w-6 p-0 text-white">
@@ -203,14 +203,14 @@ const Incidences = () => {
               </div>
               <div className="flex justify-center items-center p-0">
                 <button onClick={() => handlerFilter("runner")}>
-                  <Text className="text-center w-28 p-0 text-white">
+                  <Text className="text-start w-28 p-0 text-white">
                     Corredor
                   </Text>
                 </button>
               </div>
               <div className="flex justify-center items-center p-0">
                 <button onClick={() => handlerFilter("sellers")}>
-                  <Text className="text-center w-28 p-0 text-white">
+                  <Text className="text-start w-28 p-0 text-white">
                     Vendedor
                   </Text>
                 </button>
@@ -254,13 +254,7 @@ const Incidences = () => {
                     className="w-full flex justify-around items-center"
                     onClick={(index) => handleOpen(item, index)}
                   >
-                    <div className="flex justify-center items-center p-0  ">
-                      <div className="text-ellipsis w-8  flex justify-start items-center p-0 text-start">
-                        <Text className="text-white rounded-full text-ellipsis  opacity-1 overflow-hidden whitespace-nowrap hover:overflow-visible hover:bg-[#e3e1e1] hover:w-fit hover:text-black z-111 hover:absolute">
-                          {item._id}
-                        </Text>
-                      </div>
-                    </div>
+                   
                     <div className="flex justify-center items-center p-0 ">
                       <div className="w-28 text-ellipsis  flex justify-start items-center p-0">
                         <Text className=" text-white rounded-full text-ellipsis  opacity-1 overflow-hidden whitespace-nowrap hover:overflow-visible hover:bg-[#e3e1e1] hover:w-fit hover:text-black z-111 hover:absolute">
