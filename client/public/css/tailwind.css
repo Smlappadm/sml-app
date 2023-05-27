@@ -608,6 +608,10 @@ video {
   top: 1rem;
 }
 
+.right-5 {
+  right: 1.25rem;
+}
+
 .z-0 {
   z-index: 0;
 }

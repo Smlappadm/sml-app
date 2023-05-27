@@ -33,32 +33,18 @@ if (!"pk_test_Z3VpZGVkLWtvZGlhay0xMi5jbGVyay5hY2NvdW50cy5kZXYk") {
 }
 
 const clerkPubKey = "pk_test_Z3VpZGVkLWtvZGlhay0xMi5jbGVyay5hY2NvdW50cy5kZXYk";
-function PublicPage() {
-  return (
-    <>
-      <h1>Public page</h1>
-      <a href="/protected">Go to protected page</a>
-    </>
-  );
-}
 
-function ProtectedPage() {
-  return (
-    <>
-      <h1>Protected page</h1>
-      <UserButton />
-    </>
-  );
-}
 
 function ClerkProviderWithRoutes() {
   const navigate = useNavigate();
   const role = useSelector((state) => state.rol);
+  const isEmployee = useSelector((state) => state.isEmployee);
   const [roleReady, setRoleReady] = useState("");
+  const [accesReady, setAccessReady] = useState("");
 
-  function isRoleAllowed(role) {
+  function isRoleAllowed(roleReady) {
     const allowedRoles = ["vendedor", "clevel", "leader", "corredor"];
-    return allowedRoles.includes(role);
+    return allowedRoles.includes(roleReady);
   }
 
   useEffect(() => {
@@ -73,12 +59,28 @@ function ClerkProviderWithRoutes() {
     if (storedRoleReady) {
       setRoleReady(storedRoleReady);
     }
+    //---------------//
+    const checkAccess = async () => {
+      if (isEmployee !== undefined && isEmployee !== null && isEmployee !== "") {
+        setAccessReady(isEmployee);
+        localStorage.setItem("isEmployeeReady", isEmployee);
+      }
+    };
+
+    const storedIsEmployee = localStorage.getItem("isEmployeeReady");
+    if (storedIsEmployee) {
+      setAccessReady(storedIsEmployee);
+    }
+    
     checkRole();
-  }, [role]);
+    checkAccess()
+  }, [role, isEmployee]);
 
   const handleSignOut = () => {
     localStorage.removeItem("roleReady");
     setRoleReady("");
+    localStorage.removeItem("isEmployeeReady");
+    setAccessReady(false);
   };
 
   return (
@@ -166,7 +168,7 @@ function ClerkProviderWithRoutes() {
         />
         <Route
           path="/lideres-incidences"
-          element={isRoleAllowed(roleReady) ? <Incidences /> : <returnToPage />}
+          element={isRoleAllowed(roleReady) ? <Incidences /> : <ReturnToPage />}
         />
         <Route
           path="/clevel"

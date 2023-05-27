@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import { useEffect } from "react";
-import { UserButton, useClerk  } from "@clerk/clerk-react";
+import { UserButton, useClerk } from "@clerk/clerk-react";
 import {
   IoStatsChart,
   IoSettingsSharp,
@@ -15,21 +15,24 @@ import {
 
 
 function Nav() {
-  const role = useSelector((state) => state.rol);
-  const access = useSelector(state => state.isEmployee)
-  const [isAccessReady, setAccessReady] = useState(false);
-  const { signOut } = useClerk();
 
-  const handleLogout = () => {
+  const [isAccessReady, setAccessReady] = useState("");
+  const [lastIsAccessReady, setLastIsAccessReady] = useState(null);
+  const { signOut } = useClerk();
+  const storedRoleReady = localStorage.getItem("roleReady");
+  const storedIsEmployee = localStorage.getItem("isEmployeeReady");
+    const handleLogout = () => {
     signOut();
   };
+  const acceso= storedIsEmployee === "true"? true : false
   useEffect(() => {
-    setAccessReady(access);
-  }, [access]);
-console.log(isAccessReady);
+    setAccessReady(acceso);
+  }, [acceso]);
+
+  console.log(isAccessReady);
   return (
     <div className="bg-[#39394B] flex flex-col justify-between items-center h-screen min-w-[190px]">
-      
+
       <div className="flex flex-col items-center justify-center mt-16">
 
         <div className="flex flex-col items-center justify-center m-1">
@@ -40,10 +43,10 @@ console.log(isAccessReady);
             />
           </Link>
         </div>
-        
 
-        {isAccessReady && <div className=" flex  w-fit mt-12 ">
-          {role === "clevel" ? (
+
+        {  isAccessReady && <div className=" flex  w-fit mt-12 ">
+          {storedRoleReady === "clevel" ? (
             <ul className="flex flex-col gap-2">
               <li className="flex gap-2 items-center text-[18px]">
                 <span className=" text-lg">
@@ -111,7 +114,7 @@ console.log(isAccessReady);
                 </span>
               </li>
             </ul>
-          ) : role === "vendedor" ? (
+          ) : storedRoleReady === "vendedor" ? (
             <ul className="flex flex-col gap-2">
               <li className="flex gap-2 items-center text-[18px]">
                 <span className=" text-lg">
@@ -153,7 +156,7 @@ console.log(isAccessReady);
                 </span>
               </li>
             </ul>
-          ) : role === "leader" ? (
+          ) : storedRoleReady === "leader" ? (
             <ul className="flex flex-col gap-2">
               <li className="flex gap-2 items-center text-[18px]">
                 <span className=" text-lg">
@@ -267,12 +270,12 @@ console.log(isAccessReady);
         </div>}
       </div>
 
-      {isAccessReady 
-      ? <div className="flex flex-col justify-center w-full items-center mb-5">
-        <UserButton />
-      </div>
-      :
-      <button onClick={handleLogout}>Salir</button>}
+      {isAccessReady
+        ? <div className="flex flex-col justify-center w-full items-center mb-5">
+          <UserButton />
+        </div>
+        :
+        <button onClick={handleLogout}>Salir</button>}
     </div>
   );
 }
