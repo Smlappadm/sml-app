@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-
+import { useState } from "react";
+import { useEffect } from "react";
 import { UserButton, useClerk  } from "@clerk/clerk-react";
 import {
   IoStatsChart,
@@ -16,12 +17,16 @@ import {
 function Nav() {
   const role = useSelector((state) => state.rol);
   const access = useSelector(state => state.isEmployee)
+  const [isAccessReady, setAccessReady] = useState(false);
   const { signOut } = useClerk();
 
   const handleLogout = () => {
     signOut();
   };
-
+  useEffect(() => {
+    setAccessReady(access);
+  }, [access]);
+console.log(isAccessReady);
   return (
     <div className="bg-[#39394B] flex flex-col justify-between items-center h-screen min-w-[190px]">
       
@@ -37,7 +42,7 @@ function Nav() {
         </div>
         
 
-        {access && <div className=" flex  w-fit mt-12 ">
+        {isAccessReady && <div className=" flex  w-fit mt-12 ">
           {role === "clevel" ? (
             <ul className="flex flex-col gap-2">
               <li className="flex gap-2 items-center text-[18px]">
@@ -262,7 +267,7 @@ function Nav() {
         </div>}
       </div>
 
-      {access 
+      {isAccessReady 
       ? <div className="flex flex-col justify-center w-full items-center mb-5">
         <UserButton />
       </div>
