@@ -20,7 +20,7 @@ const StyledSelect = styled(Select)(() => ({
   "& .MuiSelect-icon": { color: "#fff" },
   "& .MuiInputBase-input": { color: "#fff" },
   "& .MuiMenu-paper": {
-    backgroundColor: "red", // Cambiar el color de fondo del menú de opciones aquí
+    backgroundColor: "red",
   },
 }));
 
@@ -29,7 +29,7 @@ const StyledFormControl = styled(FormControl)(() => ({
     color: "#fff",
   },
   "& .MuiMenu-paper": {
-    backgroundColor: "red", // Cambiar el color de fondo del menú de opciones aquí
+    backgroundColor: "red",
   },
 }));
 

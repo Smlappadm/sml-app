@@ -6,7 +6,6 @@ const LeadRouter = require("./LeadRouter");
 const LeaderRouter = require("./LeaderRouter");
 const VendedorRouter = require("./VendedorRouter");
 const EmployeesRouter = require("./EmployeesRouter");
-const ProfileRouter = require("./ProfileRouter");
 
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');

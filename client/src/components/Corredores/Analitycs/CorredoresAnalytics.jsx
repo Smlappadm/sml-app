@@ -15,7 +15,6 @@ import {
   TableCell,
   Text,
   Title,
-  Badge,
 } from "@tremor/react";
 
 import { CiGlobe, CiWarning, CiInstagram, CiMail } from "react-icons/ci";
@@ -41,10 +40,6 @@ const CorredoresAnlaytics = () => {
     setCurrentPage(pageNumber);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-  };
-
   if (currentCard.length === 1 && currentCard[0].hasOwnProperty("error")) {
     return <p className={style.noResults}>No hay resultados...</p>;
   }
@@ -62,10 +57,8 @@ const CorredoresAnlaytics = () => {
               <Link to={"/corredores"}>
                 <IoGrid className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
               </Link>
-              <Link className="text-5xl" to={"/corredores/history"}>
-                <FaHistory className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
-              </Link>
-              <Link className="text-5xl" to={"/corredores/history"}>
+
+              <Link className="text-5xl" to={"/corredores-history"}>
                 <IoStatsChart className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
               </Link>
             </div>
@@ -160,12 +153,6 @@ const CorredoresAnlaytics = () => {
               ))}
             </TableBody>
           </Table>
-          {/* <Pagination2
-        pageStyle={pageStyle}
-        setPageStyle={setPageStyle}
-        cardXPage={cardXPage}
-        data={leadChequed}
-      pages={pages}/> */}
         </Card>
         <div className=" mb-5">
           <PaginationOutlined

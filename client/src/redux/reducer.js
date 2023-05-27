@@ -3,7 +3,7 @@ import {
   GET_LEAD_UNCHECKED,
   GET_LEAD_CHEQUED,
   GET_LEAD_UNCHECKED_10,
-  GET_LEAD_CHEQUED_INACTIVE_100,
+  GET_LEAD_CHEQUED_INACTIVE_5,
   ORDER_CLIENTS,
   ORDER_CATEGORY,
   FILTER_LEVEL,
@@ -12,13 +12,18 @@ import {
   GET_ALL_VENDEDORES,
   GET_ALL_LEADER,
   GET_ALL_CLEVEL,
-  GET_VENDEDOR_ALL_LEADS
+  GET_VENDEDOR_ALL_LEADS,
+  GET_LEADS_LLAMADA_VENTA,
+  GET_EMPLOYEES,
+  SET_ROL,
+  SET_ACCESS,
+  GET_CORREDOR_LEAD,
 } from "./actions";
 
 const initialState = {
   lead: [],
   leadChequed: [],
-  leadCheckedInactive100: [],
+  leadCheckedInactive5: [],
   leadUnchecked: [],
   leadUnchecked10: [],
   leaderDashboard: [],
@@ -27,11 +32,34 @@ const initialState = {
   vendedores: [],
   leader: [],
   clevel: [],
-  vendedorAllLeads: []
+  vendedorAllLeads: [],
+  LeadsLlamadaVenta: [],
+  employees: [],
+  rol: undefined,
+  isEmployee: undefined,
+  corredorLead: [],
 };
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
+    case SET_ROL:
+      return {
+        ...state,
+        rol: action.payload,
+      };
+    // ...
+    case SET_ACCESS:
+      return {
+        ...state,
+        isEmployee: action.payload,
+      };
+
+    case GET_EMPLOYEES:
+      return {
+        ...state,
+        employees: action.payload,
+      };
+
     case GET_ALL_LEAD:
       return {
         ...state,
@@ -53,10 +81,10 @@ const rootReducer = (state = initialState, action) => {
         leaderDashboard: action.payload,
         leadChequed: action.payload,
       };
-    case GET_LEAD_CHEQUED_INACTIVE_100:
+    case GET_LEAD_CHEQUED_INACTIVE_5:
       return {
         ...state,
-        leadCheckedInactive100: action.payload,
+        leadCheckedInactive5: action.payload,
         vendedoresDashboard: action.payload,
       };
 
@@ -109,7 +137,7 @@ const rootReducer = (state = initialState, action) => {
     case FILTER_LEVEL:
       const copyLevel = [...state.leadChequed];
       let filteredLevel = copyLevel;
-      const copyLevelVendedores = [...state.leadCheckedInactive100];
+      const copyLevelVendedores = [...state.leadCheckedInactive5];
       let filteredLevelVendedores = copyLevelVendedores;
 
       if (action.payload === "0") {
@@ -217,6 +245,16 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         vendedorAllLeads: action.payload,
+      };
+    case GET_LEADS_LLAMADA_VENTA:
+      return {
+        ...state,
+        LeadsLlamadaVenta: action.payload,
+      };
+    case GET_CORREDOR_LEAD:
+      return {
+        ...state,
+        corredorLead: action.payload,
       };
 
     default:

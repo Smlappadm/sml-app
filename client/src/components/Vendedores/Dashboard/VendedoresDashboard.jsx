@@ -3,16 +3,16 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import PaginationOutlined from "../../pagination/PaginationOutlined";
-import { filterLevel, getLeadCheckedInactive100 } from "../../../redux/actions";
-import { AiOutlinePhone} from "react-icons/ai";
+import { filterLevel, getLeadCheckedInactive5 } from "../../../redux/actions";
 import Modal from "./Modal/Modal";
+import ModalIntelligentInfo from "./Modal/ModalIntelligenceInfo";
 import { IoGrid, IoStatsChart} from "react-icons/io5";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaHistory } from "react-icons/fa";
 import {MdOutlineAttachMoney } from "react-icons/md";
 import SelectLevel from "./SelectLevel"
-
+import { useUser } from "@clerk/clerk-react";
 import { CiWarning, CiInstagram, CiMail } from "react-icons/ci";
 
 import Nav from "../../Nav/Nav";
@@ -22,14 +22,25 @@ const VendedoresDashboard = () => {
   const { vendedoresDashboard } = useSelector((state) => state);
   const dispatch = useDispatch();
   const [showCopiedMessage, setShowCopiedMessage] = useState(false);
+  const user = useUser().user;
+  const email = user?.emailAddresses[0]?.emailAddress;
+  const { fullName } = user;
+
+
+  localStorage.setItem('email', email);
+  let saveEmail = localStorage.getItem('email');
+  console.log(saveEmail)
 
   useEffect(() => {
-    dispatch(getLeadCheckedInactive100());
-  }, [dispatch]);
+    dispatch(getLeadCheckedInactive5(saveEmail));
+
+  }, [dispatch, saveEmail]);
+
+  
   useEffect(() => {
     setData(vendedoresDashboard);
   }, [vendedoresDashboard]);
-
+  
   const [pageStyle, setPageStyle] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [cardXPage, setCardXpage] = useState(10);
@@ -41,6 +52,8 @@ const VendedoresDashboard = () => {
   };
   const [edit, setEdit] = useState(false);
   const [editIndex, setEditIndex] = useState("");
+
+
 
   //FILTER**********************
   const [filters, setFilters] = useState({
@@ -99,7 +112,7 @@ const VendedoresDashboard = () => {
       progress: undefined,
       theme: "dark",
     });
-    dispatch(getLeadCheckedInactive100());
+    dispatch(getLeadCheckedInactive5(saveEmail));
   };
   const SendErrorUpdateAlert = () => {
     toast.error("The lead could not be updated!", {
@@ -124,12 +137,17 @@ const VendedoresDashboard = () => {
       progress: undefined,
       theme: "dark",
     });
-    dispatch(getLeadCheckedInactive100());
+    // dispatch(getLeadCheckedInactive5());
   };
   const updateLeads = () => {
-    dispatch(getLeadCheckedInactive100());
+    dispatch(getLeadCheckedInactive5());
     setData(vendedoresDashboard);
   };
+  const handleUpdateIncidence = async () => {
+    // dispatch()
+  //  await dispatch(getLeadCheckedInactive5());
+    SendIncidenceAlert()
+  }
 
   return (
     <>
@@ -163,34 +181,10 @@ const VendedoresDashboard = () => {
             </div>
             {filters.level === true ? (
             <SelectLevel onChange={onChangeLevel} value={levelValue} />
-
-              // <select
-              //   name="level"
-              //   id="level"
-              //   onChange={(event) => {
-              //     onChangeLevel(event.target.value);
-              //   }}
-              //   className="w-1/5 text-center bg-transparent border border-white rounded-md p-1 absolute left-[40%] "
-              // >
-              //   <option value="" disabled selected className="bg-[#222131]">
-              //     Seleccione un nivel
-              //   </option>
-              //   <option value="0" className="bg-[#222131]">
-              //     0
-              //   </option>
-              //   <option value="1" className="bg-[#222131]">
-              //     1
-              //   </option>
-              //   <option value="2" className="bg-[#222131]">
-              //     2
-              //   </option>
-              //   <option value="incidencia" className="bg-[#222131]">
-              //     Incidencia
-              //   </option>
-              // </select>
             ) : (
               ""
             )}
+
           </div>
           {vendedoresDashboard.length ? (
             <table className={style.table}>
@@ -247,10 +241,10 @@ const VendedoresDashboard = () => {
                     </td>
                     <td className="flex justify-center items-center p-0 w-fit">
                       {item.instagram ? (
-                        <div onClick={() => handleCopyClick(item.instagram)}>
-                          <div className="cursor-pointer">
+                        <div>
+                          <a href={item.instagram} target="_blank" className="cursor-pointer">
                             <CiInstagram className="text-[35px] mr-5 text-[#ff598b]" />
-                          </div>
+                          </a>
                         </div>
                       ) : (
                         <div>
@@ -276,7 +270,7 @@ const VendedoresDashboard = () => {
                     </td>
                     <td className="flex justify-start items-start p-0 w-fit">
                       {item.status === "Sin contactar" && (
-                        <p className="bg-[#ff69b4] w-44 h-11 flex justify-center items-center text-white rounded-3xl text-18">
+                        <p className="bg-[#d0da3d] w-44 h-11 flex justify-center items-center text-white rounded-3xl text-18">
                           {item.status}
                         </p>
                       )}
@@ -288,13 +282,17 @@ const VendedoresDashboard = () => {
                         </p>
                       )}
                     </td>
-                    <td className="flex justify-start items-start p-0 w-fit">
+                    <td className="flex justify-start items-start p-0 w-fit gap-3">
+                    <ModalIntelligentInfo/>
                       <Modal
                         item={item}
                         SendLeadAlert={SendLeadAlert}
                         SendIncidenceAlert={SendIncidenceAlert}
                         SendErrorUpdateAlert={SendErrorUpdateAlert}
                         updateLeads={updateLeads}
+                        emailAddress={saveEmail}
+                        fullName={fullName}
+                        handleUpdateIncidence={handleUpdateIncidence}
                       />
                     </td>
                   </tr>

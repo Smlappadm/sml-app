@@ -31,6 +31,7 @@ const style = {
 
 function ChildModalDelete({
   inputName,
+  inputEmail,
   itemRol,
   itemId,
   onModalClose,
@@ -45,21 +46,26 @@ function ChildModalDelete({
 
   const handleCreate = async () => {
     try {
-      const response = await axios.put(
-        `/${itemRol}/${itemId}`,
-        {
-          deleted: true,
-        }
-      );
+      const response = await axios.put(`/${itemRol}/${itemId}`, {
+        deleted: true,
+      });
 
-      BannedEmployees(inputName);
-      onModalClose();
       console.log(response.data);
     } catch (error) {
       ErrorEmployees(inputName);
       console.log(`No se pudo enviar el baneado de ${itemRol} ${itemId} `);
     }
+    try {
+      const response = await axios.put(`/employees/?email=${inputEmail}`, {
+        deleted: true,
+      });
 
+      BannedEmployees(inputName);
+      onModalClose();
+      console.log(response.data);
+    } catch (error) {
+      console.log(`No se pudo enviar el baneado de ${itemRol} ${itemId} `);
+    }
     dispatch(getAllCorredores());
     dispatch(getAllVendedores());
     dispatch(getAllLeader());
@@ -125,15 +131,12 @@ function ChildModal({
     }
 
     try {
-      const response = await axios.put(
-        `/${itemRol}/${itemId}`,
-        {
-          name: inputName,
-          email: inputEmail,
-          rol: selectEmployees,
-          contactNumber: inputPhone,
-        }
-      );
+      const response = await axios.put(`/${itemRol}/${itemId}`, {
+        name: inputName,
+        email: inputEmail,
+        rol: selectEmployees,
+        contactNumber: inputPhone,
+      });
       EditEmployees(inputName);
       onModalClose();
       console.log(response.data);
@@ -252,6 +255,7 @@ export default function NestedModalEdit({
             {itemRol !== "clevel" && itemRol !== "leader" ? (
               <ChildModalDelete
                 inputName={inputName}
+                inputEmail={inputEmail}
                 itemRol={itemRol}
                 itemId={itemId}
                 SendEmployees={SendEmployees}

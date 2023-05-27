@@ -2,6 +2,8 @@ import React, { useState } from "react"
 import Box from "@mui/material/Box"
 import Modal from "@mui/material/Modal"
 import axios from "axios"
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const style = {
   position: "absolute",
@@ -27,7 +29,6 @@ export default function BasicModal(props) {
     email,
     instagram,
     telephone,
-    status,
     city,
     province,
     url
@@ -38,12 +39,14 @@ export default function BasicModal(props) {
   const [filledInstagram, setFilledInstagram] = useState(instagram || "")
   const [filledTelephone, setFilledTelephone] = useState(telephone || "")
   const [filledLevel, setFilledLevel] = useState(level || "");
+  const [filledUrl, setfilledUrl] = useState(level || "");
 
   const [inputVisibility, setInputVisibility] = useState({
     email: false,
     instagram: false,
     telephone: false,
     level: false,
+    url: false
   })
 
   const handleEmailChange = (event) => {
@@ -64,6 +67,11 @@ export default function BasicModal(props) {
     setFilledTelephone(newValue);
   }
 
+  const handleUrlChange = (event) => {
+    const updatedValue = event.target.value;
+    const newValue = updatedValue !== "" ? updatedValue : url;
+    setfilledUrl(newValue);
+  }
 
   const handleLevelChange = () => {
     setInputVisibility((prevState) => ({
@@ -71,32 +79,68 @@ export default function BasicModal(props) {
       level: true,
     }))
   }
-  
-  const stringId = JSON.stringify(_id);
 
+  const handleClose = () => {
+    // Reset form values
+    setFilledEmail(email || "");
+    setFilledInstagram(instagram || "");
+    setFilledTelephone(telephone || "");
+    setFilledLevel(level || "");
+    setfilledUrl(url || "");
+  
+    // Reset input visibility
+    setInputVisibility({
+      email: false,
+      instagram: false,
+      telephone: false,
+      level: false,
+      url: false
+    });
+  
+    // Close the modal
+    props.handleClose();
+  };
+
+  console.log(url)
+  console.log(_id)
   const handleFixClick = () => {
     const updatedData = {
       email: filledEmail,
       instagram: filledInstagram,
       telephone: filledTelephone,
       level: filledLevel,
+      url: filledUrl
     }
 
     axios
-      .put(`lead/${stringId}`, updatedData)
+      .put(`lead/${_id}`, updatedData)
       .then((response) => {
         console.log("Datos actualizados correctamente:", response.data)
+        toast.success("✔ Lead Update!", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark", 
+          onClose: handleClose
+        });
       })
       .catch((error) => {
         console.error("Error al actualizar los datos:", error)
+        alert("Error updating data. Please try again.");
       })
   }
 
   return (
+    
     <div>
+      <ToastContainer />
       <Modal
         open={props.open}
-        onClose={props.handleClose}
+        onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
         BackdropProps={{
@@ -106,6 +150,7 @@ export default function BasicModal(props) {
         }}
       >
         <Box sx={style}>
+        
           <div className="flex flex-col justify-between h-full">
             <div className="font-semibold flex flex-col gap-3 items-center text-24 mb-5">
               <h1>{name} </h1>
@@ -211,13 +256,30 @@ export default function BasicModal(props) {
             )}
             <div className="font-semibold flex gap-3">
               <p>WEB: </p>
-              <p className="font-normal">{url}</p>
+              <div className="font-semibold flex gap-3">
+  {!inputVisibility.url ? (
+    <p className="font-normal truncate text-white w-48 overflow-hidden overflow-ellipsis" title={url}>
+      {url}
+    </p>
+  ) : (
+    <input
+      type="text"
+      value={filledUrl}
+      onChange={handleUrlChange}
+      className="font-normal bg-gray-600"
+    />
+  )}
+  {!inputVisibility.url && (
+    <button
+      onClick={() => setInputVisibility({ ...inputVisibility, url: true })}
+      className="text-white"
+    >
+      Change
+    </button>
+  )}
+</div>
             </div>
 
-            <div className="font-semibold flex gap-3">
-              <p>ESTADO: </p>
-              <p className="font-normal">{status} </p>
-            </div>
 
             <div>
               <button onClick={handleFixClick} className="bg-blue-500 w-44 h-9 flex justify-center items-center text-white rounded-md text-10 ml-[350px]">

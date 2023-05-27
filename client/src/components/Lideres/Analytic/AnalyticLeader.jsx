@@ -2,7 +2,13 @@ import { Link } from "react-router-dom";
 import style from "./AnalyticLeader.module.css";
 import PaginationOutlined from "../../pagination/PaginationOutlined";
 import { Card, Text, Title } from "@tremor/react";
-import { CiMail, CiInstagram, CiPhone, CiWarning } from "react-icons/ci";
+import {
+  CiMail,
+  CiInstagram,
+  CiPhone,
+  CiWarning,
+  CiGlobe,
+} from "react-icons/ci";
 import InputRunner from "./MaterialUi/InputRunner";
 import InputSeller from "./MaterialUi/InputSeller";
 import SelectLevel from "./MaterialUi/SelectLevel";
@@ -19,10 +25,8 @@ import {
   orderCategory,
   orderClients,
 } from "../../../redux/actions";
-import { IoGrid, IoStatsChart } from "react-icons/io5";
-import { FaHistory } from "react-icons/fa";
+import { IoGrid, IoPeople, IoStatsChart } from "react-icons/io5";
 
-//
 export const AnalyticLeader = () => {
   const [data, setData] = useState([]);
   const { leaderDashboard } = useSelector((state) => state);
@@ -40,7 +44,9 @@ export const AnalyticLeader = () => {
   const indexLastCard = currentPage * cardXPage;
   const indexFirstCard = indexLastCard - cardXPage;
   const showData = data.filter((item) => {
-    return item.status !== "No responde";
+    return (
+      item.status !== "No responde" && item.status !== "Agendar 2do llamado"
+    );
   });
   const currentCard = showData.slice(indexFirstCard, indexLastCard);
   const pages = (pageNumber) => {
@@ -143,11 +149,14 @@ export const AnalyticLeader = () => {
             <Link to={"/lideres/"}>
               <IoGrid className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
             </Link>
-            <Link className="text-5xl" to={"/lideres/employees"}>
-              <FaHistory className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
+            <Link className="text-5xl" to={"/lideres-employees"}>
+              <IoPeople className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
             </Link>
-            <Link className="text-5xl" to={"/lideres/employees"}>
+            <Link className="text-5xl" to={"/lideres-analytics"}>
               <IoStatsChart className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
+            </Link>
+            <Link className="text-5xl" to={"/lideres-incidences"}>
+              <CiWarning className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
             </Link>
           </div>
           {filters.level === true ? (
@@ -166,20 +175,17 @@ export const AnalyticLeader = () => {
         </div>
         <div className="w-full">
           <div className="text-white text-14 font-thin">
-            <div className="flex items-center justify-around p-3 ">
-              <div className="flex justify-center items-center p-0">
-                <Text className="text-start w-8 p-0 text-white">ID</Text>
-              </div>
+            <div className="flex items-center justify-around p-3  ">
               <div className="flex justify-center items-center p-0">
                 <button onClick={() => handleOrderByClient()}>
-                  <Text className="text-center w-28 p-0 text-white">
+                  <Text className="text-start w-28 p-0 text-white">
                     {headerClient()}
                   </Text>
                 </button>
               </div>
               <div className="flex justify-center items-center p-0">
                 <button onClick={() => handleOrderByCategory()}>
-                  <Text className="text-center w-28 p-0 text-white">
+                  <Text className="text-start w-28 p-0 text-white">
                     {headerCategory()}
                   </Text>
                 </button>
@@ -190,7 +196,10 @@ export const AnalyticLeader = () => {
                 </button>
               </div>
               <div className="flex justify-center items-center p-0">
-                <Text className="text-center w-6 p-0 text-white">Email</Text>
+                <Text className="text-center w-6 p-0 text-white">Web</Text>
+              </div>
+              <div className="flex justify-center items-center p-0">
+                <Text className="text-center w-6 p-0 text-white">Mail</Text>
               </div>
               <div className="flex justify-center items-center p-0">
                 <Text className="text-center w-6 p-0 text-white">
@@ -202,14 +211,14 @@ export const AnalyticLeader = () => {
               </div>
               <div className="flex justify-center items-center p-0">
                 <button onClick={() => handlerFilter("runner")}>
-                  <Text className="text-center w-28 p-0 text-white">
+                  <Text className="text-start w-28 p-0 text-white">
                     Corredor
                   </Text>
                 </button>
               </div>
               <div className="flex justify-center items-center p-0">
                 <button onClick={() => handlerFilter("sellers")}>
-                  <Text className="text-center w-28 p-0 text-white">
+                  <Text className="text-start w-28 p-0 text-white">
                     Vendedor
                   </Text>
                 </button>
@@ -231,6 +240,7 @@ export const AnalyticLeader = () => {
               name={modalItems.name}
               category={modalItems.category}
               level={modalItems.level}
+              web={modalItems.url}
               email={modalItems.email}
               instagram={modalItems.instagram}
               telephone={modalItems.telephone}
@@ -251,13 +261,6 @@ export const AnalyticLeader = () => {
                     className="w-full flex justify-around items-center"
                     onClick={(index) => handleOpen(item, index)}
                   >
-                    <div className="flex justify-center items-center p-0  ">
-                      <div className="text-ellipsis w-8  flex justify-start items-center p-0 text-start">
-                        <Text className="text-white rounded-full text-ellipsis  opacity-1 overflow-hidden whitespace-nowrap hover:overflow-visible hover:bg-[#e3e1e1] hover:w-fit hover:text-black z-111 hover:absolute">
-                          {item._id}
-                        </Text>
-                      </div>
-                    </div>
                     <div className="flex justify-center items-center p-0 ">
                       <div className="w-28 text-ellipsis  flex justify-start items-center p-0">
                         <Text className=" text-white rounded-full text-ellipsis  opacity-1 overflow-hidden whitespace-nowrap hover:overflow-visible hover:bg-[#e3e1e1] hover:w-fit hover:text-black z-111 hover:absolute">
@@ -284,6 +287,22 @@ export const AnalyticLeader = () => {
                           <CiWarning className="text-[#fdfa3a] p-0  font-bold" />
                         </div>
                       )}
+                    </div>
+                    <div className="flex justify-center items-center p-0 ">
+                      <div className="flex w-6 text-ellipsis justify-start items-center p-0 ">
+                        {item.url !== "-" ? (
+                          <div className=" flex opacity-1 overflow-hidden whitespace-nowrap hover:overflow-visible hover:bg-[#ffffff] hover:w-fit hover:text-black z-111 hover:absolute">
+                            <div>
+                              <CiGlobe className={style.mail} />
+                            </div>
+                            <Text>{item.url}</Text>
+                          </div>
+                        ) : (
+                          <div>
+                            <CiGlobe className={style.notMail} />
+                          </div>
+                        )}
+                      </div>
                     </div>
                     <div className="flex justify-center items-center p-0 ">
                       <div className="flex w-6 text-ellipsis justify-start items-center p-0 ">
@@ -328,7 +347,7 @@ export const AnalyticLeader = () => {
                           </div>
                         ) : (
                           <div>
-                            <CiPhone className={style.not} />
+                            <CiPhone className={style.notMail} />
                           </div>
                         )}
                       </div>

@@ -112,6 +112,7 @@ export const TableClevel = () => {
     dispatch(getAllClevel());
   }, [dispatch]);
 
+
   let employees = corredores.concat(vendedores, clevel, leader);
 
   const [pageStyle, setPageStyle] = useState(1);

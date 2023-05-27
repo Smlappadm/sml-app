@@ -47,14 +47,14 @@
     position: relative;
     margin-top: 20px;
     display: grid;
-    grid-template-columns: 18% 10% 6.5% 4% 8% 14% 17% 15% 5%;
+    grid-template-columns: 18% 9.5% 6% 5% 7% 12% 6% 18% 5% 5%;
     margin-left: 25px;
   }
   
   .tableCards {
     display: grid;
     /* grid-template-columns:  7% 15% 9% 6% 5% 7% 14% 17% 16% 6%; */
-    grid-template-columns:  17% 10% 7% 5% 5% 15% 14% 19% 5%;
+    grid-template-columns:  17% 9% 6% 5% 5% 12% 5% 15% 15% 5%;
     align-items: center;
     justify-content: space-between;
     background-color: #39394b;

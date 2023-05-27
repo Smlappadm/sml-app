@@ -3,7 +3,7 @@ export const GET_ALL_LEAD = "GET_ALL_LEAD";
 export const GET_LEAD_UNCHECKED_10 = "GET_LEAD_UNCHECKED_10";
 export const GET_LEAD_UNCHECKED = "GET_LEAD_UNCHECKED";
 export const GET_LEAD_CHEQUED = "GET_LEAD_CHEQUED";
-export const GET_LEAD_CHEQUED_INACTIVE_100 = "GET_LEAD_CHEQUED_INACTIVE_100";
+export const GET_LEAD_CHEQUED_INACTIVE_5 = "GET_LEAD_CHEQUED_INACTIVE_5";
 export const ORDER_CLIENTS = "ORDER_CLIENTS";
 export const ORDER_CATEGORY = "ORDER_CATEGORY";
 export const FILTER_LEVEL = "FILTER_LEVEL";
@@ -14,7 +14,38 @@ export const GET_ALL_VENDEDORES = "GET_ALL_VENDEDORES";
 export const GET_ALL_LEADER = "GET_ALL_LEADER";
 export const GET_ALL_CLEVEL = "GET_ALL_CLEVEL";
 export const GET_VENDEDOR_ALL_LEADS = "GET_VENDEDOR_ALL_LEADS";
+export const GET_LEADS_LLAMADA_VENTA = "GET_LEADS_LLAMADA_VENTA";
+export const SET_ROL = "SET_ROL";
+export const SET_ACCESS = "SET_ACCESS";
+export const GET_EMPLOYEES = "GET_EMPLOYEES";
+export const GET_CORREDOR_LEAD = "GET_CORREDOR_LEAD";
+//
+export const setRol = (rol) => {
+  return async (dispatch) => {
+    // Simular una operación asincrónica para obtener el valor de rol
+    const fetchedRol = await new Promise((resolve) =>
+      setTimeout(() => resolve(rol), 3000)
+    );
 
+    dispatch({
+      type: SET_ROL,
+      payload: fetchedRol,
+    });
+  };
+};
+
+export const setAccess = (access) => {
+  return {
+    type: SET_ACCESS,
+    payload: access,
+  };
+};
+export const getEmployees = (employees) => ({
+  type: GET_EMPLOYEES,
+  payload: employees,
+});
+
+//
 export const getAllLead = () => {
   return async (dispatch) => {
     const response = await axios.get("/lead");
@@ -59,9 +90,9 @@ export const getLeadUnchecked = () => {
   };
 };
 
-export const getLeadUnchecked10 = () => {
+export const getLeadUnchecked10 = (email) => {
   return async (dispatch) => {
-    const response = await axios.get("/lead/unchecked10");
+    const response = await axios.get(`/lead/unchecked10?email=${email}`);
     const LeadUnchecked10 = response.data;
     dispatch({ type: GET_LEAD_UNCHECKED_10, payload: LeadUnchecked10 });
   };
@@ -75,15 +106,18 @@ export const getLeadChecked = () => {
   };
 };
 
-export const getLeadCheckedInactive100 = () => {
-  return async (dispatch) => {
-    const response = await axios.get("/lead/checkedinactive100");
-    const LeadCheckedInactive100 = response.data;
-    dispatch({
-      type: GET_LEAD_CHEQUED_INACTIVE_100,
-      payload: LeadCheckedInactive100,
-    });
-  };
+export const getLeadCheckedInactive5 = (email) => {
+  if(email){
+    return async (dispatch) => {
+      const response = await axios.get(`/lead/checkedinactive5?email=${email}`);
+      const LeadCheckedInactive5 = response.data;
+      console.log(LeadCheckedInactive5)
+      dispatch({
+        type: GET_LEAD_CHEQUED_INACTIVE_5,
+        payload: LeadCheckedInactive5,
+      });
+    };
+  } 
 };
 
 export const orderClients = (order) => {
@@ -123,11 +157,55 @@ export const AddLeads = (body) => {
 export const getVendedorAllLeads = (email) => {
   return async (dispatch) => {
     const response = await axios.get(`/vendedor/email?email=${email}`);
-    console.log(response.data.leads);
     const allLeads = response.data.leads;
+    // const allLeadsMaps = allLeads
+    //   .map((item) => {
+    //     if (
+    //       item.status !== "Sin contactar" &&
+    //       item.status !== "Agendar 2do llamado"
+    //     ) {
+    //       return item;
+    //     }
+    //   })
+    //   .filter((item) => item !== undefined);
+      const allLeadsMaps = await allLeads.filter((item) => (
+        item.status !== "Sin contactar" && item.status !== "Agendar 2do llamado"
+      ));
     dispatch({
       type: GET_VENDEDOR_ALL_LEADS,
-      payload: allLeads,
+      payload: allLeadsMaps,
     });
   };
+};
+export const getLeadsLLamadaVenta = (email) => {
+  return async (dispatch) => {
+    const response = await axios.get(`/vendedor/email?email=${email}`);
+    const allLeads = response.data.leads;
+
+    const allLeadsVentaMaps = allLeads
+      .map((item) => {
+        if (item.status === "Agendar 2do llamado") {
+          return item;
+        }
+      })
+      .filter((item) => item !== undefined);
+
+    console.log(allLeadsVentaMaps);
+    dispatch({
+      type: GET_LEADS_LLAMADA_VENTA,
+      payload: allLeadsVentaMaps,
+    });
+  };
+};
+
+export const getCorredoresLead = (email) => {
+  if(email) {
+    return async (dispatch) => {
+      const response = await axios.put(
+        `/lead/unchecked10/corredor?email=${email}`
+        );
+        const corredorLead = response.data;
+        dispatch({ type: GET_CORREDOR_LEAD, payload: corredorLead });
+      };
+    }
 };

@@ -13,18 +13,20 @@ import {
   Title,
   Badge,
 } from "@tremor/react";
-import { CiMail } from "react-icons/ci";
+import { CiMail, CiWarning } from "react-icons/ci";
 import {
   getAllClevel,
   getAllCorredores,
   getAllLeader,
   getAllVendedores,
 } from "../../../../redux/actions";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import NestedModal from "./MaterialUi/NestedModal";
 import NestedModalEdit from "./MaterialUi/Edit/NestedModalEdit";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { IoGrid, IoPeople, IoStatsChart } from "react-icons/io5";
 
 const BannedEmployees = (name) => {
   toast.success(`✔ ${name} Successful banning process completed! `, {
@@ -131,9 +133,23 @@ export const TableEmployees = () => {
         <ToastContainer />
         <Card className="bg-[#222131] w-full h-screen p-5">
           <div className="flex justify-between items-center">
-            <Title className="font-bold text-[#e2e2e2] text-lg">
-              Employees
-            </Title>
+            <div className="flex gap-5">
+              <Title className="font-bold text-[#e2e2e2] text-lg">
+                Employees
+              </Title>
+              <Link to={"/lideres/"}>
+                <IoGrid className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
+              </Link>
+              <Link className="text-5xl" to={"/lideres-employees"}>
+                <IoPeople className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
+              </Link>
+              <Link className="text-5xl" to={"/lideres-analytics"}>
+                <IoStatsChart className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
+              </Link>
+              <Link className="text-5xl" to={"/lideres-incidences"}>
+                <CiWarning className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
+              </Link>
+            </div>
             <NestedModal
               CreateEmployees={CreateEmployees}
               ErrorCreateEmployees={ErrorCreateEmployees}
