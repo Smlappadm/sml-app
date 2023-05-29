@@ -1,14 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-
-import { UserButton, useClerk } from "@clerk/clerk-react";
+import styles from "./Nav.module.css"
+import { useClerk } from "@clerk/clerk-react";
 import {
   IoStatsChart,
   IoSettingsSharp,
   IoBagSharp,
   IoGrid,
   IoPeople,
+  IoExitOutline 
 } from "react-icons/io5";
 
 
@@ -26,8 +27,7 @@ function Nav() {
     localStorage.removeItem("roleReady");
     localStorage.removeItem("isEmployeeReady");
   };
-console.log(isEmployee);
-console.log(roleReady);
+
   return (
     <div className="bg-[#39394B] flex flex-col justify-between items-center h-screen min-w-[190px]">
 
@@ -270,8 +270,9 @@ console.log(roleReady);
 
       {isEmployee
         ? <div className="flex flex-col justify-center w-full items-center mb-5">
-          <button onClick={handleLogout}>Salir</button>
-          {/* <UserButton /> */}
+          <button onClick={handleLogout} className={styles.boton}>                
+            <IoExitOutline  className={styles.icono} />
+          </button>
         </div>
         :
         <button onClick={handleLogout}>Salir</button>}

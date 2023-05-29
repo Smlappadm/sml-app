@@ -1,0 +1,10 @@
+.boton{
+    background-color: transparent;
+}
+.icono{
+    font-size: 30px;
+    color: #e0dddd;
+}
+.icono:hover{
+    color: white;
+}

@@ -6,7 +6,7 @@ import Nav from '../../components/Nav/Nav';
 import { getEmployees, setRol, setAccess } from '../../redux/actions'
 import { useUser } from "@clerk/clerk-react";
 import axios from 'axios';
-import { } from 'react';
+
 
 function Landing() {
 
@@ -41,7 +41,7 @@ function Landing() {
 
 		fetchEmployees();
 	}, [dispatch, isEmployee()]);
-	
+
 	return (
 		<>
 			<Nav />
@@ -50,6 +50,7 @@ function Landing() {
 					{access
 						?
 						<div className={style.containerWellcome}>
+							<img className={style.imagen} src={user?.profileImageUrl} alt="" />
 							<h1 className={style.wellcome}>Bienvenido {user.fullName} </h1>
 							<h3 className={style.role}>rol: {role} </h3>
 						</div>

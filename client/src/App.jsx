@@ -217,7 +217,7 @@ function ClerkProviderWithRoutes() {
           }
         />
         <Route path="/analytics" element={isRoleAllowed(roleReady) && (roleReady === "clevel" || roleReady === "leader") && isEmployeeReady ? <Analytics /> : <ReturnToPage />} />
-        <Route path="/settings" element={<Settings />} />
+        <Route path="/settings" element={isEmployeeReady ? <Settings /> : <ReturnToPage />}  />
         <Route
           path="/vendedores"
           element={
