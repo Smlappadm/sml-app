@@ -37,7 +37,7 @@ const initialState = {
   LeadsLlamadaVenta: [],
   employees: [],
   rol: undefined,
-  isEmployee: false
+  isEmployee: undefined
 };
 
 const rootReducer = (state = initialState, action) => {
