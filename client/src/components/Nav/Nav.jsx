@@ -9,23 +9,20 @@ import {
   IoBagSharp,
   IoGrid,
   IoPeople,
-  IoExitOutline 
+  IoExitOutline
 } from "react-icons/io5";
 
 
 
 
 function Nav() {
-  const role = useSelector((state) => state.rol);
-  const access = useSelector(state => state.isEmployee)
   const { signOut } = useClerk();
   const roleReady = localStorage.getItem("roleReady")
   const isEmployee = localStorage.getItem("isEmployeeReady")
 
   const handleLogout = () => {
     signOut();
-    localStorage.removeItem("roleReady");
-    localStorage.removeItem("isEmployeeReady");
+    localStorage.clear()
   };
 
   return (
@@ -43,7 +40,9 @@ function Nav() {
         </div>
 
 
-        {isEmployee && <div className=" flex  w-fit mt-12 ">
+        {isEmployee && roleReady
+        && 
+        <div className=" flex  w-fit mt-12 ">
           {roleReady === "clevel" ? (
             <ul className="flex flex-col gap-2">
               <li className="flex gap-2 items-center text-[18px]">
@@ -268,14 +267,14 @@ function Nav() {
         </div>}
       </div>
 
-      {isEmployee
-        ? <div className="flex flex-col justify-center w-full items-center mb-5">
-          <button onClick={handleLogout} className={styles.boton}>                
-            <IoExitOutline  className={styles.icono} />
+      <div className="flex flex-col justify-center w-full items-center mb-5">
+        <Link to="/">
+          <button onClick={handleLogout} className={styles.boton}>
+            <IoExitOutline className={styles.icono} />
           </button>
-        </div>
-        :
-        <button onClick={handleLogout}>Salir</button>}
+        </Link>
+      </div>
+
     </div>
   );
 }
