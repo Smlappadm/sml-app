@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import PaginationOutlined from "../../pagination/PaginationOutlined";
 import {
   filterLevel,
-  getLeadCheckedInactive100,
+  getLeadCheckedInactive5,
   getVendedorAllLeads,
 } from "../../../redux/actions";
 import { AiOutlinePhone } from "react-icons/ai";
@@ -24,17 +24,16 @@ import Nav from "../../Nav/Nav";
 
 const VendedoresHistory = () => {
   const [data, setData] = useState([]);
-  const { leadCheckedInactive100 } = useSelector((state) => state);
+  const { leadCheckedInactive5 } = useSelector((state) => state);
   const { vendedorAllLeads } = useSelector((state) => state);
   // const { emailAddress } = user.primaryEmailAddress;
   const dispatch = useDispatch();
   const [showCopiedMessage, setShowCopiedMessage] = useState(false);
   const user = useUser().user;
   const email = user?.emailAddresses[0].emailAddress;
-  console.log(email);
 
 
-  // console.log(emailAddress)
+  // (emailAddress)
 
   useEffect(() => {
     dispatch(getVendedorAllLeads(email));
@@ -238,6 +237,11 @@ const VendedoresHistory = () => {
                       {item.status === "Rechazado" && (
                         <p className="bg-[#ac4242] w-44 h-11 flex justify-center items-center text-white rounded-3xl text-18">
                           Rechazado
+                        </p>
+                      )}
+                      {item.status === "incidencia" && (
+                        <p className="bg-[#e5fc18] w-44 h-11 flex justify-center items-center text-white rounded-3xl text-18">
+                          Incidencia
                         </p>
                       )}
                     </td>

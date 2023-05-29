@@ -3,7 +3,7 @@ export const GET_ALL_LEAD = "GET_ALL_LEAD";
 export const GET_LEAD_UNCHECKED_10 = "GET_LEAD_UNCHECKED_10";
 export const GET_LEAD_UNCHECKED = "GET_LEAD_UNCHECKED";
 export const GET_LEAD_CHEQUED = "GET_LEAD_CHEQUED";
-export const GET_LEAD_CHEQUED_INACTIVE_100 = "GET_LEAD_CHEQUED_INACTIVE_100";
+export const GET_LEAD_CHEQUED_INACTIVE_5 = "GET_LEAD_CHEQUED_INACTIVE_5";
 export const ORDER_CLIENTS = "ORDER_CLIENTS";
 export const ORDER_CATEGORY = "ORDER_CATEGORY";
 export const FILTER_LEVEL = "FILTER_LEVEL";
@@ -18,12 +18,15 @@ export const GET_LEADS_LLAMADA_VENTA = "GET_LEADS_LLAMADA_VENTA";
 export const SET_ROL = "SET_ROL";
 export const SET_ACCESS = "SET_ACCESS";
 export const GET_EMPLOYEES = "GET_EMPLOYEES";
+export const GET_CORREDOR_LEAD = "GET_CORREDOR_LEAD";
+export const GET_CORREDOR_LEAD_CHECKED = "GET_CORREDOR_LEAD_CHECKED";
+
 //
 export const setRol = (rol) => {
   return async (dispatch) => {
     // Simular una operación asincrónica para obtener el valor de rol
     const fetchedRol = await new Promise((resolve) =>
-      setTimeout(() => resolve(rol), 2000)
+      setTimeout(() => resolve(rol), 3000)
     );
 
     dispatch({
@@ -89,9 +92,9 @@ export const getLeadUnchecked = () => {
   };
 };
 
-export const getLeadUnchecked10 = () => {
+export const getLeadUnchecked10 = (email) => {
   return async (dispatch) => {
-    const response = await axios.get("/lead/unchecked10");
+    const response = await axios.get(`/lead/unchecked10?email=${email}`);
     const LeadUnchecked10 = response.data;
     dispatch({ type: GET_LEAD_UNCHECKED_10, payload: LeadUnchecked10 });
   };
@@ -105,15 +108,18 @@ export const getLeadChecked = () => {
   };
 };
 
-export const getLeadCheckedInactive100 = () => {
-  return async (dispatch) => {
-    const response = await axios.get("/lead/checkedinactive100");
-    const LeadCheckedInactive100 = response.data;
-    dispatch({
-      type: GET_LEAD_CHEQUED_INACTIVE_100,
-      payload: LeadCheckedInactive100,
-    });
-  };
+export const getLeadCheckedInactive5 = (email) => {
+  if (email) {
+    return async (dispatch) => {
+      const response = await axios.get(`/lead/checkedinactive5?email=${email}`);
+      const LeadCheckedInactive5 = response.data;
+      (LeadCheckedInactive5);
+      dispatch({
+        type: GET_LEAD_CHEQUED_INACTIVE_5,
+        payload: LeadCheckedInactive5,
+      });
+    };
+  }
 };
 
 export const orderClients = (order) => {
@@ -141,7 +147,7 @@ export const AddLeads = (body) => {
   return async (dispatch) => {
     try {
       const response = await axios.post("/lead/", body);
-      console.log("se agrego");
+      ("se agrego");
       return response.data;
     } catch (error) {
       console.error("Error al agregar el lead:", error);
@@ -154,18 +160,10 @@ export const getVendedorAllLeads = (email) => {
   return async (dispatch) => {
     const response = await axios.get(`/vendedor/email?email=${email}`);
     const allLeads = response.data.leads;
-    console.log(allLeads);
-
-    const allLeadsMaps = allLeads
-      .map((item) => {
-        if (
-          item.status !== "Sin contactar" &&
-          item.status !== "Agendar 2do llamado"
-        ) {
-          return item;
-        }
-      })
-      .filter((item) => item !== undefined);
+    const allLeadsMaps = await allLeads.filter(
+      (item) =>
+        item.status !== "Sin contactar" && item.status !== "Agendar 2do llamado"
+    );
     dispatch({
       type: GET_VENDEDOR_ALL_LEADS,
       payload: allLeadsMaps,
@@ -184,11 +182,30 @@ export const getLeadsLLamadaVenta = (email) => {
         }
       })
       .filter((item) => item !== undefined);
-
-    console.log(allLeadsVentaMaps);
+    (allLeadsVentaMaps);
     dispatch({
       type: GET_LEADS_LLAMADA_VENTA,
       payload: allLeadsVentaMaps,
     });
+  };
+};
+
+export const getLeadCorredores = (email) => {
+  ('antes del if' , email);
+  return async (dispatch) => {
+    if (email !== 'undefined' && email !== "") {
+      ('despues del if', email);
+      const response = await axios.get(`lead/unchecked10?email=${email}`);
+      const corredorLead = response.data;
+      dispatch({ type: GET_CORREDOR_LEAD, payload: corredorLead });
+    }
+  };
+};
+
+export const getLeadCorredoresChecked = (email) => {
+  return async (dispatch) => {
+    const response = await axios.get(`lead/corredorchecked?email=${email}`);
+    const corredorLeadChecked = response.data;
+    dispatch({ type: GET_CORREDOR_LEAD_CHECKED, payload: corredorLeadChecked });
   };
 };

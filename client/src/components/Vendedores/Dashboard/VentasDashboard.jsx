@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import PaginationOutlined from "../../pagination/PaginationOutlined";
 import {
   filterLevel,
-  getLeadCheckedInactive100,
+  getLeadCheckedInactive5,
   getLeadsLLamadaVenta,
 } from "../../../redux/actions";
 import { AiOutlinePhone } from "react-icons/ai";
@@ -27,15 +27,22 @@ const VentasDashboard = () => {
   const dispatch = useDispatch();
   const [showCopiedMessage, setShowCopiedMessage] = useState(false);
   const user = useUser().user;
-  const email = user?.emailAddresses[0].emailAddress;
-  console.log(email);
+  const email = user?.emailAddresses[0]?.emailAddress;
+  const  fullName  = user?.fullName;
 
+
+  localStorage.setItem('email', email);
+  let emailAddress = localStorage.getItem('email');
+
+  
   useEffect(() => {
-    dispatch(getLeadsLLamadaVenta(email));
-  }, [dispatch]);
+    dispatch(getLeadsLLamadaVenta(emailAddress));
+  }, [dispatch, emailAddress]);
+
+  
   useEffect(() => {
     setData(LeadsLlamadaVenta);
-  }, [LeadsLlamadaVenta]);
+  }, [LeadsLlamadaVenta, setData]);
 
   const [pageStyle, setPageStyle] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
@@ -106,7 +113,7 @@ const VentasDashboard = () => {
       progress: undefined,
       theme: "dark",
     });
-    dispatch(getLeadsLLamadaVenta(email));
+    dispatch(getLeadsLLamadaVenta(emailAddress));
   };
   const SendErrorUpdateAlert = () => {
     toast.error("The lead could not be updated!", {
@@ -131,11 +138,13 @@ const VentasDashboard = () => {
       progress: undefined,
       theme: "dark",
     });
-    dispatch(getLeadsLLamadaVenta());
+    dispatch(getLeadsLLamadaVenta(emailAddress));
+    // window.location.reload();
+    // this.forceUpdate();
   };
   const updateLeads = () => {
-    dispatch(getLeadsLLamadaVenta());
-    setData(LeadsLlamadaVenta);
+    // dispatch(getLeadsLLamadaVenta());
+    // setData(LeadsLlamadaVenta);
   };
 
   return (
@@ -323,6 +332,7 @@ const VentasDashboard = () => {
                         SendIncidenceAlert={SendIncidenceAlert}
                         SendErrorUpdateAlert={SendErrorUpdateAlert}
                         updateLeads={updateLeads}
+                        emailAddress={emailAddress}
                       />
                     </td>
                   </tr>

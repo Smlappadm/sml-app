@@ -4,8 +4,8 @@ const putCorredorLead = async (email, leadUnchecked10) => {
   try {
     const corredor = await Corredor.findOneAndUpdate(
       { email },
-      { $push: { leads: leadUnchecked10 } }, // Utiliza $push para agregar el nuevo lead al array "leads"
-      { new: true } // Asegúrate de obtener el documento actualizado
+      { $push: { leads: leadUnchecked10 } },
+      { new: true }
     );
     console.log("Información del lead agregada correctamente:", corredor);
     return corredor;

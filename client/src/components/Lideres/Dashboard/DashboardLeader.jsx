@@ -45,7 +45,9 @@ export const LideresDasboard = () => {
   const indexFirstCard = indexLastCard - cardXPage;
   const showData = data.filter((item) => {
     return (
-      item.status !== "No responde" && item.status !== "Agendar 2do llamado"
+      item.status !== "No responde" &&
+      item.status !== "Agendar 2do llamado" &&
+      item.status !== "incidencia"
     );
   });
   const currentCard = showData.slice(indexFirstCard, indexLastCard);
@@ -375,7 +377,7 @@ export const LideresDasboard = () => {
                         ""
                       )}
                       {item.status === "Sin contactar" ? (
-                        <Text className="bg-[#b44f82]  text-[#e0dfdf]   px-2 py-1.5 rounded-xl text-center w-48">
+                        <Text className="bg-[#d0da3d]  text-[#e0dfdf]   px-2 py-1.5 rounded-xl text-center w-48">
                           Sin Contactar
                         </Text>
                       ) : (
@@ -383,8 +385,22 @@ export const LideresDasboard = () => {
                       )}
 
                       {item.status === "Rechazado" ? (
-                        <Text className="bg-[#b44f82] text-[#e0dfdf] px-2 py-1.5 rounded-xl text-center w-48">
+                        <Text className="bg-[#ac4242] text-[#e0dfdf] px-2 py-1.5 rounded-xl text-center w-48">
                           Rechazado
+                        </Text>
+                      ) : (
+                        ""
+                      )}
+                      {item.status === "incidencia" ? (
+                        <Text className="bg-[#e5fc18] text-[#e0dfdf] px-2 py-1.5 rounded-xl text-center w-48">
+                          Incidencia
+                        </Text>
+                      ) : (
+                        ""
+                      )}
+                      {item.status === "No responde" ? (
+                        <Text className="bg-[#2148b4] text-[#e0dfdf] px-2 py-1.5 rounded-xl text-center w-48">
+                          No responde
                         </Text>
                       ) : (
                         ""
@@ -400,7 +416,7 @@ export const LideresDasboard = () => {
           pageStyle={pageStyle}
           setPageStyle={setPageStyle}
           cardXPage={cardXPage}
-          data={data}
+          data={showData}
           pages={pages}
           current={currentPage}
         />

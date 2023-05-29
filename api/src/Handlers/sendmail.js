@@ -10,7 +10,7 @@ const sendmail = async (req, res) => {
 
     const emailData = {
       to: recipientEmail,
-      from: "voeffray.jonathan@gmail.com", // Reemplaza con tu dirección de correo electrónico de SendGrid
+      from: "voeffray.jonathan@gmail.com",
       subject: "Incidencia detectada",
       text: message,
     };

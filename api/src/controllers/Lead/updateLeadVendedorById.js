@@ -2,6 +2,7 @@ const Lead = require("../../models/Lead");
 const Vendedor = require("../../models/Vendedor");
 
 const updateLeadVendedorById = async (id, updatedData) => {
+
   // const VendedorArrays = Vendedor.find({
   //   $or: [
   //     { leads_contacted: updatedData.dataVendedor.status },
@@ -10,10 +11,9 @@ const updateLeadVendedorById = async (id, updatedData) => {
   //   ]
   // });
 
-  // console.log(VendedorArrays);
   const leadCountCheck = await Lead.findById(id);
-  // console.log(leadCountCheck.llamados)
-
+  // console.log(VendedorArrays);
+  
   if (!updatedData.dataLead.llamados) {
     updatedData.dataLead.llamados = 0;
   }
@@ -34,23 +34,25 @@ const updateLeadVendedorById = async (id, updatedData) => {
     updatedData.dataVendedor.status = "Rechazado";
     updatedData.dataVendedor.status_op = "3 llamados";
   }
-
-
+  
+  
   const leadUpdate = await Lead.findByIdAndUpdate(id, updatedData.dataLead, {
     new: true,
   });
-
-  const valor = updatedData.dataVendedor;
   
-  const vendedor = await Vendedor.findOneAndUpdate(
+  const valor = updatedData.dataVendedor;
+ 
+  let vendedor = [];
+  vendedor = await Vendedor.findOneAndUpdate(
     { email: updatedData.dataLead.vendedor, "leads.name": valor.name },
     { $set: { "leads.$": valor } },
     { new: true }
-  );
+    );
+    
+
 
   if (!vendedor) {
-    console.log("entranding");
-    const vendedor = await Vendedor.findOneAndUpdate(
+     vendedor = await Vendedor.findOneAndUpdate(
       { email: updatedData.dataLead.vendedor },
       { $addToSet: { leads: { $each: [valor] } } },
       { new: true }
@@ -63,7 +65,6 @@ const updateLeadVendedorById = async (id, updatedData) => {
     leadUpdate,
     vendedor,
   };
-
   return data;
 };
 

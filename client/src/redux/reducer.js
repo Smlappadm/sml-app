@@ -3,7 +3,7 @@ import {
   GET_LEAD_UNCHECKED,
   GET_LEAD_CHEQUED,
   GET_LEAD_UNCHECKED_10,
-  GET_LEAD_CHEQUED_INACTIVE_100,
+  GET_LEAD_CHEQUED_INACTIVE_5,
   ORDER_CLIENTS,
   ORDER_CATEGORY,
   FILTER_LEVEL,
@@ -16,15 +16,15 @@ import {
   GET_LEADS_LLAMADA_VENTA,
   GET_EMPLOYEES,
   SET_ROL,
-  SET_ACCESS
-
-
+  SET_ACCESS,
+  GET_CORREDOR_LEAD,
+  GET_CORREDOR_LEAD_CHECKED,
 } from "./actions";
 
 const initialState = {
   lead: [],
   leadChequed: [],
-  leadCheckedInactive100: [],
+  leadCheckedInactive5: [],
   leadUnchecked: [],
   leadUnchecked10: [],
   leaderDashboard: [],
@@ -37,29 +37,30 @@ const initialState = {
   LeadsLlamadaVenta: [],
   employees: [],
   rol: undefined,
-  isEmployee: undefined
+  isEmployee: undefined,
+  corredorLead: [],
+  corredorLeadChecked: [],
 };
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_ROL:
-        return {
-          ...state,
-          rol: action.payload
+      return {
+        ...state,
+        rol: action.payload,
       };
-      // ...
-      case SET_ACCESS:
-        return {
-          ...state,
-          isEmployee: action.payload,
-        };
+    // ...
+    case SET_ACCESS:
+      return {
+        ...state,
+        isEmployee: action.payload,
+      };
 
-case GET_EMPLOYEES:
+    case GET_EMPLOYEES:
       return {
         ...state,
         employees: action.payload,
       };
-
 
     case GET_ALL_LEAD:
       return {
@@ -82,10 +83,10 @@ case GET_EMPLOYEES:
         leaderDashboard: action.payload,
         leadChequed: action.payload,
       };
-    case GET_LEAD_CHEQUED_INACTIVE_100:
+    case GET_LEAD_CHEQUED_INACTIVE_5:
       return {
         ...state,
-        leadCheckedInactive100: action.payload,
+        leadCheckedInactive5: action.payload,
         vendedoresDashboard: action.payload,
       };
 
@@ -138,7 +139,7 @@ case GET_EMPLOYEES:
     case FILTER_LEVEL:
       const copyLevel = [...state.leadChequed];
       let filteredLevel = copyLevel;
-      const copyLevelVendedores = [...state.leadCheckedInactive100];
+      const copyLevelVendedores = [...state.leadCheckedInactive5];
       let filteredLevelVendedores = copyLevelVendedores;
 
       if (action.payload === "0") {
@@ -191,28 +192,28 @@ case GET_EMPLOYEES:
       let filteredStatus = copyStatus;
 
       if (action.payload === "contratado") {
-        console.log("contratado");
+        ("contratado");
         filteredStatus = copyStatus.filter((client) => {
           const clientStatus = client.status ? client.status : "";
           return clientStatus === "Contratado";
         });
       }
       if (action.payload === "no-responde") {
-        console.log("no contesta");
+        ("no contesta");
         filteredStatus = copyStatus.filter((client) => {
           const clientstatus = client.status ? client.status : "";
           return clientstatus === "No responde";
         });
       }
       if (action.payload === "rechazado") {
-        console.log("rechazado");
+        ("rechazado");
         filteredStatus = copyStatus.filter((client) => {
           const clientStatus = client.status ? client.status : "";
           return clientStatus === "Rechazado";
         });
       }
       if (action.payload === "sin-contactar") {
-        console.log("sin contactar");
+        ("sin contactar");
         filteredStatus = copyStatus.filter((client) => {
           const clientStatus = client.status ? client.status : "";
           return clientStatus === "Sin contactar";
@@ -251,6 +252,16 @@ case GET_EMPLOYEES:
       return {
         ...state,
         LeadsLlamadaVenta: action.payload,
+      };
+    case GET_CORREDOR_LEAD:
+      return {
+        ...state,
+        corredorLead: action.payload,
+      };
+    case GET_CORREDOR_LEAD_CHECKED:
+      return {
+        ...state,
+        corredorLeadChecked: action.payload,
       };
 
     default:

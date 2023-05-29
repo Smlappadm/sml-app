@@ -18,8 +18,10 @@ import {
   orderCategory,
   orderClients,
 } from "../../../redux/actions";
-import { IoGrid, IoStatsChart, IoPeople } from "react-icons/io5";
+import { IoGrid, IoStatsChart } from "react-icons/io5";
+import { FaHistory } from "react-icons/fa";
 
+//
 const Incidences = () => {
   const [data, setData] = useState([]);
   const { leaderDashboard } = useSelector((state) => state);
@@ -28,9 +30,7 @@ const Incidences = () => {
     dispatch(getLeadChecked());
   }, [dispatch]);
   useEffect(() => {
-    const filteredData = leaderDashboard.filter(
-      (item) => item.level === "incidencia"
-    );
+    const filteredData = leaderDashboard.filter(item=>item.level==="incidencia")
     setData(filteredData);
   }, [leaderDashboard]);
 
@@ -136,19 +136,20 @@ const Incidences = () => {
       <Card className="w-full h-full bg-[#222131] rounded-none p-5">
         <div className="flex justify-between items-center mx-5 mb-0">
           <div className="flex gap-5">
-            <Title className={style.title}>Incidencias</Title>
+            <Title className={style.title}>Dashboard</Title>
             <Link to={"/lideres/"}>
               <IoGrid className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
             </Link>
-            <Link className="text-5xl" to={"/lideres-employees"}>
-              <IoPeople className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
+            <Link className="text-5xl" to={"/lideres/history"}>
+              <FaHistory className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
             </Link>
-            <Link className="text-5xl" to={"/lideres-analytics"}>
+            <Link className="text-5xl" to={"/lideres/analytics"}>
               <IoStatsChart className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
             </Link>
-            <Link className="text-5xl" to={"/lideres-incidences"}>
+            <Link className="text-5xl" to={"/lideres-analytics-incidences"}>
               <CiWarning className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
             </Link>
+            
           </div>
           {filters.level === true ? (
             <SelectLevel onChange={onChangeLevel} value={levelValue} />
@@ -162,23 +163,21 @@ const Incidences = () => {
           ) : (
             ""
           )}
+          
         </div>
-        <div className="w-full">
-          <div className="text-white text-14 font-thin">
-            <div className="flex items-center justify-around p-3 ">
-              <div className="flex justify-center items-center p-0">
-                <Text className="text-start w-8 p-0 text-white">ID</Text>
-              </div>
+        <table className="w-full">
+        <div className="text-white text-14 font-thin">
+            <div className="flex items-center justify-around p-3  ">
               <div className="flex justify-center items-center p-0">
                 <button onClick={() => handleOrderByClient()}>
-                  <Text className="text-center w-28 p-0 text-white">
+                  <Text className="text-start w-28 p-0 text-white">
                     {headerClient()}
                   </Text>
                 </button>
               </div>
               <div className="flex justify-center items-center p-0">
                 <button onClick={() => handleOrderByCategory()}>
-                  <Text className="text-center w-28 p-0 text-white">
+                  <Text className="text-start w-28 p-0 text-white">
                     {headerCategory()}
                   </Text>
                 </button>
@@ -189,7 +188,10 @@ const Incidences = () => {
                 </button>
               </div>
               <div className="flex justify-center items-center p-0">
-                <Text className="text-center w-6 p-0 text-white">Email</Text>
+                <Text className="text-center w-6 p-0 text-white">Web</Text>
+              </div>
+              <div className="flex justify-center items-center p-0">
+                <Text className="text-center w-6 p-0 text-white">Mail</Text>
               </div>
               <div className="flex justify-center items-center p-0">
                 <Text className="text-center w-6 p-0 text-white">
@@ -201,14 +203,14 @@ const Incidences = () => {
               </div>
               <div className="flex justify-center items-center p-0">
                 <button onClick={() => handlerFilter("runner")}>
-                  <Text className="text-center w-28 p-0 text-white">
+                  <Text className="text-start w-28 p-0 text-white">
                     Corredor
                   </Text>
                 </button>
               </div>
               <div className="flex justify-center items-center p-0">
                 <button onClick={() => handlerFilter("sellers")}>
-                  <Text className="text-center w-28 p-0 text-white">
+                  <Text className="text-start w-28 p-0 text-white">
                     Vendedor
                   </Text>
                 </button>
@@ -223,7 +225,7 @@ const Incidences = () => {
             </div>
           </div>
 
-          <div>
+          <tbody>
             <ModalCient
               open={open}
               handleClose={handleClose}
@@ -252,13 +254,7 @@ const Incidences = () => {
                     className="w-full flex justify-around items-center"
                     onClick={(index) => handleOpen(item, index)}
                   >
-                    <div className="flex justify-center items-center p-0  ">
-                      <div className="text-ellipsis w-8  flex justify-start items-center p-0 text-start">
-                        <Text className="text-white rounded-full text-ellipsis  opacity-1 overflow-hidden whitespace-nowrap hover:overflow-visible hover:bg-[#e3e1e1] hover:w-fit hover:text-black z-111 hover:absolute">
-                          {item._id}
-                        </Text>
-                      </div>
-                    </div>
+                   
                     <div className="flex justify-center items-center p-0 ">
                       <div className="w-28 text-ellipsis  flex justify-start items-center p-0">
                         <Text className=" text-white rounded-full text-ellipsis  opacity-1 overflow-hidden whitespace-nowrap hover:overflow-visible hover:bg-[#e3e1e1] hover:w-fit hover:text-black z-111 hover:absolute">
@@ -376,8 +372,8 @@ const Incidences = () => {
                 </div>
               </div>
             ))}
-          </div>
-        </div>
+          </tbody>
+        </table>
         <PaginationOutlined
           pageStyle={pageStyle}
           setPageStyle={setPageStyle}
@@ -390,4 +386,4 @@ const Incidences = () => {
     </>
   );
 };
-export default Incidences;
+export default Incidences

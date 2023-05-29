@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import PaginationOutlined from "../../pagination/PaginationOutlined";
-import { filterLevel, getLeadCheckedInactive100 } from "../../../redux/actions";
+import { filterLevel, getLeadCheckedInactive5 } from "../../../redux/actions";
 import Modal from "./Modal/Modal";
 import ModalIntelligentInfo from "./Modal/ModalIntelligenceInfo";
 import { IoGrid, IoStatsChart} from "react-icons/io5";
@@ -12,7 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { FaHistory } from "react-icons/fa";
 import {MdOutlineAttachMoney } from "react-icons/md";
 import SelectLevel from "./SelectLevel"
-
+import { useUser } from "@clerk/clerk-react";
 import { CiWarning, CiInstagram, CiMail } from "react-icons/ci";
 
 import Nav from "../../Nav/Nav";
@@ -22,14 +22,25 @@ const VendedoresDashboard = () => {
   const { vendedoresDashboard } = useSelector((state) => state);
   const dispatch = useDispatch();
   const [showCopiedMessage, setShowCopiedMessage] = useState(false);
+  const user = useUser().user;
+  const email = user?.emailAddresses[0]?.emailAddress;
+  const  fullName  = user?.fullName;
+
+
+  localStorage.setItem('email', email);
+  let emailAddress = localStorage.getItem('email');
+  (emailAddress)
 
   useEffect(() => {
-    dispatch(getLeadCheckedInactive100());
-  }, [dispatch]);
+    dispatch(getLeadCheckedInactive5(emailAddress));
+
+  }, [dispatch, emailAddress]);
+
+  
   useEffect(() => {
     setData(vendedoresDashboard);
   }, [vendedoresDashboard]);
-
+  
   const [pageStyle, setPageStyle] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [cardXPage, setCardXpage] = useState(10);
@@ -41,6 +52,8 @@ const VendedoresDashboard = () => {
   };
   const [edit, setEdit] = useState(false);
   const [editIndex, setEditIndex] = useState("");
+
+
 
   //FILTER**********************
   const [filters, setFilters] = useState({
@@ -99,7 +112,7 @@ const VendedoresDashboard = () => {
       progress: undefined,
       theme: "dark",
     });
-    dispatch(getLeadCheckedInactive100());
+    dispatch(getLeadCheckedInactive5(emailAddress));
   };
   const SendErrorUpdateAlert = () => {
     toast.error("The lead could not be updated!", {
@@ -124,12 +137,16 @@ const VendedoresDashboard = () => {
       progress: undefined,
       theme: "dark",
     });
-    dispatch(getLeadCheckedInactive100());
+
+    dispatch(getLeadCheckedInactive5(emailAddress));
+    // setData(vendedoresDashboard);
+
   };
   const updateLeads = () => {
-    dispatch(getLeadCheckedInactive100());
-    setData(vendedoresDashboard);
+    // dispatch(getLeadCheckedInactive5(emailAddress));
+    // setData(vendedoresDashboard);
   };
+
 
   return (
     <>
@@ -166,6 +183,7 @@ const VendedoresDashboard = () => {
             ) : (
               ""
             )}
+
           </div>
           {vendedoresDashboard.length ? (
             <table className={style.table}>
@@ -271,6 +289,8 @@ const VendedoresDashboard = () => {
                         SendIncidenceAlert={SendIncidenceAlert}
                         SendErrorUpdateAlert={SendErrorUpdateAlert}
                         updateLeads={updateLeads}
+                        emailAddress={emailAddress}
+                        fullName={fullName}
                       />
                     </td>
                   </tr>
