@@ -41,7 +41,7 @@ function Landing() {
 
 		fetchEmployees();
 	}, [dispatch, isEmployee()]);
-console.log(employees);
+	
 	return (
 		<>
 			<Nav />

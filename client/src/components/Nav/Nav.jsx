@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-import { UserButton, useClerk  } from "@clerk/clerk-react";
+import { UserButton, useClerk } from "@clerk/clerk-react";
 import {
   IoStatsChart,
   IoSettingsSharp,
@@ -18,18 +18,19 @@ function Nav() {
   const role = useSelector((state) => state.rol);
   const access = useSelector(state => state.isEmployee)
   const { signOut } = useClerk();
-  const roleReady= localStorage.getItem("roleReady")
-  const isEmployee= localStorage.getItem("isEmployeeReady")
+  const roleReady = localStorage.getItem("roleReady")
+  const isEmployee = localStorage.getItem("isEmployeeReady")
 
   const handleLogout = () => {
     signOut();
     localStorage.removeItem("roleReady");
     localStorage.removeItem("isEmployeeReady");
   };
-
+console.log(isEmployee);
+console.log(roleReady);
   return (
     <div className="bg-[#39394B] flex flex-col justify-between items-center h-screen min-w-[190px]">
-      
+
       <div className="flex flex-col items-center justify-center mt-16">
 
         <div className="flex flex-col items-center justify-center m-1">
@@ -40,10 +41,10 @@ function Nav() {
             />
           </Link>
         </div>
-        
 
-        {access && <div className=" flex  w-fit mt-12 ">
-          {role === "clevel" ? (
+
+        {isEmployee && <div className=" flex  w-fit mt-12 ">
+          {roleReady === "clevel" ? (
             <ul className="flex flex-col gap-2">
               <li className="flex gap-2 items-center text-[18px]">
                 <span className=" text-lg">
@@ -111,7 +112,7 @@ function Nav() {
                 </span>
               </li>
             </ul>
-          ) : role === "vendedor" ? (
+          ) : roleReady === "vendedor" ? (
             <ul className="flex flex-col gap-2">
               <li className="flex gap-2 items-center text-[18px]">
                 <span className=" text-lg">
@@ -153,7 +154,7 @@ function Nav() {
                 </span>
               </li>
             </ul>
-          ) : role === "leader" ? (
+          ) : roleReady === "leader" ? (
             <ul className="flex flex-col gap-2">
               <li className="flex gap-2 items-center text-[18px]">
                 <span className=" text-lg">
@@ -267,13 +268,13 @@ function Nav() {
         </div>}
       </div>
 
-      {access 
-      ? <div className="flex flex-col justify-center w-full items-center mb-5">
-        <button onClick={handleLogout}>Salir</button>
-        {/* <UserButton /> */}
-      </div>
-      :
-      <button onClick={handleLogout}>Salir</button>}
+      {isEmployee
+        ? <div className="flex flex-col justify-center w-full items-center mb-5">
+          <button onClick={handleLogout}>Salir</button>
+          {/* <UserButton /> */}
+        </div>
+        :
+        <button onClick={handleLogout}>Salir</button>}
     </div>
   );
 }

@@ -42,10 +42,7 @@ function ClerkProviderWithRoutes() {
   const [roleReady, setRoleReady] = useState("");
   const [accesReady, setAccessReady] = useState(false);
 
-  function isRoleAllowed(role) {
-    const allowedRoles = ["vendedor", "clevel", "leader", "corredor"];
-    return allowedRoles.includes(roleReady);
-  }
+
 
   useEffect(() => {
     const checkRole = async () => {
@@ -84,10 +81,13 @@ function ClerkProviderWithRoutes() {
     localStorage.removeItem("isEmployeeReady");
   };
 
+	const isRoleReady = localStorage.getItem("roleReady")
+	const isEmployeeReady = localStorage.getItem("isEmployeeReady")
 
-
-console.log(localStorage.getItem("roleReady"));
-console.log(localStorage.getItem("isEmployeeReady"));
+  function isRoleAllowed(role) {
+    const allowedRoles = ["vendedor", "clevel", "leader", "corredor"];
+    return allowedRoles.includes(isRoleReady);
+  }
   return (
     <ClerkProvider
       publishableKey={clerkPubKey}
@@ -143,7 +143,7 @@ console.log(localStorage.getItem("isEmployeeReady"));
           path="/lideres"
           element={
             isRoleAllowed(roleReady) &&
-              (roleReady === "clevel" || roleReady === "leader") && accesReady ? (
+              (roleReady === "clevel" || roleReady === "leader") && isEmployeeReady ? (
               <LideresDasboard />
             ) : (
               <ReturnToPage />
@@ -154,7 +154,7 @@ console.log(localStorage.getItem("isEmployeeReady"));
           path="/lideres-analytics"
           element={
             isRoleAllowed(roleReady) &&
-            (roleReady === "clevel" || roleReady === "leader") && accesReady ? (
+            (roleReady === "clevel" || roleReady === "leader") && isEmployeeReady ? (
               <AnalyticLeader />
             ) : (
               <ReturnToPage />
@@ -164,7 +164,7 @@ console.log(localStorage.getItem("isEmployeeReady"));
         <Route
           path="/lideres-employees"
           element={
-            isRoleAllowed(roleReady) && (roleReady === "clevel" || roleReady === "leader") && accesReady ? (
+            isRoleAllowed(roleReady) && (roleReady === "clevel" || roleReady === "leader") && isEmployeeReady ? (
               <Lideres />
             ) : (
               <ReturnToPage />
@@ -173,13 +173,13 @@ console.log(localStorage.getItem("isEmployeeReady"));
         />
         <Route
           path="/lideres-incidences"
-          element={isRoleAllowed(roleReady) && (roleReady === "clevel" || roleReady === "leader") && accesReady ? <Incidences /> : <ReturnToPage />}
+          element={isRoleAllowed(roleReady) && (roleReady === "clevel" || roleReady === "leader") && isEmployeeReady ? <Incidences /> : <ReturnToPage />}
         />
         <Route
           path="/clevel"
           element={
             isRoleAllowed(roleReady) &&
-            (roleReady === "clevel" || roleReady === "leader") && accesReady ? (
+            (roleReady === "clevel" || roleReady === "leader") && isEmployeeReady ? (
               <Clevel />
             ) : (
               <ReturnToPage />
@@ -189,7 +189,7 @@ console.log(localStorage.getItem("isEmployeeReady"));
         <Route
           path="/clevel-analytics"
           element={
-            isRoleAllowed(roleReady) && roleReady === "clevel" && accesReady ? (
+            isRoleAllowed(roleReady) && roleReady === "clevel" && isEmployeeReady ? (
               <Analytic />
             ) : (
               <ReturnToPage />
@@ -199,7 +199,7 @@ console.log(localStorage.getItem("isEmployeeReady"));
         <Route
           path="/corredores"
           element={
-            isRoleAllowed(roleReady) && (roleReady === "corredor" || roleReady === "clevel" || roleReady === "leader") && accesReady ? (
+            isRoleAllowed(roleReady) && (roleReady === "corredor" || roleReady === "clevel" || roleReady === "leader") && isEmployeeReady ? (
               <CorredoresDashboard />
             ) : (
               <ReturnToPage />
@@ -209,19 +209,19 @@ console.log(localStorage.getItem("isEmployeeReady"));
         <Route
           path="/corredores-history"
           element={
-            isRoleAllowed(roleReady) && (roleReady === "corredor" || roleReady === "clevel" || roleReady === "leader") && accesReady ? (
+            isRoleAllowed(roleReady) && (roleReady === "corredor" || roleReady === "clevel" || roleReady === "leader") && isEmployeeReady ? (
               <CorredoresAnlaytics />
             ) : (
               <ReturnToPage />
             )
           }
         />
-        <Route path="/analytics" element={isRoleAllowed(roleReady) && (roleReady === "clevel" || roleReady === "leader") && accesReady ? <Analytics /> : <ReturnToPage />} />
+        <Route path="/analytics" element={isRoleAllowed(roleReady) && (roleReady === "clevel" || roleReady === "leader") && isEmployeeReady ? <Analytics /> : <ReturnToPage />} />
         <Route path="/settings" element={<Settings />} />
         <Route
           path="/vendedores"
           element={
-            isRoleAllowed(roleReady) && (roleReady === "vendedor" || roleReady === "clevel" || roleReady === "leader")  && accesReady ? (
+            isRoleAllowed(roleReady) && (roleReady === "vendedor" || roleReady === "clevel" || roleReady === "leader")  && isEmployeeReady ? (
               <VendedoresDashboard />
             ) : (
               <ReturnToPage />
@@ -231,7 +231,7 @@ console.log(localStorage.getItem("isEmployeeReady"));
         <Route
           path="/vendedores-history"
           element={
-            isRoleAllowed(roleReady) && (roleReady === "vendedor" || roleReady === "clevel" || roleReady === "leader")  && accesReady ? (
+            isRoleAllowed(roleReady) && (roleReady === "vendedor" || roleReady === "clevel" || roleReady === "leader")  && isEmployeeReady ? (
               <VendedoresHistory />
             ) : (
               <ReturnToPage />
