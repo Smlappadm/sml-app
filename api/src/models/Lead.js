@@ -42,7 +42,7 @@ const LeadSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["Sin contactar", "Rechazado", "Contratado", "No responde", "Agendar 2do llamado"],
+      enum: ["Sin contactar", "Rechazado", "Contratado", "No responde", "Agendar 2do llamado", "incidencia"],
       require: true,
     },
     llamada_venta: {

@@ -27,7 +27,7 @@ const getValueLeadsHandler = async (req, res) => {
 
 const postCorredorHandler = async (req, res) => {
   const data = req.body;
-  console.log(data);
+
   try {
     const corredores = await postCorredor(data);
     res.status(200).json(data);

@@ -11,6 +11,7 @@ dist-ssr
 *.local
 
 smlapp
+apiProduccion
 
 # Editor directories and files
 .vscode/*
@@ -24,5 +25,4 @@ smlapp
 *.sw?
 **node_modules
 api/.env
-apiProduccion/.env
 smlapp.zip

@@ -19,14 +19,20 @@ import {
 
 import { CiGlobe, CiWarning, CiInstagram, CiMail } from "react-icons/ci";
 import { IoGrid, IoStatsChart } from "react-icons/io5";
-import { getLeadChecked } from "../../../redux/actions";
+import { getLeadCorredoresChecked } from "../../../redux/actions";
+import { useUser } from "@clerk/clerk-react";
 
 const CorredoresAnlaytics = () => {
-  const { leadChequed } = useSelector((state) => state);
+  const { corredorLeadChecked } = useSelector((state) => state);
   const dispatch = useDispatch();
 
+  console.log(corredorLeadChecked);
+
+  const user = useUser().user;
+  const email = user?.emailAddresses[0]?.emailAddress;
+
   useEffect(() => {
-    dispatch(getLeadChecked());
+    dispatch(getLeadCorredoresChecked(email));
   }, [dispatch]);
 
   const [pageStyle, setPageStyle] = useState(1);
@@ -34,7 +40,7 @@ const CorredoresAnlaytics = () => {
   const [cardXPage, setCardXpage] = useState(10);
   const indexLastCard = currentPage * cardXPage;
   const indexFirstCard = indexLastCard - cardXPage;
-  const currentCard = leadChequed.slice(indexFirstCard, indexLastCard);
+  const currentCard = corredorLeadChecked.slice(indexFirstCard, indexLastCard);
 
   const pages = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -159,7 +165,7 @@ const CorredoresAnlaytics = () => {
             pageStyle={pageStyle}
             setPageStyle={setPageStyle}
             cardXPage={cardXPage}
-            data={leadChequed}
+            data={corredorLeadChecked}
             pages={pages}
             current={currentPage}
           />

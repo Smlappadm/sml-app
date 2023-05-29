@@ -8,12 +8,8 @@ import {
 
 export default function Settings() {
   const user = useUser().user;
-  const org = useOrganization();
-  const orgList = useOrganizationList();
 
   console.log(user);
-  console.log(org);
-  console.log(orgList.organizationList[0]);
   return (
     <>
       <Nav />
@@ -66,9 +62,9 @@ export default function Settings() {
             </div>
           </div>
           <Detail
-            name={user.fullName}
-            picture={user.experimental_imageUrl}
-            email={user.emailAddresses[0].emailAddress}
+            name={user?.fullName}
+            picture={user?.profileImageUrl}
+            email={user?.emailAddresses[0].emailAddress}
           />
         </div>
       }{" "}

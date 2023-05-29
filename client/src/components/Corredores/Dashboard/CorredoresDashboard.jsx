@@ -19,26 +19,23 @@ import { CiGlobe, CiMail } from "react-icons/ci";
 import { GrInstagram } from "react-icons/gr";
 import { IoGrid, IoStatsChart } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import { getCorredoresLead, getLeadUnchecked10 } from "../../../redux/actions";
+import { getLeadCorredores } from "../../../redux/actions";
 import IconLabelButtons from "./MaterialUi/IconLabelButtons";
-import asignedLead from "./MaterialUi/asignedLead";
 import { useUser } from "@clerk/clerk-react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const CorredoresDashboard = () => {
   const [client, setClient] = useState([]);
-  const [dataLoaded, setDataLoaded] = useState(false);
-  const [count, setCount] = useState(0);
-  const { leadUnchecked10 } = useSelector((state) => state);
+  const { corredorLead } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const user = useUser().user;
-  const email = user?.emailAddresses[0].emailAddress;
+  const email = user?.emailAddresses[0]?.emailAddress;
 
   const handleChangeInstagram = (event, index) => {
     const { name, value } = event.target;
-    console.log(value);
+
     setClient((prevState) => {
       const updatedClient = [...prevState];
       updatedClient[index] = {
@@ -49,6 +46,10 @@ const CorredoresDashboard = () => {
       return updatedClient;
     });
   };
+  useEffect(() => {
+    email !== undefined && dispatch(getLeadCorredores(email));
+  }, [dispatch, email]);
+
   const handleChangeEmail = (event, index) => {
     const { name, value } = event.target;
     console.log(value);
@@ -62,7 +63,6 @@ const CorredoresDashboard = () => {
       return updatedClient;
     });
   };
-
 
   const handleClientClick = (event, index) => {
     const { name, value } = event.target;
@@ -79,68 +79,27 @@ const CorredoresDashboard = () => {
     });
   };
 
-  const handleAsignedLead = () => {
-    let n = 10;
-    if (leadUnchecked10.length === 0) {
-      leadUncheckedAsignedCorredor(n);
-    }
-  };
-
-  const leadUncheckedAsignedCorredor = async (n) => {
-    console.log(n);
-    try {
-      const response = await axios.put(
-        `/lead/unchecked10/corredor?email=${email}&limit=${n}`
-      );
-      console.log(response.data);
-    } catch (error) {}
-  };
-
-  const handleView = async () => {
-    try {
-      for (let i = 0; i < leadUnchecked10.length; i++) {
-        const response = await axios.put(`/lead/${client[i]._id}`, {
-          view: client[i].view,
-        });
-        console.log(response.data);
-      }
-    } catch (error) {
-      console.log("No se envio el put de view");
-    }
-  };
-
-  useEffect(() => {
-    dispatch(getLeadUnchecked10(email)).then(() => {
-      setDataLoaded(true);
-    });
-  }, [dispatch, email]);
-
-  useEffect(() => {
-    if (dataLoaded) {
-      handleView();
-    }
-  }, [dataLoaded]);
-
   useEffect(() => {
     let clientes = [];
     let i = 0;
-
-    if (leadUnchecked10 && leadUnchecked10.length > 0) {
-      for (i = 0; i < 10; i++) {
-        clientes.push({
-          _id: leadUnchecked10[i]._id,
-          name: leadUnchecked10[i].name,
-          url: leadUnchecked10[i].url,
-          email: leadUnchecked10[i].email,
-          instagram: "",
-          level: "-",
-          checked: false,
-          view: true,
-        });
+    if (corredorLead && corredorLead.length > 0) {
+      for (let i = 0; i < corredorLead.length; i++) {
+        if (corredorLead[i] && corredorLead[i]._id) {
+          clientes.push({
+            _id: corredorLead[i]._id,
+            name: corredorLead[i].name,
+            url: corredorLead[i].url,
+            email: corredorLead[i].email,
+            instagram: "",
+            level: "-",
+            checked: false,
+            view: true,
+          });
+        }
       }
     }
     setClient(clientes);
-  }, [leadUnchecked10]);
+  }, [corredorLead]);
 
   const SendLeads = (name) => {
     toast.info(`✔ ${name} Send Leads! `, {
@@ -219,7 +178,7 @@ const CorredoresDashboard = () => {
     event.preventDefault();
     SendLeads(user.fullName);
     try {
-      for (let i = 0; i < leadUnchecked10.length; i++) {
+      for (let i = 0; i < corredorLead.length; i++) {
         if (client[i].level !== "-") {
           if (client[i].instagram.trim() !== "" && client[i].level === "0") {
             SendLeadsErrorInsta0(client[i].name);
@@ -235,20 +194,8 @@ const CorredoresDashboard = () => {
               email: client[i].email,
               level: client[i].level,
               checked: true,
-              view: false,
-              corredor: user.fullName,
+              view: true,
             });
-            console.log(response.data);
-
-            // if (client[i].level === "incidencia") {
-            //   const emailData = {
-            //     clientName: client[i].name,
-            //     recipientEmail: "voeffray.jonathan@gmail.com",
-            //     message: `Se ha detectado una incidencia clasificada por el corredor ${user.emailAddresses[0].emailAddress} para el cliente ${client[i].name} con el numero de id ${client[i]._id}. Por favor, revisa la situación y toma las medidas necesarias.`,
-            //   };
-
-            //   // await axios.post("/corredor/sendmail", emailData);
-            // }
           } else if (
             client[i].instagram.trim() !== "" &&
             client[i].level !== "-"
@@ -261,10 +208,8 @@ const CorredoresDashboard = () => {
               email: client[i].email,
               level: client[i].level,
               checked: true,
-              view: false,
-              corredor: user.fullName,
+              view: true,
             });
-            console.log(response.data);
           } else {
             SendLeadsErrorInsta(client[i].name);
           }
@@ -272,11 +217,10 @@ const CorredoresDashboard = () => {
           SendLeadsErrorLevel(client[i].name);
         }
       }
-      // leadUnchecked10 &&
-      // leadUncheckedAsignedCorredor(10 - leadUnchecked10.length);
+
+      dispatch(getLeadCorredores(email));
+
       SendLeadsSuccess();
-      dispatch(getLeadUnchecked10(email));
-      // dispatch(getCorredoresLead(email));
     } catch (error) {
       SendLeadsError();
       console.log({ error: error.message });
@@ -287,9 +231,6 @@ const CorredoresDashboard = () => {
       <Nav />
       <Card className="w-full m-5 bg-[#222131]">
         <ToastContainer />
-        <div className="flex gap-12">
-          <button onClick={handleAsignedLead}>Asigned Lead</button>
-        </div>
         <form onSubmit={handleSubmit}>
           <div className="flex justify-between items-center">
             <div className="flex gap-10  mt-2 mx-5 ">

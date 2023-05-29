@@ -5,11 +5,11 @@ const getLeadByName = require("../controllers/Lead/getLeadByName");
 const postLead = require("../controllers/Lead/postLead");
 const updateLeadById = require("../controllers/Lead/updateLeadById");
 const getLeadUnchecked = require("../controllers/Lead/getLeadUnchecked");
-const getLeadCheckedInactive100 = require("../controllers/Lead/getLeadCheckedInactive100");
+const getLeadCheckedInactive5 = require("../controllers/Lead/getLeadCheckedInactive5");
 const getLead10Unchecked = require("../controllers/Lead/getLead10Unchecked");
 const updateLeadVendedorById = require("../controllers/Lead/updateLeadVendedorById");
 const getLeadVendedorById = require("../controllers/Lead/getLeadVendedorById");
-const getCorredorLead10 = require("../controllers/Lead/getCorredorLead10");
+const getLeadCorredorChecked = require("../controllers/Lead/getLeadCorredoresChecked");
 
 const getAllLeadHandler = async (req, res) => {
   try {
@@ -28,20 +28,11 @@ const getLeadUncheckedHandler = async (req, res) => {
   }
 };
 
-const getCorredorLead10Handler = async (req, res) => {
-  const { email, limit } = req.query;
-  try {
-    const leadCorredor = await getCorredorLead10(email, limit);
-    res.status(200).json(leadCorredor);
-  } catch (error) {
-    res.status(404).json({ error: error.message });
-  }
-};
 const getLead10UncheckedHandler = async (req, res) => {
   const { email } = req.query;
   try {
     const leadUnchecked = await getLead10Unchecked(email);
-    res.status(200).json(leadUnchecked.slice(0, 10));
+    res.status(200).json(leadUnchecked);
   } catch (error) {
     res.status(404).json({ error: error.message });
   }
@@ -56,10 +47,13 @@ const getLeadCheckedHandler = async (req, res) => {
   }
 };
 
-const getLeadCheckedInactive100Handler = async (req, res) => {
+const getLeadCheckedInactive5Handler = async (req, res) => {
+  const { email } = req.query;
+
   try {
-    const leadCheckedInactive100 = await getLeadCheckedInactive100();
-    res.status(200).json(leadCheckedInactive100.slice(0, 100));
+    const leadCheckedInactive5 = await getLeadCheckedInactive5(email);
+
+    res.status(200).json(leadCheckedInactive5);
   } catch (error) {
     res.status(404).json({ error: error.message });
   }
@@ -89,6 +83,7 @@ const updateLeadVendedorHandler = async (req, res) => {
   try {
     const id = req.params.id;
     const updatedData = req.body;
+
     const lead = await updateLeadVendedorById(id, updatedData);
     res.status(200).json(lead);
   } catch (error) {
@@ -128,11 +123,21 @@ const getLeadVendedorHandler = async (req, res) => {
   }
 };
 
+const getLeadCorredorCheckedHandler = async (req, res) => {
+  const { email } = req.query;
+  try {
+    const leadChecked = await getLeadCorredorChecked(email);
+    res.status(200).json(leadChecked);
+  } catch (error) {
+    res.status(404).json({ error: error.message });
+  }
+};
+
 module.exports = {
   getAllLeadHandler,
   getLeadUncheckedHandler,
   getLeadCheckedHandler,
-  getLeadCheckedInactive100Handler,
+  getLeadCheckedInactive5Handler,
   postLeadHandler,
   updateLeadHandler,
   getLead10UncheckedHandler,
@@ -140,5 +145,5 @@ module.exports = {
   getLeadByNameHandler,
   updateLeadVendedorHandler,
   getLeadVendedorHandler,
-  getCorredorLead10Handler,
+  getLeadCorredorCheckedHandler,
 };
