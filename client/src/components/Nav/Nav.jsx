@@ -1,19 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 import styles from "./Nav.module.css"
 import { useClerk } from "@clerk/clerk-react";
 import {
   IoStatsChart,
   IoSettingsSharp,
-  IoBagSharp,
   IoGrid,
   IoPeople,
   IoExitOutline
 } from "react-icons/io5";
-
-
-
 
 function Nav() {
   const { signOut } = useClerk();
