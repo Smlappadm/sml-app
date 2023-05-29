@@ -1,134 +1,150 @@
-import { Link } from "react-router-dom";
-import style from "./incidencias.module.css";
-import PaginationOutlined from "../../pagination/PaginationOutlined";
-import { Card, Text, Title } from "@tremor/react";
-import { CiMail, CiInstagram, CiPhone, CiWarning } from "react-icons/ci";
-import InputRunner from "./MaterialUi/InputRunner";
-import InputSeller from "./MaterialUi/InputSeller";
-import SelectLevel from "./MaterialUi/SelectLevel";
-import SelectStatus from "./MaterialUi/SelectStatus";
-import ModalCient from "./MaterialUi/ModalClient";
-import Nav from "../../Nav/Nav";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom"
+import style from "./incidencias.module.css"
+import PaginationOutlined from "../../pagination/PaginationOutlined"
+import { Card, Text, Title } from "@tremor/react"
+import { CiMail, CiInstagram, CiPhone, CiWarning } from "react-icons/ci"
+import InputRunner from "./MaterialUi/InputRunner"
+import InputSeller from "./MaterialUi/InputSeller"
+import SelectLevel from "./MaterialUi/SelectLevel"
+import SelectStatus from "./MaterialUi/SelectStatus"
+import ModalCient from "./MaterialUi/ModalClient"
+import Nav from "../../Nav/Nav"
+import { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import {
   filterLevel,
   filterStatus,
   getLeadChecked,
   orderCategory,
-  orderClients,
-} from "../../../redux/actions";
-import { IoGrid, IoStatsChart } from "react-icons/io5";
-import { FaHistory } from "react-icons/fa";
+  orderClients
+} from "../../../redux/actions"
+import { IoGrid, IoStatsChart } from "react-icons/io5"
+import { FaHistory } from "react-icons/fa"
 
 //
 const Incidences = () => {
-  const [data, setData] = useState([]);
-  const { leaderDashboard } = useSelector((state) => state);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getLeadChecked());
-  }, [dispatch]);
-  useEffect(() => {
-    const filteredData = leaderDashboard.filter(item=>item.level==="incidencia")
-    setData(filteredData);
-  }, [leaderDashboard]);
+  const [data, setData] = useState([])
+  const { leaderDashboard } = useSelector((state) => state)
+  const dispatch = useDispatch()
 
-  const [pageStyle, setPageStyle] = useState(1);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [cardXPage, setCardXpage] = useState(10);
-  const indexLastCard = currentPage * cardXPage;
-  const indexFirstCard = indexLastCard - cardXPage;
-  const currentCard = data.slice(indexFirstCard, indexLastCard);
+  const fetchData = () => {
+    dispatch(getLeadChecked())
+  }
+  
+  const filterData = () => {
+    const filteredData = leaderDashboard.filter(item => item.level === "incidencia")
+    setData(filteredData)
+  }
+  
+  useEffect(() => {
+    fetchData()
+  }, [])
+  
+  useEffect(() => {
+    filterData()
+  }, [leaderDashboard])
+  
+  const handleState = () => {
+    fetchData()
+    filterData()
+  }
+
+
+  const [pageStyle, setPageStyle] = useState(1)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [cardXPage, setCardXpage] = useState(10)
+  const indexLastCard = currentPage * cardXPage
+  const indexFirstCard = indexLastCard - cardXPage
+  const currentCard = data.slice(indexFirstCard, indexLastCard)
   const pages = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-  const [clientOrder, setClientOrder] = useState("");
-  const [categoryOrder, setCategoryOrder] = useState("");
+    setCurrentPage(pageNumber)
+  }
+  const [clientOrder, setClientOrder] = useState("")
+  const [categoryOrder, setCategoryOrder] = useState("")
   const [filters, setFilters] = useState({
     level: false,
     runner: false,
     sellers: false,
     status: false,
-  });
+  })
 
   const headerClient = () => {
     if (clientOrder === "ASC") {
-      return "Cliente ⤴";
+      return "Cliente ⤴"
     } else if (clientOrder === "DES") {
-      return "Cliente ⤵";
+      return "Cliente ⤵"
     } else {
-      return "Cliente";
+      return "Cliente"
     }
-  };
+  }
   const handleOrderByClient = () => {
     if (clientOrder === "ASC" || clientOrder === "") {
-      setClientOrder("DES");
-      setCategoryOrder("");
-      dispatch(orderClients(clientOrder));
-      setData(leaderDashboard);
+      setClientOrder("DES")
+      setCategoryOrder("")
+      dispatch(orderClients(clientOrder))
+      setData(leaderDashboard)
     } else {
-      setClientOrder("ASC");
-      dispatch(orderClients(clientOrder));
-      setData(leaderDashboard);
+      setClientOrder("ASC")
+      dispatch(orderClients(clientOrder))
+      setData(leaderDashboard)
     }
-    setCurrentPage(1);
-  };
+    setCurrentPage(1)
+  }
   const headerCategory = () => {
     if (categoryOrder === "ASC") {
-      return "Profesion ⤴";
+      return "Profesion ⤴"
     } else if (categoryOrder === "DES") {
-      return "Profesion ⤵";
+      return "Profesion ⤵"
     } else {
-      return "Profesion";
+      return "Profesion"
     }
   };
   const handleOrderByCategory = () => {
     if (categoryOrder === "ASC" || categoryOrder === "") {
-      setCategoryOrder("DES");
-      setClientOrder("");
-      dispatch(orderCategory(categoryOrder));
-      setData(leaderDashboard);
+      setCategoryOrder("DES")
+      setClientOrder("")
+      dispatch(orderCategory(categoryOrder))
+      setData(leaderDashboard)
     } else {
-      setCategoryOrder("ASC");
-      dispatch(orderCategory(categoryOrder));
-      setData(leaderDashboard);
+      setCategoryOrder("ASC")
+      dispatch(orderCategory(categoryOrder))
+      setData(leaderDashboard)
     }
-    setCurrentPage(1);
-  };
+    setCurrentPage(1)
+  }
   const handlerFilter = (filter) => {
     if (filter === "level") {
-      setFilters({ level: true, runner: false, sellers: false, status: false });
+      setFilters({ level: true, runner: false, sellers: false, status: false })
     } else if (filter === "runner") {
-      setFilters({ level: false, runner: true, sellers: false, status: false });
+      setFilters({ level: false, runner: true, sellers: false, status: false })
     } else if (filter === "sellers") {
-      setFilters({ level: false, runner: false, sellers: true, status: false });
+      setFilters({ level: false, runner: false, sellers: true, status: false })
     } else {
-      setFilters({ level: false, runner: false, sellers: false, status: true });
+      setFilters({ level: false, runner: false, sellers: false, status: true })
     }
-  };
-  const [levelValue, setLevelValue] = useState("");
+  }
+  const [levelValue, setLevelValue] = useState("")
   const onChangeLevel = (value) => {
-    setLevelValue(value);
-    dispatch(filterLevel(value));
-    setData(leaderDashboard);
-    setCurrentPage(1);
-  };
-  const [statusValue, setStatusValue] = useState("");
+    setLevelValue(value)
+    dispatch(filterLevel(value))
+    setData(leaderDashboard)
+    setCurrentPage(1)
+  }
+  const [statusValue, setStatusValue] = useState("")
   const onChangeStatus = (value) => {
-    setStatusValue(value);
-    dispatch(filterStatus(value));
-    setData(leaderDashboard);
-    setCurrentPage(1);
-  };
+    setStatusValue(value)
+    dispatch(filterStatus(value))
+    setData(leaderDashboard)
+    setCurrentPage(1)
+  }
 
-  const [open, setOpen] = useState(false);
-  const [modalItems, setModalItems] = useState([]);
+  const [open, setOpen] = useState(false)
+  const [modalItems, setModalItems] = useState([])
   const handleOpen = (item, index) => {
-    setOpen(true);
-    setModalItems(item);
-  };
-  const handleClose = () => setOpen(false);
+    setOpen(true)
+    setModalItems(item)
+  }
+  const handleClose = () => setOpen(false)
 
   return (
     <>
@@ -227,6 +243,7 @@ const Incidences = () => {
 
           <tbody>
             <ModalCient
+              updateParentState={handleState}
               open={open}
               handleClose={handleClose}
               _id={modalItems._id}

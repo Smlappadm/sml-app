@@ -2,8 +2,8 @@ import React, { useState } from "react"
 import Box from "@mui/material/Box"
 import Modal from "@mui/material/Modal"
 import axios from "axios"
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast, ToastContainer } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 const style = {
   position: "absolute",
@@ -31,47 +31,48 @@ export default function BasicModal(props) {
     telephone,
     city,
     province,
-    url
+    url,
+    handleClose,
+    updateParentState
   } = props
-
 
   const [filledEmail, setFilledEmail] = useState(email || "")
   const [filledInstagram, setFilledInstagram] = useState(instagram || "")
   const [filledTelephone, setFilledTelephone] = useState(telephone || "")
-  const [filledLevel, setFilledLevel] = useState(level || "");
-  const [filledUrl, setfilledUrl] = useState(level || "");
+  const [filledLevel, setFilledLevel] = useState(level || "")
+  const [filledUrl, setFilledUrl] = useState(url || "")
 
   const [inputVisibility, setInputVisibility] = useState({
     email: false,
     instagram: false,
     telephone: false,
     level: false,
-    url: false
-  })
+    url: false,
+  });
 
   const handleEmailChange = (event) => {
-    const updatedValue = event.target.value;
-    const newValue = updatedValue !== "" ? updatedValue : email;
-    setFilledEmail(newValue);
-  }
+    const updatedValue = event.target.value
+    const newValue = updatedValue !== "" ? updatedValue : email
+    setFilledEmail(newValue)
+  };
 
   const handleInstagramChange = (event) => {
-    const updatedValue = event.target.value;
-    const newValue = updatedValue !== "" ? updatedValue : instagram;
-    setFilledInstagram(newValue);
-  }
+    const updatedValue = event.target.value
+    const newValue = updatedValue !== "" ? updatedValue : instagram
+    setFilledInstagram(newValue)
+  };
 
   const handleTelephoneChange = (event) => {
-    const updatedValue = event.target.value;
-    const newValue = updatedValue !== "" ? updatedValue : telephone;
-    setFilledTelephone(newValue);
-  }
+    const updatedValue = event.target.value
+    const newValue = updatedValue !== "" ? updatedValue : telephone
+    setFilledTelephone(newValue)
+  };
 
   const handleUrlChange = (event) => {
-    const updatedValue = event.target.value;
-    const newValue = updatedValue !== "" ? updatedValue : url;
-    setfilledUrl(newValue);
-  }
+    const updatedValue = event.target.value
+    const newValue = updatedValue !== "" ? updatedValue : url
+    setFilledUrl(newValue)
+  };
 
   const handleLevelChange = () => {
     setInputVisibility((prevState) => ({
@@ -80,36 +81,31 @@ export default function BasicModal(props) {
     }))
   }
 
-  const handleClose = () => {
-    // Reset form values
-    setFilledEmail(email || "");
-    setFilledInstagram(instagram || "");
-    setFilledTelephone(telephone || "");
-    setFilledLevel(level || "");
-    setfilledUrl(url || "");
-  
-    // Reset input visibility
+  const handleCloseModal = () => {
+    setFilledEmail(email || "")
+    setFilledInstagram(instagram || "")
+    setFilledTelephone(telephone || "")
+    setFilledLevel(level || "")
+    setFilledUrl(url || "")
+
     setInputVisibility({
       email: false,
       instagram: false,
       telephone: false,
       level: false,
-      url: false
+      url: false,
     });
-  
-    // Close the modal
-    props.handleClose();
+
+    handleClose()
   };
 
-  console.log(url)
-  console.log(_id)
   const handleFixClick = () => {
     const updatedData = {
       email: filledEmail,
       instagram: filledInstagram,
       telephone: filledTelephone,
       level: filledLevel,
-      url: filledUrl
+      url: filledUrl,
     }
 
     axios
@@ -124,23 +120,26 @@ export default function BasicModal(props) {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "dark", 
-          onClose: handleClose
+          theme: "dark",
+          onClose: () => {
+            handleCloseModal();
+            updateParentState();
+          },
         });
+        handleClose()
       })
       .catch((error) => {
         console.error("Error al actualizar los datos:", error)
-        alert("Error updating data. Please try again.");
+        alert("Error updating data. Please try again.")
       })
   }
 
   return (
-    
     <div>
       <ToastContainer />
       <Modal
         open={props.open}
-        onClose={handleClose}
+        onClose={handleCloseModal}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
         BackdropProps={{
@@ -150,7 +149,7 @@ export default function BasicModal(props) {
         }}
       >
         <Box sx={style}>
-        
+
           <div className="flex flex-col justify-between h-full">
             <div className="font-semibold flex flex-col gap-3 items-center text-24 mb-5">
               <h1>{name} </h1>
@@ -257,27 +256,27 @@ export default function BasicModal(props) {
             <div className="font-semibold flex gap-3">
               <p>WEB: </p>
               <div className="font-semibold flex gap-3">
-  {!inputVisibility.url ? (
-    <p className="font-normal truncate text-white w-48 overflow-hidden overflow-ellipsis" title={url}>
-      {url}
-    </p>
-  ) : (
-    <input
-      type="text"
-      value={filledUrl}
-      onChange={handleUrlChange}
-      className="font-normal bg-gray-600"
-    />
-  )}
-  {!inputVisibility.url && (
-    <button
-      onClick={() => setInputVisibility({ ...inputVisibility, url: true })}
-      className="text-white"
-    >
-      Change
-    </button>
-  )}
-</div>
+                {!inputVisibility.url ? (
+                  <p className="font-normal truncate text-white w-48 overflow-hidden overflow-ellipsis" title={url}>
+                    {url}
+                  </p>
+                ) : (
+                  <input
+                    type="text"
+                    value={filledUrl}
+                    onChange={handleUrlChange}
+                    className="font-normal bg-gray-600"
+                  />
+                )}
+                {!inputVisibility.url && (
+                  <button
+                    onClick={() => setInputVisibility({ ...inputVisibility, url: true })}
+                    className="text-white"
+                  >
+                    Change
+                  </button>
+                )}
+              </div>
             </div>
 
 
