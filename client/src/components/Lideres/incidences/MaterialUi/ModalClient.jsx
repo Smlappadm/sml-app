@@ -121,12 +121,9 @@ export default function BasicModal(props) {
           draggable: true,
           progress: undefined,
           theme: "dark",
-          onClose: () => {
-            handleCloseModal();
-            updateParentState();
-          },
         });
         handleClose()
+        updateParentState();
       })
       .catch((error) => {
         console.error("Error al actualizar los datos:", error)
