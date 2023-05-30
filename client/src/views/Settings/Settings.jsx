@@ -70,7 +70,7 @@ export default function Settings() {
     dispatch(getAllVendedores())
     dispatch(getAllLeader())
     dispatch(getAllClevel())
-  }, [dispatch, selectedEmployee])
+  }, [dispatch])
 
   console.log(formData);
   console.log(selectedEmployee);
