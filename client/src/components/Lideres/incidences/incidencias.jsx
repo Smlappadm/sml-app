@@ -7,15 +7,8 @@ import ModalCient from "./MaterialUi/ModalClient"
 import Nav from "../../Nav/Nav"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import {
-  filterLevel,
-  filterStatus,
-  getLeadChecked,
-  orderCategory,
-  orderClients
-} from "../../../redux/actions"
+import { getLeadChecked, orderClients, orderCategory } from "../../../redux/actions"
 import { IoGrid, IoStatsChart, IoPeople } from "react-icons/io5"
-
 
 
 //
@@ -27,20 +20,20 @@ const Incidences = () => {
   const fetchData = () => {
     dispatch(getLeadChecked())
   }
-  
+
   const filterData = () => {
     const filteredData = leaderDashboard.filter(item => item.level === "incidencia")
     setData(filteredData)
   }
-  
+
   useEffect(() => {
     fetchData()
   }, [])
-  
+
   useEffect(() => {
     filterData()
   }, [leaderDashboard])
-  
+
   const handleState = () => {
     fetchData()
     filterData()
@@ -58,12 +51,6 @@ const Incidences = () => {
   }
   const [clientOrder, setClientOrder] = useState("")
   const [categoryOrder, setCategoryOrder] = useState("")
-  const [filters, setFilters] = useState({
-    level: false,
-    runner: false,
-    sellers: false,
-    status: false,
-  })
 
   const headerClient = () => {
     if (clientOrder === "ASC") {
@@ -76,50 +63,39 @@ const Incidences = () => {
   }
   const handleOrderByClient = () => {
     if (clientOrder === "ASC" || clientOrder === "") {
-      setClientOrder("DES")
-      setCategoryOrder("")
-      dispatch(orderClients(clientOrder))
-      setData(leaderDashboard)
+      setClientOrder("DES");
+      setCategoryOrder("");
+      dispatch(orderClients(clientOrder));
+      setData(leaderDashboard);
     } else {
-      setClientOrder("ASC")
-      dispatch(orderClients(clientOrder))
-      setData(leaderDashboard)
+      setClientOrder("ASC");
+      dispatch(orderClients(clientOrder));
+      setData(leaderDashboard);
     }
-    setCurrentPage(1)
-  }
+    setCurrentPage(1);
+  };
   const headerCategory = () => {
     if (categoryOrder === "ASC") {
-      return "Profesion ⤴"
+      return "Profesion ⤴";
     } else if (categoryOrder === "DES") {
-      return "Profesion ⤵"
+      return "Profesion ⤵";
     } else {
-      return "Profesion"
+      return "Profesion";
     }
   };
   const handleOrderByCategory = () => {
     if (categoryOrder === "ASC" || categoryOrder === "") {
-      setCategoryOrder("DES")
-      setClientOrder("")
-      dispatch(orderCategory(categoryOrder))
-      setData(leaderDashboard)
+      setCategoryOrder("DES");
+      setClientOrder("");
+      dispatch(orderCategory(categoryOrder));
+      setData(leaderDashboard);
     } else {
-      setCategoryOrder("ASC")
-      dispatch(orderCategory(categoryOrder))
-      setData(leaderDashboard)
+      setCategoryOrder("ASC");
+      dispatch(orderCategory(categoryOrder));
+      setData(leaderDashboard);
     }
-    setCurrentPage(1)
-  }
-  const handlerFilter = (filter) => {
-    if (filter === "level") {
-      setFilters({ level: true, runner: false, sellers: false, status: false })
-    } else if (filter === "runner") {
-      setFilters({ level: false, runner: true, sellers: false, status: false })
-    } else if (filter === "sellers") {
-      setFilters({ level: false, runner: false, sellers: true, status: false })
-    } else {
-      setFilters({ level: false, runner: false, sellers: false, status: true })
-    }
-  }
+    setCurrentPage(1);
+  };
   const [levelValue, setLevelValue] = useState("")
   const onChangeLevel = (value) => {
     setLevelValue(value)
@@ -162,24 +138,12 @@ const Incidences = () => {
             <Link className="text-5xl" to={"/lideres-analytics-incidences"}>
               <CiWarning className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
             </Link>
-            
+
           </div>
-          {filters.level === true ? (
-            <SelectLevel onChange={onChangeLevel} value={levelValue} />
-          ) : (
-            ""
-          )}
-          {filters.runner === true ? <InputRunner /> : ""}
-          {filters.sellers === true ? <InputSeller /> : ""}
-          {filters.status === true ? (
-            <SelectStatus onChange={onChangeStatus} value={statusValue} />
-          ) : (
-            ""
-          )}
           <div className="h-[36.5px] w-[36.5px]"></div>
         </div>
         <table className="w-full">
-        <div className="text-white text-14 font-thin ">
+          <div className="text-white text-14 font-thin ">
             <div className="flex items-center justify-around p-3  ">
               <div className="flex justify-center items-center p-0">
                 <button onClick={() => handleOrderByClient()}>
@@ -196,9 +160,7 @@ const Incidences = () => {
                 </button>
               </div>
               <div className="flex justify-center items-center p-0">
-                <button onClick={() => handlerFilter("level")}>
                   <Text className="text-center w-6 p-0 text-white">Nivel</Text>
-                </button>
               </div>
               <div className="flex justify-center items-center p-0">
                 <Text className="text-center w-6 p-0 text-white">Web</Text>
@@ -215,25 +177,19 @@ const Incidences = () => {
                 <Text className="text-center w-6 p-0 text-white">Telefono</Text>
               </div>
               <div className="flex justify-center items-center p-0">
-                <button onClick={() => handlerFilter("runner")}>
                   <Text className="text-start w-28 p-0 text-white">
                     Corredor
                   </Text>
-                </button>
               </div>
               <div className="flex justify-center items-center p-0">
-                <button onClick={() => handlerFilter("sellers")}>
                   <Text className="text-start w-28 p-0 text-white">
                     Vendedor
                   </Text>
-                </button>
               </div>
               <div className="flex justify-center items-center p-0">
-                <button onClick={() => handlerFilter("status")}>
                   <Text className="text-center w-48 p-0 text-white">
                     Estado
                   </Text>
-                </button>
               </div>
             </div>
           </div>
@@ -268,7 +224,7 @@ const Incidences = () => {
                     className="w-full flex justify-around items-center"
                     onClick={(index) => handleOpen(item, index)}
                   >
-                   
+
                     <div className="flex justify-center items-center p-0 ">
                       <div className="w-28 text-ellipsis  flex justify-start items-center p-0">
                         <Text className=" text-white rounded-full text-ellipsis  opacity-1 overflow-hidden whitespace-nowrap hover:overflow-visible hover:bg-[#e3e1e1] hover:w-fit hover:text-black z-111 hover:absolute">
@@ -367,7 +323,7 @@ const Incidences = () => {
                         ""
                       )}
                       {item.status === "Sin contactar" ? (
-                        <Text className="bg-[#b44f82]  text-[#e0dfdf]   px-2 py-1.5 rounded-xl text-center w-48">
+                        <Text className="bg-[#d0da3d]  text-[#e0dfdf]   px-2 py-1.5 rounded-xl text-center w-48">
                           Sin Contactar
                         </Text>
                       ) : (
