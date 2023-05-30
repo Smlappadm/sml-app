@@ -32,6 +32,7 @@ export default function BasicModal(props) {
     city,
     province,
     url,
+    corredor,
     handleClose,
     updateParentState
   } = props
@@ -41,6 +42,7 @@ export default function BasicModal(props) {
   const [filledTelephone, setFilledTelephone] = useState(telephone || "")
   const [filledLevel, setFilledLevel] = useState(level || "")
   const [filledUrl, setFilledUrl] = useState(url || "")
+  const [filleCorredor, setFilledCorredor] = useState(corredor || "")
 
   const [inputVisibility, setInputVisibility] = useState({
     email: false,
@@ -48,6 +50,7 @@ export default function BasicModal(props) {
     telephone: false,
     level: false,
     url: false,
+    corredor: false
   });
 
   const handleEmailChange = (event) => {
@@ -73,6 +76,12 @@ export default function BasicModal(props) {
     const newValue = updatedValue !== "" ? updatedValue : url
     setFilledUrl(newValue)
   };
+  const handleCorredorChange = () => {
+    setInputVisibility((prevState) => ({
+      ...prevState,
+      corredor: true,
+    }))
+  }
 
   const handleLevelChange = () => {
     setInputVisibility((prevState) => ({
@@ -87,6 +96,7 @@ export default function BasicModal(props) {
     setFilledTelephone(telephone || "")
     setFilledLevel(level || "")
     setFilledUrl(url || "")
+    setFilledCorredor(corredor || "")
 
     setInputVisibility({
       email: false,
@@ -94,6 +104,7 @@ export default function BasicModal(props) {
       telephone: false,
       level: false,
       url: false,
+      corredor: false
     });
 
     handleClose()
@@ -106,6 +117,7 @@ export default function BasicModal(props) {
       telephone: filledTelephone,
       level: filledLevel,
       url: filledUrl,
+      corredor: filledCorredor,
     }
 
     axios
@@ -247,6 +259,25 @@ export default function BasicModal(props) {
                   value={filledTelephone}
                   onChange={handleTelephoneChange}
                   className="font-normal bg-gray-600"
+                />
+              </div>
+            )}
+             {!inputVisibility.corredor ? (
+              <div className="font-semibold flex gap-3">
+                <p>Corredor: </p>
+                <p className="font-normal">{corredor}</p>
+                <button onClick={handleCorredorChange} className="font-semibold">
+                  Change
+                </button>
+              </div>
+            ) : (
+              <div className="font-semibold flex gap-3">
+                <p>Corredor: </p>
+                <input
+                  type="text"
+                  value="-"
+                  disabled
+                  className="font-normal"
                 />
               </div>
             )}
