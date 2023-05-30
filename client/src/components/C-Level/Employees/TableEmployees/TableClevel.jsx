@@ -112,7 +112,6 @@ export const TableClevel = () => {
     dispatch(getAllClevel());
   }, [dispatch]);
 
-
   let employees = corredores.concat(vendedores, clevel, leader);
 
   const [pageStyle, setPageStyle] = useState(1);
@@ -125,7 +124,6 @@ export const TableClevel = () => {
   const pages = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-
 
   return (
     <>
@@ -172,7 +170,19 @@ export const TableClevel = () => {
                     <Text>{item.contactNumber}</Text>
                   </TableCell>
                   <TableCell className="p-0">
-                    <Text className="bg-[#ff69b4] text-center p-1 w-20 rounded-lg">
+                    <Text
+                      className={` 
+                      ${
+                        item.rol === "clevel" ? "bg-[#ac4242]" : null
+                      } 
+                      ${item.rol === "leader" ? "bg-[#1b7757]" : null}  
+                      ${
+                        item.rol === "corredor" ? "bg-[#2148b4]" : null
+                      }  
+                      ${
+                        item.rol === "vendedor" ? "bg-[#8a912b]" : null
+                      } text-center p-1 w-20 rounded-lg`}
+                    >
                       {item.rol}
                     </Text>
                   </TableCell>

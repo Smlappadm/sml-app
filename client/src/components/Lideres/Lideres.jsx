@@ -8,7 +8,7 @@ function Lideres() {
     <>
       <Nav />
       <TableEmployees />
-      <Detail performance={true} />
+      {/* <Detail performance={true} /> */}
     </>
   );
 }

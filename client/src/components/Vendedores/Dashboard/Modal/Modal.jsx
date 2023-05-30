@@ -37,7 +37,6 @@ function ChildModal({
   const [openChild, setOpenChild] = React.useState(false);
 
   const handleOpen = () => {
-    console.log(statusObj);
     setOpenChild(true);
     handleLlamadoVentaChange();
   };

@@ -35,11 +35,15 @@ function ChildModal({
   handleReset,
   CreateEmployees,
   ErrorCreateEmployees,
+  handleCloseChild,
 }) {
   const [open, setOpen] = React.useState(false);
   const dispatch = useDispatch();
   const handleOpen = () => {
     setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
   };
 
   const handleCreate = async () => {
@@ -89,7 +93,6 @@ function ChildModal({
         deleted: false,
       });
       CreateEmployees(inputName);
-      console.log(response.data);
     } catch (error) {
       ErrorCreateEmployees(inputName);
       console.log(`No se pudo enviar el post de ${selectEmployees}`);
@@ -107,7 +110,7 @@ function ChildModal({
         // "http://localhost:3001/corredor/sendHiringEmail",
         emailData
       );
-      console.log(response.data);
+
       console.log("Correo electrónico de contratación enviado correctamente");
     } catch (error) {
       console.error(
@@ -117,16 +120,12 @@ function ChildModal({
     }
 
     try {
-      const responseEmployees = await axios.post(
-        "/employees",
-        {
-          name: inputName,
-          email: inputEmail,
-          rol: selectEmployees,
-          deleted: false,
-        }
-      );
-      console.log(responseEmployees.data);
+      const responseEmployees = await axios.post("/employees", {
+        name: inputName,
+        email: inputEmail,
+        rol: selectEmployees,
+        deleted: false,
+      });
     } catch (error) {
       console.log(`No se pudo enviar el post de Employees`);
     }
@@ -141,13 +140,14 @@ function ChildModal({
 
   return (
     <React.Fragment>
-      <Button
-        variant="contained"
-        sx={{ marginTop: "2rem" }}
-        onClick={handleOpen}
-      >
-        Create Employ
-      </Button>
+      <div className="flex gap-2 justify-center items-center mt-5">
+        <Button variant="outlined" onClick={handleCloseChild}>
+          Close x
+        </Button>
+        <Button variant="contained" onClick={handleOpen}>
+          Create Employ
+        </Button>
+      </div>
       <Modal
         open={open}
         onClose={handleCreate}
@@ -155,7 +155,7 @@ function ChildModal({
         aria-describedby="child-modal-description"
       >
         <Box sx={{ ...style, width: "20%", backgroundColor: "#39394b" }}>
-          <div className="flex flex-col gap-5 p-8">
+          <div className="flex flex-col gap-5 p-2">
             <h2 id="child-modal-title">Confirm employee creation</h2>
             <div className="flex flex-col gap-2 justify-start items-start">
               <h2 id="child-modal-description">Name</h2>
@@ -168,9 +168,14 @@ function ChildModal({
             <p id="child-modal-description">
               Are you sure about creating this employee?
             </p>
-            <Button variant="contained" onClick={handleCreate}>
-              Create Employ
-            </Button>
+            <div className="flex justify-center gap-2 items-center">
+              <Button variant="outlined" onClick={handleClose}>
+                Close x
+              </Button>
+              <Button variant="contained" onClick={handleCreate}>
+                Create Employ
+              </Button>
+            </div>
           </div>
         </Box>
       </Modal>
@@ -218,7 +223,6 @@ export default function NestedModal({ CreateEmployees, ErrorCreateEmployees }) {
             <div className="flex flex-col items-center justify-center gap-5">
               <InputName name={inputName} setName={setInputName} />
               <InputEmail email={inputEmail} setEmail={setInputEmail} />
-
               <BasicSelect
                 employees={selectEmployees}
                 setEmployees={setSelectEmployees}
@@ -232,6 +236,7 @@ export default function NestedModal({ CreateEmployees, ErrorCreateEmployees }) {
             handleReset={handleReset}
             CreateEmployees={CreateEmployees}
             ErrorCreateEmployees={ErrorCreateEmployees}
+            handleCloseChild={handleClose}
           />
         </Box>
       </Modal>

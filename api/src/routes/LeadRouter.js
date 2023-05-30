@@ -12,10 +12,12 @@ const {
   updateLeadVendedorHandler,
   getLeadVendedorHandler,
   getLeadCorredorCheckedHandler,
+  limpiezaBaseHandler
 } = require("../Handlers/LeadHandlers");
 const LeadRouter = Router();
 
 LeadRouter.get("/", getAllLeadHandler);
+LeadRouter.put("/limpieza", limpiezaBaseHandler);
 LeadRouter.get("/checked", getLeadCheckedHandler);
 LeadRouter.get("/checkedinactive5", getLeadCheckedInactive5Handler);
 LeadRouter.get("/unchecked", getLeadUncheckedHandler);
@@ -27,5 +29,7 @@ LeadRouter.get("/leadvendedor/:id", getLeadVendedorHandler);
 LeadRouter.post("/", postLeadHandler);
 LeadRouter.put("/:id", updateLeadHandler);
 LeadRouter.put("/vendedor/:id", updateLeadVendedorHandler);
+
+
 
 module.exports = LeadRouter;

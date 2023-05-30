@@ -7,6 +7,7 @@ import { getEmployees, setRol, setAccess } from '../../redux/actions'
 import { useUser } from "@clerk/clerk-react";
 import axios from 'axios';
 
+
 function Landing() {
 
 	const user = useUser().user;
@@ -15,6 +16,7 @@ function Landing() {
 	const dispatch = useDispatch();
 	const role = useSelector(state => state.rol);
 	const access = useSelector(state => state.isEmployee)
+
 
 	const isEmployee = () => {
 		return employees.some(employees => employees.email === userEmail);
@@ -41,13 +43,14 @@ function Landing() {
 	}, [dispatch, isEmployee()]);
 
 	return (
-			<>
-				<Nav />
-				<div className={style.container}>
+		<>
+			<Nav />
+			<div className={style.container}>
 				<div className='flex flex-col gap-5'>
-					{ access
+					{access
 						?
 						<div className={style.containerWellcome}>
+							<img className={style.imagen} src={user?.profileImageUrl} alt="" />
 							<h1 className={style.wellcome}>Bienvenido {user.fullName} </h1>
 							<h3 className={style.role}>rol: {role} </h3>
 						</div>
@@ -55,8 +58,8 @@ function Landing() {
 						<h1 className={style.notWellcome}>entrada no autorizada</h1>
 					}
 				</div>
-				</div>
-			</>
+			</div>
+		</>
 	);
 }
 

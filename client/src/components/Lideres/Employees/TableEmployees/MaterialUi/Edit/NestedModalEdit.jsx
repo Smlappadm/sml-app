@@ -50,7 +50,6 @@ function ChildModalDelete({
         deleted: true,
       });
 
-      console.log(response.data);
     } catch (error) {
       ErrorEmployees(inputName);
       console.log(`No se pudo enviar el baneado de ${itemRol} ${itemId} `);
@@ -62,7 +61,6 @@ function ChildModalDelete({
 
       BannedEmployees(inputName);
       onModalClose();
-      console.log(response.data);
     } catch (error) {
       console.log(`No se pudo enviar el baneado de ${itemRol} ${itemId} `);
     }
@@ -139,7 +137,6 @@ function ChildModal({
       });
       EditEmployees(inputName);
       onModalClose();
-      console.log(response.data);
     } catch (error) {
       ErrorEditEmployees(inputName);
       console.log(`No se pudo enviar el post de ${itemRol}`);

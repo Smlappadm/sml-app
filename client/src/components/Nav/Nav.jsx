@@ -1,25 +1,23 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-
-import { UserButton, useClerk } from "@clerk/clerk-react";
+import styles from "./Nav.module.css";
+import { useClerk } from "@clerk/clerk-react";
 import {
   IoStatsChart,
   IoSettingsSharp,
-  IoBagSharp,
   IoGrid,
   IoPeople,
-  IoChatbubbles,
-  IoEye,
+  IoExitOutline,
 } from "react-icons/io5";
 
 function Nav() {
-  const role = useSelector((state) => state.rol);
-  const access = useSelector((state) => state.isEmployee);
   const { signOut } = useClerk();
+  const roleReady = localStorage.getItem("roleReady");
+  const isEmployee = localStorage.getItem("isEmployeeReady");
 
   const handleLogout = () => {
     signOut();
+    localStorage.clear();
   };
 
   return (
@@ -34,9 +32,9 @@ function Nav() {
           </Link>
         </div>
 
-        {access && (
+        {isEmployee && roleReady && (
           <div className=" flex  w-fit mt-12 ">
-            {role === "clevel" ? (
+            {roleReady === "clevel" ? (
               <ul className="flex flex-col gap-2">
                 <li className="flex gap-2 items-center text-[18px]">
                   <span className=" text-lg">
@@ -47,7 +45,7 @@ function Nav() {
                       to="/clevel"
                       className=" text-[#e0dddd] hover:text-white"
                     >
-                      C-Level
+                      Employees
                     </Link>
                   </span>
                 </li>
@@ -60,7 +58,7 @@ function Nav() {
                       to="/lideres"
                       className=" text-[#e0dddd] hover:text-white"
                     >
-                      Leader
+                      Dashboard
                     </Link>
                   </span>
                 </li>
@@ -117,7 +115,7 @@ function Nav() {
                   </span>
                 </li>
               </ul>
-            ) : role === "vendedor" ? (
+            ) : roleReady === "vendedor" ? (
               <ul className="flex flex-col gap-2">
                 <li className="flex gap-2 items-center text-[18px]">
                   <span className=" text-lg">
@@ -159,8 +157,21 @@ function Nav() {
                   </span>
                 </li>
               </ul>
-            ) : role === "leader" ? (
+            ) : roleReady === "leader" ? (
               <ul className="flex flex-col gap-2">
+                <li className="flex gap-2 items-center text-[18px]">
+                  <span className=" text-lg">
+                    <IoGrid className="text-[#e0dddd]" />
+                  </span>
+                  <span>
+                    <Link
+                      to="/lideres-employees"
+                      className=" text-[#e0dddd] hover:text-white"
+                    >
+                      Employees
+                    </Link>
+                  </span>
+                </li>
                 <li className="flex gap-2 items-center text-[18px]">
                   <span className=" text-lg">
                     <IoGrid className="text-[#e0dddd]" />
@@ -180,19 +191,6 @@ function Nav() {
                   </span>
                   <span>
                     <Link
-                      to="/clevel"
-                      className=" text-[#e0dddd] hover:text-white"
-                    >
-                      Employees
-                    </Link>
-                  </span>
-                </li>
-                <li className="flex gap-2 items-center text-[18px]">
-                  <span className=" text-lg">
-                    <IoChatbubbles className="text-[#e0dddd]" />
-                  </span>
-                  <span>
-                    <Link
                       to="/vendedores"
                       className=" text-[#e0dddd] hover:text-white"
                     >
@@ -202,7 +200,7 @@ function Nav() {
                 </li>
                 <li className="flex gap-2 items-center text-[18px]">
                   <span className=" text-lg">
-                    <IoEye className="text-[#e0dddd]" />
+                    <IoPeople className="text-[#e0dddd]" />
                   </span>
                   <span>
                     <Link
@@ -287,13 +285,13 @@ function Nav() {
         )}
       </div>
 
-      {access ? (
-        <div className="flex flex-col justify-center w-full items-center mb-5">
-          <UserButton />
-        </div>
-      ) : (
-        <button onClick={handleLogout}>Salir</button>
-      )}
+      <div className="flex flex-col justify-center w-full items-center mb-5">
+        <Link to="/">
+          <button onClick={handleLogout} className={styles.boton}>
+            <IoExitOutline className={styles.icono} />
+          </button>
+        </Link>
+      </div>
     </div>
   );
 }

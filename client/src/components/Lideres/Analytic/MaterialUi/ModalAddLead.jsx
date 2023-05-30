@@ -56,8 +56,8 @@ export default function ChildModal() {
     if (body[0]) {
       SendAddLeads();
       dispatch(AddLeads(body));
-      console.log("se agrego");
-      console.log(body);
+
+
       if (inputRef.current) {
         inputRef.current.value = null;
         setBody([]);

@@ -5,13 +5,16 @@ import {
   useOrganization,
   useOrganizationList,
 } from "@clerk/clerk-react";
+import { useState } from "react";
+import axios from "axios";
+import UploadWidget from "../../components/UploadWidget/UploadWidget"
 
 export default function Settings() {
   const user = useUser().user;
 
-  console.log(user);
   return (
     <>
+      
       <Nav />
       {
         <div className="flex justify-center items-center w-full">
@@ -24,6 +27,9 @@ export default function Settings() {
                 <option value="Spanish">Spanish</option>
               </select>
             </div>
+            <UploadWidget />
+            <div>
+            <form>
             <p className="text-24 m-5 text-white">Edit Profile</p>
             <div className="flex flex-col gap-4 w-10/12 h-full items-center">
               <input
@@ -32,14 +38,14 @@ export default function Settings() {
                 type="text"
                 id="name"
               />
-              <input
+              {/* <input
                 type="text"
                 id="email"
                 className="bg-transparent border border-white rounded-md text-center w-2/5 shadow-sm shadow-white p-1 text-[#d1d1d1]"
                 placeholder="Email"
-              />
+              /> */}
               <input
-                type="text"
+                type="number"
                 id="phone"
                 className="bg-transparent border border-white rounded-md text-center w-2/5 shadow-sm shadow-white p-1 text-[#d1d1d1]"
                 placeholder="Phone"
@@ -59,6 +65,8 @@ export default function Settings() {
               <button className="bg-[#334155] hover:bg-[#4f6686] text-white py-2 px-4 rounded-full m-5">
                 Save Changes
               </button>
+            </div>
+            </form>
             </div>
           </div>
           <Detail

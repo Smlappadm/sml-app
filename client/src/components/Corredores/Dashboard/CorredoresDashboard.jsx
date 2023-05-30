@@ -4,17 +4,6 @@ import axios from "axios";
 import style from "./CorredoresDashboard.module.css";
 import Nav from "../../Nav/Nav";
 
-import {
-  Card,
-  Table,
-  TableHead,
-  TableRow,
-  TableHeaderCell,
-  TableBody,
-  TableCell,
-  Title,
-} from "@tremor/react";
-
 import { CiGlobe, CiMail } from "react-icons/ci";
 import { GrInstagram } from "react-icons/gr";
 import { IoGrid, IoStatsChart } from "react-icons/io5";
@@ -31,7 +20,10 @@ const CorredoresDashboard = () => {
   const dispatch = useDispatch();
 
   const user = useUser().user;
-  const email = user?.emailAddresses[0]?.emailAddress;
+  const mail = user?.emailAddresses[0]?.emailAddress;
+
+  localStorage.setItem("email", mail);
+  let email = localStorage.getItem("email");
 
   const handleChangeInstagram = (event, index) => {
     const { name, value } = event.target;
@@ -46,13 +38,14 @@ const CorredoresDashboard = () => {
       return updatedClient;
     });
   };
+
+
   useEffect(() => {
-    email !== undefined && dispatch(getLeadCorredores(email));
+    dispatch(getLeadCorredores(email));
   }, [dispatch, email]);
 
   const handleChangeEmail = (event, index) => {
     const { name, value } = event.target;
-    console.log(value);
     setClient((prevState) => {
       const updatedClient = [...prevState];
       updatedClient[index] = {
@@ -229,14 +222,12 @@ const CorredoresDashboard = () => {
   return (
     <>
       <Nav />
-      <Card className="w-full m-5 bg-[#222131]">
+      <div className="w-full m-5 bg-[#222131]">
         <ToastContainer />
         <form onSubmit={handleSubmit}>
           <div className="flex justify-between items-center">
             <div className="flex gap-10  mt-2 mx-5 ">
-              <Title className="font-bold text-[#e2e2e2] text-lg">
-                Dashboard
-              </Title>
+              <h1 className="font-bold text-[#e2e2e2] text-lg">Dashboard</h1>
               <div className="flex gap-5">
                 <Link to={"/corredores"}>
                   <IoGrid className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
@@ -251,40 +242,39 @@ const CorredoresDashboard = () => {
               <IconLabelButtons />
             </div>
           </div>
-          <Table className={style.table}>
-            <TableHead className={style.tableHead}>
-              <TableRow className={style.tableRow}>
-                <TableHeaderCell className="text-start">Name</TableHeaderCell>
-                <TableHeaderCell className="text-start">Web</TableHeaderCell>
-                <TableHeaderCell className="text-start">Mail</TableHeaderCell>
-                <TableHeaderCell className="text-start">
-                  Instagram
-                </TableHeaderCell>
-                <TableHeaderCell className="text-start">Nivel</TableHeaderCell>
-              </TableRow>
-            </TableHead>
 
-            <TableBody className="h-3/4">
+          <div className="flex flex-col w-full">
+            <thead className={style.tableHead}>
+              <tr className={style.tableRow}>
+                <th className="text-start">Name</th>
+                <th className="text-start">Web</th>
+                <th className="text-start">Mail</th>
+                <th className="text-start">Instagram</th>
+                <th className="text-start">Nivel</th>
+              </tr>
+            </thead>
+
+            <tbody className="h-3/4">
               {client &&
                 client.map((item, index) => (
-                  <TableRow key={index} className={style.tableCards}>
-                    <TableCell className="flex justify-start items-center p-0">
+                  <tr key={index} className={style.tableCards}>
+                    <td className="flex justify-start items-center p-0">
                       <div type="text" id="name" value={item.name}>
                         <p className="w-96 p-1 px-3 rounded-full text-ellipsis opacity-1 whitespace-nowrap overflow-hidden ">
                           {item.name}
                         </p>
                       </div>
-                    </TableCell>
+                    </td>
 
-                    <TableCell className="flex justify-start items-center p-0">
+                    <td className="flex justify-start items-center p-0">
                       <Link to={item.url} target="_blank">
                         <p value={item.url}>
                           <CiGlobe className="text-[2rem] text-[#418df0]" />
                         </p>
                       </Link>
-                    </TableCell>
+                    </td>
 
-                    <TableCell className="flex justify-start w-[10rem] items-center gap-3 p-0 mx-3">
+                    <td className="flex justify-start w-[10rem] items-center gap-3 p-0 mx-3">
                       <div>
                         <CiMail className="text-[2rem] text-[#418df0]" />
                       </div>
@@ -300,9 +290,9 @@ const CorredoresDashboard = () => {
                         onChange={(event) => handleChangeEmail(event, index)}
                         placeholder="Ingrese un mail..."
                       />
-                    </TableCell>
+                    </td>
 
-                    <TableCell className="flex justify-start w-[10rem] items-center gap-3 p-0 mx-3">
+                    <td className="flex justify-start w-[10rem] items-center gap-3 p-0 mx-3">
                       <div>
                         <GrInstagram className="text-[2rem] text-[#418df0]" />
                       </div>
@@ -318,9 +308,9 @@ const CorredoresDashboard = () => {
                         }
                         placeholder="Ingrese instagram..."
                       />
-                    </TableCell>
+                    </td>
 
-                    <TableCell className="flex justify-start items-center p-0">
+                    <td className="flex justify-start items-center p-0">
                       <button
                         className={
                           item.level === "0"
@@ -373,13 +363,13 @@ const CorredoresDashboard = () => {
                       >
                         ⚠
                       </button>
-                    </TableCell>
-                  </TableRow>
+                    </td>
+                  </tr>
                 ))}
-            </TableBody>
-          </Table>
+            </tbody>
+          </div>
         </form>
-      </Card>
+      </div>
     </>
   );
 };

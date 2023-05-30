@@ -8,7 +8,7 @@ function Clevel() {
     <>
       <Nav />
       <TableClevel />
-      <Detail performance={true} />
+      {/* <Detail performance={true} /> */}
     </>
   );
 }

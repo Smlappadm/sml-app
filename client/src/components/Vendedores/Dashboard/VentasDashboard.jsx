@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import PaginationOutlined from "../../pagination/PaginationOutlined";
+import { AiOutlineInfoCircle } from "react-icons/ai";
 import {
   filterLevel,
   getLeadCheckedInactive5,
@@ -26,20 +27,18 @@ const VentasDashboard = () => {
   const { LeadsLlamadaVenta } = useSelector((state) => state);
   const dispatch = useDispatch();
   const [showCopiedMessage, setShowCopiedMessage] = useState(false);
+  const [showObservaciones, setShowObservaciones] = useState(false);
   const user = useUser().user;
   const email = user?.emailAddresses[0]?.emailAddress;
-  const  fullName  = user?.fullName;
+  const fullName = user?.fullName;
 
+  localStorage.setItem("email", email);
+  let emailAddress = localStorage.getItem("email");
 
-  localStorage.setItem('email', email);
-  let emailAddress = localStorage.getItem('email');
-
-  
   useEffect(() => {
     dispatch(getLeadsLLamadaVenta(emailAddress));
   }, [dispatch, emailAddress]);
 
-  
   useEffect(() => {
     setData(LeadsLlamadaVenta);
   }, [LeadsLlamadaVenta, setData]);
@@ -145,6 +144,13 @@ const VentasDashboard = () => {
   const updateLeads = () => {
     // dispatch(getLeadsLLamadaVenta());
     // setData(LeadsLlamadaVenta);
+  };
+
+  const showObservacionesHandler = () => {
+    setShowObservaciones(!showObservaciones);
+  };
+  const closeObservacionesHandler = () => {
+    setShowObservaciones(false);
   };
 
   return (
@@ -261,7 +267,20 @@ const VentasDashboard = () => {
                         </div>
                       )}
                     </td>
-                    <td className="flex justify-center items-center p-0 w-fit">
+                    <td className="flex justify-start items-center p-0 w-fit">
+                      {showObservaciones && (
+                        <div className="flex justify-start items-center max-w-lg absolute top-2 bg-[#b9b9b978] text-white rounded-md">
+                          <p className="mt-2 p-3    ">
+                            Observaciones: {item.llamada_venta.observaciones}
+                          </p>
+                          <button
+                            onClick={closeObservacionesHandler}
+                            className="border-2 text-white mx-3 text-18 pb-1 px-2 rounded-md"
+                          >
+                            x
+                          </button>
+                        </div>
+                      )}
                       {item.instagram ? (
                         <div onClick={() => handleCopyClick(item.instagram)}>
                           <div className="cursor-pointer">
@@ -278,7 +297,7 @@ const VentasDashboard = () => {
                       <p
                         onClick={() => handleCopyClick(item.telephone)}
                         className="text-start w-44 p-1 cursor-pointer px-3 rounded-full text-ellipsis text-18 opacity-1 overflow-hidden whitespace-nowrap hover:overflow-visible hover:bg-[#e3e1e1] hover:w-fit hover:text-black z-111 hover:absolute"
-                      >
+                        >
                         {item.telephone}
                       </p>
                     </td>
@@ -294,22 +313,24 @@ const VentasDashboard = () => {
                       )}
                     </td>
                     <td className="flex justify-start items-center p-0 w-fit">
-                      {item.llamada_venta.contacto ? (
-                 <div>
-
-                        <p className="w-64  px-3 rounded-full text-ellipsis text-16 opacity-1 overflow-hidden whitespace-nowrap hover:overflow-visible hover:bg-[#e3e1e1] hover:w-fit hover:text-black z-111 ">
-                          {item.llamada_venta.contacto}
-                        </p>
-                        <p className="w-64  px-3 rounded-full text-ellipsis text-16 opacity-1 overflow-hidden whitespace-nowrap hover:overflow-visible hover:bg-[#e3e1e1] hover:w-fit hover:text-black z-111">
-                          {item.llamada_venta.dia_hora}
-                        </p>
-                 </div>
-                      
-                      ) : (
-                        <div className="bg-[#6254ff] text-[#e8e8e9] w-[40px] rounded h-10 flex items-center justify-center text-[35px] drop-shadow-xl">
-                          <CiWarning className="text-[#fdfa3a] p-0 text-[35px] font-bold" />
-                        </div>
-                      )}
+                      <div>
+                        {item.llamada_venta.contacto.contacto ? (
+                          <p className="w-64  px-3 rounded-full text-ellipsis text-16 opacity-1 overflow-hidden whitespace-nowrap hover:overflow-visible hover:bg-[#e3e1e1] hover:w-fit hover:text-black z-111 ">
+                            {item.llamada_venta.contacto}
+                          </p>
+                        ):(<p>Sin contacto</p>)}
+                        <div className="flex justify-start items-center">
+                        {item.llamada_venta.contacto.dia_hora ? (
+                          <p className="w-fit  px-3 rounded-full text-ellipsis text-16 opacity-1 overflow-hidden whitespace-nowrap hover:overflow-visible hover:bg-[#e3e1e1] hover:w-fit hover:text-black z-111">
+                            {item.llamada_venta.dia_hora}
+                          </p>
+                          ):(<p>Sin Día/Hora</p>)}
+                            </div>
+                            </div>
+                          <AiOutlineInfoCircle
+                            className="border-2  border-[#dddb6376] text-1 text-[#dddb63b0] w-8 h-8 rounded-md cursor-pointer mx-3"
+                            onClick={showObservacionesHandler}
+                          />
                     </td>
                     <td className="flex justify-start items-start p-0 w-fit">
                       {item.status === "Sin contactar" && (
