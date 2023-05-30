@@ -1,3 +1,4 @@
+import styles from "./UploadWidget.module.css"
 import { useEffect, useRef } from "react";
 //import { useDispatch } from "react-redux";
 import { Image } from 'cloudinary-react';
@@ -32,22 +33,13 @@ const UploadWidget = ({ onImageUpload }) => {
 console.log(imageUrl);
     return (
         <>
-
-            {/* {imageUrl && (
-                <Image cloudName={VITE_CLOUND_NAME} publicId={imageUrl} width="300" />
-            )} */}
             <button
-                className="flex justify-center items-center w-full"
+                className={styles.boton}
                 onClick={() => widgetRef.current.open()}
             >
-                Upload
+                Cambiar foto
             </button>
 
-            {/* <Image cloudName={VITE_CLOUND_NAME} publicId="https://res.cloudinary.com/dfbafogea/image/upload/v1685386037/vyqneodxjuihr5e4owni.png" width="300" />
-        <Image cloudName={VITE_CLOUND_NAME} publicId="https://res.cloudinary.com/dfbafogea/image/upload/v1685310197/sml-app/mrdn5xji01gny4qdrnw5.jpg" width="300" />
-        <Image cloudName={VITE_CLOUND_NAME} publicId="https://res.cloudinary.com/dfbafogea/image/upload/v1685310011/cxcniz7b8kbqcpx44kdr.jpg" width="300" /> */}
-            {/* <button className="flex justify-center items-center w-full" 
-        onClick={() => widgetRef.current.open()}>Upload</button> */}
         </>
     )
 }

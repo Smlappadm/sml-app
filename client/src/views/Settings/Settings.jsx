@@ -11,6 +11,7 @@ import UploadWidget from "../../components/UploadWidget/UploadWidget"
 import { Image } from 'cloudinary-react';
 const { VITE_CLOUND_NAME } = import.meta.env;
 import { useSelector } from "react-redux";
+import styles from "./Settings.module.css"
 import axios from "axios";
 
 
@@ -44,15 +45,16 @@ export default function Settings() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-     axios.put(`${selectedEmployee.rol}/${selectedEmployee._id}`, formData)
-       .then((response) => {
-         // Manejar la respuesta exitosa aquí si es necesario
-         console.log(response);
-       })
-       .catch((error) => {
-         // Manejar el error aquí si es necesario
-         console.error(error);
-       });
+    axios.put(`${selectedEmployee.rol}/${selectedEmployee._id}`, formData)
+      .then((response) => {
+        // Manejar la respuesta exitosa aquí si es necesario
+        console.log(response);
+      })
+      .catch((error) => {
+        // Manejar el error aquí si es necesario
+        console.error(error);
+      });
+      dispatch()
     console.log(formData);
   };
   const handleImageUpload = (imageUrl) => {
@@ -68,10 +70,8 @@ export default function Settings() {
     dispatch(getAllVendedores())
     dispatch(getAllLeader())
     dispatch(getAllClevel())
-  }, [dispatch])
+  }, [dispatch, selectedEmployee])
 
-  // console.log(selectedEmployee);
-  // console.log(allEmployees);
   console.log(formData);
   console.log(selectedEmployee);
   return (
@@ -81,66 +81,55 @@ export default function Settings() {
       {
         <div className="flex justify-center items-center w-full">
           <div className="h-screen w-4/5  flex flex-col justify-start items-center p-8">
-
-
-
             <div>
-              {/* <img src={selectedEmployee?.photo} alt="" /> */}
-              <h1>{selectedEmployee?.name} </h1>
-              <h1>{selectedEmployee?.email} </h1>
-              <form onSubmit={handleSubmit}>
-                
-                <br />
-                <label>
-                  Fecha de nacimiento:
-                  <input
-                    type="date"
-                    name="birthdate"
-                    value={formData.birthdate}
-                    onChange={handleChange}
-                  />
-                </label>
-                <br />
-                <label>
-                  Foto:
+
+              <h2 className={styles.title}>settings</h2>
+              <form onSubmit={handleSubmit} className={styles.form}>
+
+
+                <input
+                  type="date"
+                  name="birthdate"
+                  value={formData.birthdate}
+                  onChange={handleChange}
+                  className={styles.inputStyles}
+                  placeholder="Fecha de nacimiento"
+                />
+
+                <input
+                  type="text"
+                  name="country"
+                  value={formData.country}
+                  onChange={handleChange}
+                  className={styles.inputStyles}
+                  placeholder="País"
+                />
+
+                <input
+                  type="text"
+                  name="contactNumber"
+                  value={formData.contactNumber}
+                  onChange={handleChange}
+                  className={styles.inputStyles}
+                  placeholder="Número de contacto"
+                />
+
+                <textarea
+                  name="description"
+                  value={formData.description}
+                  onChange={handleChange}
+                  className={styles.inputStyles}
+                  placeholder="Descripción"
+                />
+
+                <div className={styles.pictureInput} >
                   <UploadWidget onImageUpload={handleImageUpload} />
                   {profileImageUrl && (
-                    // <img src={profileImageUrl} alt={profileImageUrl} />
-                    <Image name="photo" onChange={handleChange} value={profileImageUrl} cloudName={VITE_CLOUND_NAME} publicId={profileImageUrl} width="60" />
+                    <Image name="photo" onChange={handleChange} value={profileImageUrl} cloudName={VITE_CLOUND_NAME} publicId={profileImageUrl} className={styles.picture} />
                   )}
+                </div>
 
-                </label>
-                <br />
-                <label>
-                  País:
-                  <input
-                    type="text"
-                    name="country"
-                    value={formData.country}
-                    onChange={handleChange}
-                  />
-                </label>
-                <br />
-                <label>
-                  Numero de contacto:
-                  <input
-                    type="text"
-                    name="contactNumber"
-                    value={formData.contactNumber}
-                    onChange={handleChange}
-                  />
-                </label>
-                <br />
-                <label>
-                  Descripción:
-                  <textarea
-                    name="description"
-                    value={formData.description}
-                    onChange={handleChange}
-                  />
-                </label>
-                <br />
-                <button type="submit">Enviar</button>
+                <button type="submit" className={styles.button}>Enviar</button>
               </form>
 
             </div>
@@ -151,6 +140,8 @@ export default function Settings() {
             email={user?.emailAddresses[0].emailAddress}
             contactNumber={selectedEmployee?.contactNumber}
             description={selectedEmployee?.description}
+            country={selectedEmployee?.country}
+            birthdate={selectedEmployee?.birthdate}
           />
         </div>
       }{" "}
@@ -163,15 +154,15 @@ export default function Settings() {
 
 
 
-            {/* <button>Cambio de Colores</button>
+{/* <button>Cambio de Colores</button>
             <div>
-              <label>Languaje:</label>
+              <>Languaje:</>
               <select name="Languaje" id="Languaje">
                 <option value="English">English</option>
                 <option value="Spanish">Spanish</option>
               </select>
             </div> */}
-{/* <label>
+{/* <>
         Name:
         <input
           type="text"
@@ -179,9 +170,9 @@ export default function Settings() {
           value={formData.name}
           onChange={handleChange}
         />
-      </label>
+      </>
       <br />
-      <label>
+      <>
         Email:
         <input
           type="email"
@@ -189,8 +180,8 @@ export default function Settings() {
           value={formData.email}
           onChange={handleChange}
         />
-      </label> */}
-                    {/* <form>
+      </> */}
+{/* <form>
                 <p className="text-24 m-5 text-white">Edit Profile</p>
                 <div className="flex flex-col gap-4 w-10/12 h-full items-center">
                   <input
