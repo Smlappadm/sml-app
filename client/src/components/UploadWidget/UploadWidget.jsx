@@ -6,7 +6,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
-const UploadWidget = () => {
+const UploadWidget = ({ onImageUpload }) => {
     const cloudinaryRef = useRef();
     const widgetRef = useRef();
     const [imageUrl, setImageUrl] = useState("");
@@ -14,23 +14,28 @@ const UploadWidget = () => {
 
     useEffect(() => {
         cloudinaryRef.current = window.cloudinary;
-        widgetRef.current = cloudinaryRef.current.createUploadWidget({
+        widgetRef.current = cloudinaryRef.current.createUploadWidget(
+          {
             cloudName: VITE_CLOUND_NAME,
             uploadPreset: VITE_UPLOAD_PRESENT
-        }, function (error, result) {
+          },
+          function (error, result) {
             if (!error && result && result.event === "success") {
-                // Guardar la URL de la imagen en el estado
-                setImageUrl(result.info.secure_url);
+              const img = result.info.secure_url;
+              setImageUrl(img);
+              // Utilizar la función de devolución de llamada con la URL de la imagen
+              onImageUpload(img);
             }
-        });
-    }, [])
-
+          }
+        );
+      }, []);
+console.log(imageUrl);
     return (
         <>
 
-            {imageUrl && (
+            {/* {imageUrl && (
                 <Image cloudName={VITE_CLOUND_NAME} publicId={imageUrl} width="300" />
-            )}
+            )} */}
             <button
                 className="flex justify-center items-center w-full"
                 onClick={() => widgetRef.current.open()}
