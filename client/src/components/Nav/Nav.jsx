@@ -34,7 +34,7 @@ function Nav() {
           </Link>
         </div>
 
-        {isEmployee && roleReady && (
+        {!isEmployee || !roleReady? <div className={styles.ldsCircle}><div></div></div> :(
           <div className=" flex  w-fit mt-12 ">
             {roleReady === "clevel" ? (
               <ul className="flex flex-col gap-2">
