@@ -11,6 +11,8 @@ const updateLeadVendedorById = require("../controllers/Lead/updateLeadVendedorBy
 const getLeadVendedorById = require("../controllers/Lead/getLeadVendedorById");
 const getLeadCorredorChecked = require("../controllers/Lead/getLeadCorredoresChecked");
 const limpiezaBaseFunction = require("../controllers/Lead/limpiezaBaseFunction");
+const findLeadCorredorName = require("../controllers/Lead/findLeadCorredorName");
+const findLeadVendedorName = require("../controllers/Lead/findLeadVendedorName");
 
 const getAllLeadHandler = async (req, res) => {
   try {
@@ -20,6 +22,7 @@ const getAllLeadHandler = async (req, res) => {
     res.status(404).json({ error: error.message });
   }
 };
+
 const getLeadUncheckedHandler = async (req, res) => {
   try {
     const leadUnchecked = await getLeadUnchecked();
@@ -30,9 +33,9 @@ const getLeadUncheckedHandler = async (req, res) => {
 };
 
 const getLead10UncheckedHandler = async (req, res) => {
-  const { email } = req.query;
+  const { query } = req;
   try {
-    const leadUnchecked = await getLead10Unchecked(email);
+    const leadUnchecked = await getLead10Unchecked(query);
     res.status(200).json(leadUnchecked);
   } catch (error) {
     res.status(404).json({ error: error.message });
@@ -133,6 +136,24 @@ const getLeadCorredorCheckedHandler = async (req, res) => {
     res.status(404).json({ error: error.message });
   }
 };
+const findLeadCorredorNameHandler = async (req, res) => {
+  const { name } = req.query;
+  try {
+    const foundCorredor = await findLeadCorredorName(name);
+    res.status(200).json(foundCorredor);
+  } catch (error) {
+    res.status(404).json({ error: error.message });
+  }
+};
+const findLeadVendedorNameHandler = async (req, res) => {
+  const { name } = req.query;
+  try {
+    const foundCorredor = await findLeadVendedorName(name);
+    res.status(200).json(foundCorredor);
+  } catch (error) {
+    res.status(404).json({ error: error.message });
+  }
+};
 const limpiezaBaseHandler = async (req, res) => {
   try {
     const clean = await limpiezaBaseFunction();
@@ -155,5 +176,7 @@ module.exports = {
   updateLeadVendedorHandler,
   getLeadVendedorHandler,
   getLeadCorredorCheckedHandler,
-  limpiezaBaseHandler
+  limpiezaBaseHandler,
+  findLeadCorredorNameHandler,
+  findLeadVendedorNameHandler,
 };

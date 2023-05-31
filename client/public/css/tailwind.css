@@ -823,6 +823,10 @@ video {
   height: 2.25rem;
 }
 
+.h-\[36\.5px\] {
+  height: 36.5px;
+}
+
 .h-fit {
   height: -moz-fit-content;
   height: fit-content;
@@ -942,6 +946,10 @@ video {
 
 .w-\[300px\] {
   width: 300px;
+}
+
+.w-\[36\.5px\] {
+  width: 36.5px;
 }
 
 .w-\[40px\] {

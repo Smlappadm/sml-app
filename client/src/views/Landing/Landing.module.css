@@ -40,7 +40,8 @@
     animation-fill-mode: forwards;
 }
 .imagen{
-    width: 50px;
+    width: 70px;
+    height: 70px;
     border-radius: 50px;
     opacity: 0;
     animation-name: fadeIn;

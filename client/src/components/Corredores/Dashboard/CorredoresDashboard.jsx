@@ -9,13 +9,18 @@ import { GrInstagram } from "react-icons/gr";
 import { IoGrid, IoStatsChart } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { getLeadCorredores } from "../../../redux/actions";
-import IconLabelButtons from "./MaterialUi/IconLabelButtons";
 import { useUser } from "@clerk/clerk-react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import IconLabelButtons from "./MaterialUi/IconLabelButtons";
+import BasicButtons from "./MaterialUi/BasicButtons";
 
 const CorredoresDashboard = () => {
   const [client, setClient] = useState([]);
+  const [category, setCategory] = useState("");
+  const [province, setProvince] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+
   const { corredorLead } = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -24,6 +29,25 @@ const CorredoresDashboard = () => {
 
   localStorage.setItem("email", mail);
   let email = localStorage.getItem("email");
+
+  useEffect(() => {
+    setIsLoading(true);
+    dispatch(getLeadCorredores(email, category, province));
+  }, [dispatch]);
+
+  const filtrar = () => {
+    dispatch(getLeadCorredores(email, category, province));
+  };
+
+  const filterCategory = (event) => {
+    const { value } = event.target;
+    setCategory(value);
+  };
+
+  const filterProvince = (event) => {
+    const { value } = event.target;
+    setProvince(value);
+  };
 
   const handleChangeInstagram = (event, index) => {
     const { name, value } = event.target;
@@ -38,11 +62,6 @@ const CorredoresDashboard = () => {
       return updatedClient;
     });
   };
-
-
-  useEffect(() => {
-    dispatch(getLeadCorredores(email));
-  }, [dispatch, email]);
 
   const handleChangeEmail = (event, index) => {
     const { name, value } = event.target;
@@ -92,12 +111,16 @@ const CorredoresDashboard = () => {
       }
     }
     setClient(clientes);
+
+    if (corredorLead.length > 0) {
+      setIsLoading(false);
+    }
   }, [corredorLead]);
 
   const SendLeads = (name) => {
     toast.info(`✔ ${name} Send Leads! `, {
       position: "top-center",
-      autoClose: 3000,
+      autoClose: 1000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -211,7 +234,7 @@ const CorredoresDashboard = () => {
         }
       }
 
-      dispatch(getLeadCorredores(email));
+      dispatch(getLeadCorredores(email, category, province));
 
       SendLeadsSuccess();
     } catch (error) {
@@ -219,6 +242,8 @@ const CorredoresDashboard = () => {
       console.log({ error: error.message });
     }
   };
+
+  console.log(isLoading);
   return (
     <>
       <Nav />
@@ -243,131 +268,166 @@ const CorredoresDashboard = () => {
             </div>
           </div>
 
-          <div className="flex flex-col w-full">
-            <thead className={style.tableHead}>
-              <tr className={style.tableRow}>
-                <th className="text-start">Name</th>
-                <th className="text-start">Web</th>
-                <th className="text-start">Mail</th>
-                <th className="text-start">Instagram</th>
-                <th className="text-start">Nivel</th>
-              </tr>
-            </thead>
+          <div className="flex gap-5 mt-5 justify-center items-center">
+            <label>Profesion: </label>
+            <input
+              className={`bg-transparent w-[12rem] rounded-full border-2 border-gray-300 py-2 px-4 leading-tight focus:outline-none focus:border-gray-500 placeholder-white`}
+              type="text"
+              name="category"
+              value={category}
+              onChange={filterCategory}
+              placeholder="Filtrar Profesion"
+            />
 
-            <tbody className="h-3/4">
-              {client &&
-                client.map((item, index) => (
-                  <tr key={index} className={style.tableCards}>
-                    <td className="flex justify-start items-center p-0">
-                      <div type="text" id="name" value={item.name}>
-                        <p className="w-96 p-1 px-3 rounded-full text-ellipsis opacity-1 whitespace-nowrap overflow-hidden ">
-                          {item.name}
-                        </p>
-                      </div>
-                    </td>
+            <label>Provincia: </label>
+            <input
+              className={`bg-transparent w-[12rem] rounded-full border-2 border-gray-300 py-2 px-4 leading-tight focus:outline-none focus:border-gray-500 placeholder-white`}
+              type="text"
+              name="province"
+              value={province}
+              onChange={filterProvince}
+              placeholder="Filtrar Provincia"
+            />
 
-                    <td className="flex justify-start items-center p-0">
-                      <Link to={item.url} target="_blank">
-                        <p value={item.url}>
-                          <CiGlobe className="text-[2rem] text-[#418df0]" />
-                        </p>
-                      </Link>
-                    </td>
-
-                    <td className="flex justify-start w-[10rem] items-center gap-3 p-0 mx-3">
-                      <div>
-                        <CiMail className="text-[2rem] text-[#418df0]" />
-                      </div>
-                      <input
-                        className={`bg-transparent  w-[12rem] rounded-full border-2 border-gray-300 py-2 px-4 leading-tight focus:outline-none  focus:border-gray-500 placeholder-white ${
-                          item.email !== "-" && item.email !== ""
-                            ? "border-green-500"
-                            : ""
-                        }`}
-                        type="text"
-                        name="email"
-                        value={item.email}
-                        onChange={(event) => handleChangeEmail(event, index)}
-                        placeholder="Ingrese un mail..."
-                      />
-                    </td>
-
-                    <td className="flex justify-start w-[10rem] items-center gap-3 p-0 mx-3">
-                      <div>
-                        <GrInstagram className="text-[2rem] text-[#418df0]" />
-                      </div>
-                      <input
-                        className={`bg-transparent w-[12rem] rounded-full border-2 border-gray-300 py-2 px-4 leading-tight focus:outline-none focus:border-gray-500 placeholder-white  ${
-                          item.instagram ? "border-green-500" : ""
-                        }`}
-                        type="text"
-                        name="instagram"
-                        value={item.instagram}
-                        onChange={(event) =>
-                          handleChangeInstagram(event, index)
-                        }
-                        placeholder="Ingrese instagram..."
-                      />
-                    </td>
-
-                    <td className="flex justify-start items-center p-0">
-                      <button
-                        className={
-                          item.level === "0"
-                            ? style.buttonNivelActive
-                            : style.buttonNivel
-                        }
-                        type="button"
-                        name={item._id}
-                        value="0"
-                        onClick={(event) => handleClientClick(event, index)}
-                      >
-                        0
-                      </button>
-                      <button
-                        className={
-                          item.level === "1"
-                            ? style.buttonNivelActive
-                            : style.buttonNivel
-                        }
-                        type="button"
-                        name={item._id}
-                        value="1"
-                        onClick={(event) => handleClientClick(event, index)}
-                      >
-                        1
-                      </button>
-                      <button
-                        className={
-                          item.level === "2"
-                            ? style.buttonNivelActive
-                            : style.buttonNivel
-                        }
-                        type="button"
-                        name={item._id}
-                        value="2"
-                        onClick={(event) => handleClientClick(event, index)}
-                      >
-                        2
-                      </button>
-                      <button
-                        className={
-                          item.level === "incidencia"
-                            ? style.buttonNivelActive
-                            : style.buttonNivel
-                        }
-                        type="button"
-                        name={item._id}
-                        value="incidencia"
-                        onClick={(event) => handleClientClick(event, index)}
-                      >
-                        ⚠
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
+            <div onClick={filtrar}>
+              <BasicButtons />
+            </div>
           </div>
+          {isLoading ? (
+            <div className={style.containerLoader}>
+              <div className={style.customloader}></div>
+            </div>
+          ) : corredorLead.length > 0 ? (
+            <table className="w-full">
+              <thead className={style.tableHead}>
+                <tr className={style.tableRow}>
+                  <th className="text-start">Name</th>
+                  <th className="text-start">Web</th>
+                  <th className="text-start">Mail</th>
+                  <th className="text-start">Instagram</th>
+                  <th className="text-start">Nivel</th>
+                </tr>
+              </thead>
+
+              <tbody className="h-3/4">
+                {client &&
+                  client.map((item, index) => (
+                    <tr key={index} className={style.tableCards}>
+                      <td className="flex justify-start items-center p-0">
+                        <div type="text" id="name" value={item.name}>
+                          <p className="w-96 p-1 px-3 rounded-full text-ellipsis opacity-1 whitespace-nowrap overflow-hidden">
+                            {item.name}
+                          </p>
+                        </div>
+                      </td>
+
+                      <td className="flex justify-start items-center p-0">
+                        <Link to={item.url} target="_blank">
+                          <p value={item.url}>
+                            <CiGlobe className="text-[2rem] text-[#418df0]" />
+                          </p>
+                        </Link>
+                      </td>
+
+                      <td className="flex justify-start w-[10rem] items-center gap-3 p-0 mx-3">
+                        <div>
+                          <CiMail className="text-[2rem] text-[#418df0]" />
+                        </div>
+                        <input
+                          className={`bg-transparent w-[12rem] rounded-full border-2 border-gray-300 py-2 px-4 leading-tight focus:outline-none focus:border-gray-500 placeholder-white ${
+                            item.email !== "-" && item.email !== ""
+                              ? "border-green-500"
+                              : ""
+                          }`}
+                          type="text"
+                          name="email"
+                          value={item.email}
+                          onChange={(event) => handleChangeEmail(event, index)}
+                          placeholder="Ingrese un mail..."
+                        />
+                      </td>
+
+                      <td className="flex justify-start w-[10rem] items-center gap-3 p-0 mx-3">
+                        <div>
+                          <GrInstagram className="text-[2rem] text-[#418df0]" />
+                        </div>
+                        <input
+                          className={`bg-transparent w-[12rem] rounded-full border-2 border-gray-300 py-2 px-4 leading-tight focus:outline-none focus:border-gray-500 placeholder-white ${
+                            item.instagram ? "border-green-500" : ""
+                          }`}
+                          type="text"
+                          name="instagram"
+                          value={item.instagram}
+                          onChange={(event) =>
+                            handleChangeInstagram(event, index)
+                          }
+                          placeholder="Ingrese instagram..."
+                        />
+                      </td>
+
+                      <td className="flex justify-start items-center p-0">
+                        <button
+                          className={
+                            item.level === "0"
+                              ? style.buttonNivelActive
+                              : style.buttonNivel
+                          }
+                          type="button"
+                          name={item._id}
+                          value="0"
+                          onClick={(event) => handleClientClick(event, index)}
+                        >
+                          0
+                        </button>
+                        <button
+                          className={
+                            item.level === "1"
+                              ? style.buttonNivelActive
+                              : style.buttonNivel
+                          }
+                          type="button"
+                          name={item._id}
+                          value="1"
+                          onClick={(event) => handleClientClick(event, index)}
+                        >
+                          1
+                        </button>
+                        <button
+                          className={
+                            item.level === "2"
+                              ? style.buttonNivelActive
+                              : style.buttonNivel
+                          }
+                          type="button"
+                          name={item._id}
+                          value="2"
+                          onClick={(event) => handleClientClick(event, index)}
+                        >
+                          2
+                        </button>
+                        <button
+                          className={
+                            item.level === "incidencia"
+                              ? style.buttonNivelActive
+                              : style.buttonNivel
+                          }
+                          type="button"
+                          name={item._id}
+                          value="incidencia"
+                          onClick={(event) => handleClientClick(event, index)}
+                        >
+                          ⚠
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          ) : (
+            <div className="flex items-center justify-center w-full h-screen">
+              <h1>LEADS NOT FOUND...</h1>
+            </div>
+          )}
         </form>
       </div>
     </>

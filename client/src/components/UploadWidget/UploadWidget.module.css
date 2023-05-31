@@ -1,0 +1,11 @@
+.boton{
+    background-color: transparent;
+    border: 1px solid #e0dddd;
+    padding: 10px 15px;
+    width: 100%;
+    border-radius: 5px;
+}
+.boton:hover{
+    border: 1px solid white;
+    color: white;
+}

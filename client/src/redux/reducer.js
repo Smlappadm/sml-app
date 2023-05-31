@@ -19,6 +19,8 @@ import {
   SET_ACCESS,
   GET_CORREDOR_LEAD,
   GET_CORREDOR_LEAD_CHECKED,
+  FIND_CORREDORES_NAME,
+  FIND_VENDEDORES_NAME,
 } from "./actions";
 
 const initialState = {
@@ -218,6 +220,24 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         leaderDashboard: filteredStatus,
+      };
+    case FIND_CORREDORES_NAME:
+      const corredorName = action.payload;
+      const CorredorNameSort = corredorName.sort(
+        (a, b) => (b ? b.level : "") - (a ? a.level : "")
+      );
+      return {
+        ...state,
+        leaderDashboard: action.payload,
+      };
+    case FIND_CORREDORES_NAME:
+      const vendedorName = action.payload;
+      const vendedorNameSort = vendedorName.sort(
+        (a, b) => (b ? b.level : "") - (a ? a.level : "")
+      );
+      return {
+        ...state,
+        leaderDashboard: action.payload,
       };
     case GET_ALL_CORREDORES:
       return {

@@ -9,10 +9,10 @@ export function validate(userData) {
     errors.username = 'Por favor, complete este campo';
   }
   if (userData.username.length > 0 && !regexEmail.test(userData.username)) {
-    console.log(`El email ${userData.username} esta mal`);
+    (`El email ${userData.username} esta mal`);
     errors.username = 'El campo debe ser un email';
   }else{
-    console.log(`El email ${userData.username} esta bien`);
+    (`El email ${userData.username} esta bien`);
   }
   if (userData.username.length > 35) {
     errors.username = 'El nombre es demasiado Largo';

@@ -1,40 +1,100 @@
 const Lead = require("../../models/Lead");
 
-const getLead10Unchecked = async (email) => {
-  const leadUnchecked = await Lead.find({
-    corredor: email,
-    checked: false,
-    view: true,
-  })
-    .limit(10)
-    .exec();
+const getLead10Unchecked = async (query) => {
+  let leadUnchecked = [];
+  let limitedLeadRest = [];
+  let leadRest = [];
 
-  let count;
-  if (leadUnchecked.length > 0) {
-    count = 10 - leadUnchecked.length;
+  const { email, category, province } = query;
+
+  const findLeadUnchecked = async (conditions, limit) => {
+    return Lead.find(conditions, null, { limit }).lean();
+  };
+
+  const updateLeadRest = async (conditions, updates) => {
+    return Lead.updateMany(conditions, updates);
+  };
+
+  if (!category && !province) {
+    leadUnchecked = await findLeadUnchecked({
+      corredor: email,
+      checked: false,
+      view: true,
+    }, 10);
+
+    const count = 10 - leadUnchecked.length;
+    if (count > 0) {
+      limitedLeadRest = await findLeadUnchecked({
+        checked: false,
+        view: false,
+        corredor: "",
+      }, count);
+
+      if (limitedLeadRest.length > 0) {
+        const updates = limitedLeadRest.map(element => ({
+          updateOne: {
+            filter: { _id: element._id },
+            update: { corredor: email, view: true },
+          },
+        }));
+
+        await Lead.bulkWrite(updates);
+      }
+    }
   } else {
-    count = 10;
+    await updateLeadRest(
+      { corredor: email },
+      {
+        $set: {
+          level: "",
+          status: "Sin contactar",
+          status_op: "",
+          llamados: 0,
+          vendedor: "",
+          vendedor_name: "",
+          corredor: "",
+          corredor_name: "",
+          checked: false,
+          view: false,
+          deleted: false,
+          instagram: "",
+        },
+      }
+    );
+
+    const provinceRegex = province ? new RegExp(province, "i") : /.*/;
+    const categoryRegex = category ? new RegExp(category, "i") : /.*/;
+
+    leadUnchecked = await findLeadUnchecked({
+      corredor: email,
+      checked: false,
+      view: true,
+      province: provinceRegex,
+      category: categoryRegex,
+    }, 10);
+
+    const count = 10 - leadUnchecked.length;
+    if (count > 0) {
+      limitedLeadRest = await findLeadUnchecked({
+        checked: false,
+        view: false,
+        corredor: "",
+        province: provinceRegex,
+        category: categoryRegex,
+      }, count);
+
+      if (limitedLeadRest.length > 0) {
+        const updates = limitedLeadRest.map(element => ({
+          updateOne: {
+            filter: { _id: element._id },
+            update: { corredor: email, view: true },
+          },
+        }));
+
+        await Lead.bulkWrite(updates);
+      }
+    }
   }
-
-  const leadRest = await Lead.find({
-    checked: false,
-    view: false,
-    corredor: "",
-  })
-    .limit(count)
-    .exec();
-
-  const limitedLeadRest = leadRest.slice(0, count);
-
-  if (limitedLeadRest.length > 0) {
-    limitedLeadRest.forEach((element) => {
-      element.corredor = email;
-      element.view = true;
-      element.save();
-    });
-  }
-
-  console.log(limitedLeadRest);
 
   return [...leadUnchecked, ...limitedLeadRest];
 };

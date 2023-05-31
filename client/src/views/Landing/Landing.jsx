@@ -3,10 +3,9 @@ import style from './Landing.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import Nav from '../../components/Nav/Nav';
-import { getEmployees, setRol, setAccess } from '../../redux/actions'
+import { getEmployees, setRol, setAccess, getAllCorredores, getAllVendedores, getAllClevel, getAllLeader } from '../../redux/actions'
 import { useUser } from "@clerk/clerk-react";
 import axios from 'axios';
-
 
 function Landing() {
 
@@ -17,12 +16,22 @@ function Landing() {
 	const role = useSelector(state => state.rol);
 	const access = useSelector(state => state.isEmployee)
 
+	const corredores = useSelector(state => state.corredores);
+	const vendedores = useSelector(state => state.vendedores);
+	const leader = useSelector(state => state.leader);
+	const clevel = useSelector(state => state.clevel);
+	const allEmployees = [...corredores, ...vendedores, ...clevel, ...leader]
+	const selectedEmployee = allEmployees.find(employee => employee.email === userEmail);
 
 	const isEmployee = () => {
 		return employees.some(employees => employees.email === userEmail);
 	}
 
 	useEffect(() => {
+		dispatch(getAllCorredores())
+		dispatch(getAllVendedores())
+		dispatch(getAllLeader())
+		dispatch(getAllClevel())
 		const fetchEmployees = async () => {
 			try {
 				const response = await axios.get('/employees');
@@ -50,7 +59,7 @@ function Landing() {
 					{access
 						?
 						<div className={style.containerWellcome}>
-							<img className={style.imagen} src={user?.profileImageUrl} alt="" />
+							<img className={style.imagen} src={selectedEmployee.photo} alt="" />
 							<h1 className={style.wellcome}>Bienvenido {user.fullName} </h1>
 							<h3 className={style.role}>rol: {role} </h3>
 						</div>

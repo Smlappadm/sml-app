@@ -1,8 +1,24 @@
 const Lead = require("../../models/Lead");
 
 const limpiezaBaseFunction = async () => {
-  const leadResult = await Lead
-    .updateMany
+  const leadResult = await Lead.updateMany(
+    // { corredor: "email" },
+    // {
+    //   $set: {
+    //     level: "",
+    //     status: "Sin contactar",
+    //     status_op: "",
+    //     llamados: 0,
+    //     vendedor: "",
+    //     vendedor_name: "",
+    //     corredor: "",
+    //     corredor_name: "",
+    //     checked: false,
+    //     view: false,
+    //     deleted: false,
+    //     instagram: "",
+    //   },
+    // }
     // { vendedor: "undefined" },
     // {
     //   $set: {
@@ -21,7 +37,7 @@ const limpiezaBaseFunction = async () => {
     //   },
     // }
 
-    // { corredor: 'nicolasfadel17@gmail.com' },
+    // { corredor: 'email' },
     // {
     //   $set: {
     //     level: "",
@@ -56,7 +72,7 @@ const limpiezaBaseFunction = async () => {
     //         instagram: ""
     //       },
     //     }
-    ();
+  );
   return leadResult;
 };
 

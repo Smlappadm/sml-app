@@ -9,7 +9,7 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getLeadChecked, orderClients, orderCategory } from "../../../redux/actions"
 import { IoGrid, IoStatsChart, IoPeople } from "react-icons/io5"
-
+import { CiGlobe } from "react-icons/ci"
 
 //
 const Incidences = () => {
@@ -132,10 +132,10 @@ const Incidences = () => {
             <Link className="text-5xl" to={"/lideres-employees"}>
               <IoPeople className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
             </Link>
-            <Link className="text-5xl" to={"/lideres/analytics"}>
+            <Link className="text-5xl" to={"/lideres-analytics"}>
               <IoStatsChart className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
             </Link>
-            <Link className="text-5xl" to={"/lideres-analytics-incidences"}>
+            <Link className="text-5xl" to={"/lideres-incidences"}>
               <CiWarning className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
             </Link>
 
@@ -251,6 +251,22 @@ const Incidences = () => {
                           <CiWarning className="text-[#fdfa3a] p-0  font-bold" />
                         </div>
                       )}
+                    </div>
+                    <div className="flex justify-center items-center p-0 ">
+                      <div className="flex w-6 text-ellipsis justify-start items-center p-0 ">
+                        {item.url !== "-" ? (
+                          <div className=" flex opacity-1 overflow-hidden whitespace-nowrap hover:overflow-visible hover:bg-[#ffffff] hover:w-fit hover:text-black z-111 hover:absolute">
+                            <div>
+                              <CiGlobe className={style.mail} />
+                            </div>
+                            <Text>{item.url}</Text>
+                          </div>
+                        ) : (
+                          <div>
+                            <CiGlobe className={style.notMail} />
+                          </div>
+                        )}
+                      </div>
                     </div>
                     <div className="flex justify-center items-center p-0 ">
                       <div className="flex w-6 text-ellipsis justify-start items-center p-0 ">

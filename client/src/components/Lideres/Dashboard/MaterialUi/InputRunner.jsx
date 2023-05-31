@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
+import { useDispatch } from "react-redux";
+import { findCorredoresByName } from "../../../../redux/actions";
 
-export default function InputName({ name, setName }) {
+export default function InputName({ name }) {
+  const dispatch = useDispatch();
   const handleChange = (event) => {
-    setName(event.target.value);
+    let value = event.target.value;
+    dispatch(findCorredoresByName(value));
   };
 
   return (

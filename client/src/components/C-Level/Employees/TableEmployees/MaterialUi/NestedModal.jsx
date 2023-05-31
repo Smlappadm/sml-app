@@ -86,12 +86,27 @@ function ChildModal({
     }
 
     try {
-      const response = await axios.post(url, {
+      await axios.post(url, {
         name: inputName,
         email: inputEmail,
         rol: selectEmployees,
         deleted: false,
       });
+      if (selectEmployees === "clevel" || selectEmployees === "leader") {
+        await axios.post("/corredor", {
+          name: inputName,
+          email: inputEmail,
+          rol: "corredor",
+          deleted: false,
+        });
+
+        await axios.post("/vendedor", {
+          name: inputName,
+          email: inputEmail,
+          rol: "vendedor",
+          deleted: false,
+        });
+      }
       CreateEmployees(inputName);
     } catch (error) {
       ErrorCreateEmployees(inputName);

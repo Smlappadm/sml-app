@@ -42,7 +42,7 @@ export default function BasicModal(props) {
   const [filledTelephone, setFilledTelephone] = useState(telephone || "")
   const [filledLevel, setFilledLevel] = useState(level || "")
   const [filledUrl, setFilledUrl] = useState(url || "")
-  const [filleCorredor, setFilledCorredor] = useState(corredor || "")
+  const [filledCorredor, setFilledCorredor] = useState(corredor || "")
 
   const [inputVisibility, setInputVisibility] = useState({
     email: false,
