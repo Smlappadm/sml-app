@@ -5,3 +5,6 @@
   border: 1px solid green;
   height: 100vh;
 }
+.description{
+  text-align: left;
+}
