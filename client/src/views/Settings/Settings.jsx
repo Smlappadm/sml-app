@@ -11,6 +11,7 @@ const { VITE_CLOUND_NAME } = import.meta.env;
 import { useSelector } from "react-redux";
 import styles from "./Settings.module.css";
 import axios from "axios";
+import Countries from "../../components/Select/SelectionCountries"
 
 export default function Settings() {
   const user = useUser().user;
@@ -142,15 +143,19 @@ export default function Settings() {
                 />
                 {formErrors.birthdate && <span className={styles.error}>Ingrese la fecha de nacimiento</span>}
 
-                <input
-                  type="text"
+                <select
                   name="country"
                   value={formData.country}
                   onChange={handleChange}
                   className={styles.inputStyles}
-                  placeholder="País"
-                />
+                >
+                  <option value="">Seleccionar país</option>
+                  {Countries.map((country, index) => (
+                    <option className= {styles.inputStylesTwo} key={index} value={country}>{country}</option>
+                  ))}
+                </select>
                 {formErrors.country && <span className={styles.error}>Ingrese el país</span>}
+
 
                 <input
                   type="tel"
