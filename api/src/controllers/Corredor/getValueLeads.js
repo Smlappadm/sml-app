@@ -1,7 +1,6 @@
 const Corredor = require("../../models/Corredor");
 
 function getValueLead() {
-  console.log("hola");
   Corredor.find(
     { "leads.checked": false },
     "leads",
@@ -15,7 +14,6 @@ function getValueLead() {
         const leadsNoChequeados = corredor.leads.filter(
           (lead) => !lead.checked
         );
-        console.log(leadsNoChequeados);
       });
     }
   );

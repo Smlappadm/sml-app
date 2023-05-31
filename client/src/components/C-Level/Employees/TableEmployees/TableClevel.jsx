@@ -11,14 +11,10 @@ import {
   TableCell,
   Text,
   Title,
-  Badge,
 } from "@tremor/react";
 import { CiMail } from "react-icons/ci";
 import {
-  getAllClevel,
-  getAllCorredores,
-  getAllLeader,
-  getAllVendedores,
+  getAllEmployees,
 } from "../../../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import NestedModal from "./MaterialUi/NestedModal";
@@ -100,26 +96,32 @@ const ErrorCreateEmployees = (name) => {
 };
 
 export const TableClevel = () => {
-  const { corredores, vendedores, clevel, leader } = useSelector(
-    (state) => state
-  );
+  // const { corredores, vendedores, clevel, leader } = useSelector(
+  //   (state) => state
+  // );
+  const { allEmployees } = useSelector((state) => state);
+
   const dispatch = useDispatch();
 
+  // useEffect(() => {
+  //   dispatch(getAllCorredores());
+  //   dispatch(getAllVendedores());
+  //   dispatch(getAllLeader());
+  //   dispatch(getAllClevel());
+  // }, [dispatch]);
+
   useEffect(() => {
-    dispatch(getAllCorredores());
-    dispatch(getAllVendedores());
-    dispatch(getAllLeader());
-    dispatch(getAllClevel());
+    dispatch(getAllEmployees());
   }, [dispatch]);
 
-  let employees = corredores.concat(vendedores, clevel, leader);
+  // let employees = corredores.concat(vendedores, clevel, leader);
 
   const [pageStyle, setPageStyle] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [cardXPage, setCardXpage] = useState(10);
   const indexLastCard = currentPage * cardXPage;
   const indexFirstCard = indexLastCard - cardXPage;
-  const currentCard = employees.slice(indexFirstCard, indexLastCard);
+  const currentCard = allEmployees.slice(indexFirstCard, indexLastCard);
 
   const pages = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -155,11 +157,11 @@ export const TableClevel = () => {
               {currentCard.map((item, index) => (
                 <TableRow key={index} className={style.tableCards}>
                   <TableCell className="flex justify-start items-center p-0">
-                    <img
+                    {/* <img
                       className="w-8 ml-2 mr-4 rounded-full"
                       src={item.photo}
                       alt="avatar image"
-                    />
+                    /> */}
                     <Text>{item.name}</Text>
                   </TableCell>
                   <TableCell className="flex justify-start items-center p-0">
@@ -172,13 +174,9 @@ export const TableClevel = () => {
                   <TableCell className="p-0">
                     <Text
                       className={` 
-                      ${
-                        item.rol === "clevel" ? "bg-[#ac4242]" : null
-                      } 
+                      ${item.rol === "clevel" ? "bg-[#ac4242]" : null} 
                       ${item.rol === "leader" ? "bg-[#1b7757]" : null}  
-                      ${
-                        item.rol === "corredor" ? "bg-[#2148b4]" : null
-                      }  
+                      ${item.rol === "corredor" ? "bg-[#2148b4]" : null}  
                       ${
                         item.rol === "vendedor" ? "bg-[#8a912b]" : null
                       } text-center p-1 w-20 rounded-lg`}
@@ -212,7 +210,7 @@ export const TableClevel = () => {
             pageStyle={pageStyle}
             setPageStyle={setPageStyle}
             cardXPage={cardXPage}
-            data={employees}
+            data={allEmployees}
             pages={pages}
             current={currentPage}
           />

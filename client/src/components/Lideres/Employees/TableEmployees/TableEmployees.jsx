@@ -172,11 +172,11 @@ export const TableEmployees = () => {
                 <TableRow key={index} className={style.tableCards}>
                   <TableCell className="flex justify-start items-center p-0">
                     <div className="flex">
-                      <img
+                      {/* <img
                         className="w-8 ml-2 mr-4 rounded-full"
                         src={item.photo}
                         alt="avatar image"
-                      />
+                      /> */}
                       <Text>{item.name}</Text>
                     </div>
                   </TableCell>

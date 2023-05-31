@@ -6,14 +6,8 @@ import InputNameEdit from "./InputNameEdit";
 import InputPhoneEdit from "./InputPhoneEdit";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import {
-  getAllClevel,
-  getAllCorredores,
-  getAllLeader,
-  getAllVendedores,
-} from "../../../../../../redux/actions";
-import BasicSelect from "../BasicSelect";
 import InputEmailEdit from "./InputEmailEdit";
+import { getAllEmployees } from "../../../../../../redux/actions";
 
 const style = {
   position: "absolute",
@@ -34,6 +28,7 @@ function ChildModalDelete({
   inputEmail,
   itemRol,
   itemId,
+  itemEmail,
   onModalClose,
   ErrorEmployees,
   BannedEmployees,
@@ -46,14 +41,12 @@ function ChildModalDelete({
 
   const handleCreate = async () => {
     try {
-      const response = await axios.put(`/${itemRol}/${itemId}`, {
+      const response = await axios.put(`/${itemRol}/?email=${itemEmail}`, {
         deleted: true,
       });
-
-
     } catch (error) {
       ErrorEmployees(inputName);
-      console.log(`No se pudo enviar el baneado de ${itemRol} ${itemId} `);
+      console.log(`No se pudo enviar el baneado de ${itemRol} ${itemEmail} `);
     }
 
     try {
@@ -65,10 +58,7 @@ function ChildModalDelete({
       console.log(`No se pudo enviar el baneado de ${itemRol} ${itemId} `);
     }
 
-    dispatch(getAllCorredores());
-    dispatch(getAllVendedores());
-    dispatch(getAllLeader());
-    dispatch(getAllClevel());
+    dispatch(getAllEmployees());
     setOpen(false);
   };
 
@@ -105,6 +95,7 @@ function ChildModal({
   inputPhone,
   itemRol,
   itemId,
+  itemEmail,
   onModalClose,
   EditEmployees,
   ErrorEditEmployees,
@@ -131,6 +122,12 @@ function ChildModal({
 
     try {
       const response = await axios.put(`/${itemRol}/${itemId}`, {
+        name: inputName,
+        email: inputEmail,
+        rol: selectEmployees,
+        contactNumber: inputPhone,
+      });
+      const response1 = await axios.put(`/employees/${itemEmail}`, {
         name: inputName,
         email: inputEmail,
         rol: selectEmployees,
@@ -184,6 +181,7 @@ export default function NestedModalEdit({
   itemRol,
   SendEmployees,
   BannedEmployees,
+  ErrorEmployees,
   EditEmployees,
   ErrorEditEmployees,
 }) {
@@ -246,6 +244,7 @@ export default function NestedModalEdit({
               inputPhone={inputPhone}
               itemRol={itemRol}
               itemId={itemId}
+              itemEmail={itemEmail}
               onModalClose={handleClose}
               EditEmployees={EditEmployees}
               ErrorEditEmployees={ErrorEditEmployees}
@@ -255,7 +254,9 @@ export default function NestedModalEdit({
               inputEmail={inputEmail}
               itemRol={itemRol}
               itemId={itemId}
+              itemEmail={itemEmail}
               SendEmployees={SendEmployees}
+              ErrorEmployees={ErrorEmployees}
               BannedEmployees={BannedEmployees}
               onModalClose={handleClose}
             />

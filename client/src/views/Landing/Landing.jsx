@@ -59,7 +59,7 @@ function Landing() {
 					{access
 						?
 						<div className={style.containerWellcome}>
-							<img className={style.imagen} src={selectedEmployee.photo} alt="" />
+							{/* <img className={style.imagen} src={selectedEmployee.photo} alt="" /> */}
 							<h1 className={style.wellcome}>Bienvenido {user.fullName} </h1>
 							<h3 className={style.role}>rol: {role} </h3>
 						</div>

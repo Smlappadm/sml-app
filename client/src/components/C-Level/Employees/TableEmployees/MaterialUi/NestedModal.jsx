@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import {
   getAllClevel,
   getAllCorredores,
+  getAllEmployees,
   getAllLeader,
   getAllVendedores,
 } from "../../../../../redux/actions";
@@ -113,26 +114,26 @@ function ChildModal({
       console.log(`No se pudo enviar el post de ${selectEmployees}`);
     }
 
-    try {
-      const emailData = {
-        clientName: inputName,
-        recipientEmail: inputEmail,
-        message: `Hola ${inputName}, te damos la bienvenida a nuestra empresa. ¡Esperamos que tengas una gran experiencia trabajando con nosotros!`,
-      };
+    // try {
+    //   const emailData = {
+    //     clientName: inputName,
+    //     recipientEmail: inputEmail,
+    //     message: `Hola ${inputName}, te damos la bienvenida a nuestra empresa. ¡Esperamos que tengas una gran experiencia trabajando con nosotros!`,
+    //   };
 
-      const response = await axios.post(
-        "/corredor/sendHiringEmail",
-        // "http://localhost:3001/corredor/sendHiringEmail",
-        emailData
-      );
+    //   const response = await axios.post(
+    //     "/corredor/sendHiringEmail",
+    //     // "http://localhost:3001/corredor/sendHiringEmail",
+    //     emailData
+    //   );
 
-      console.log("Correo electrónico de contratación enviado correctamente");
-    } catch (error) {
-      console.error(
-        "Error al enviar el correo electrónico de contratación:",
-        error.message
-      );
-    }
+    //   console.log("Correo electrónico de contratación enviado correctamente");
+    // } catch (error) {
+    //   console.error(
+    //     "Error al enviar el correo electrónico de contratación:",
+    //     error.message
+    //   );
+    // }
 
     try {
       const responseEmployees = await axios.post("/employees", {
@@ -145,10 +146,7 @@ function ChildModal({
       console.log(`No se pudo enviar el post de Employees`);
     }
 
-    dispatch(getAllCorredores());
-    dispatch(getAllVendedores());
-    dispatch(getAllLeader());
-    dispatch(getAllClevel());
+    dispatch(getAllEmployees());
     setOpen(false);
     handleReset();
   };

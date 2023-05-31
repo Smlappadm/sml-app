@@ -5,7 +5,6 @@ const getAllVendedores = async () => {
     const vendedores = await Vendedor.find();
     return vendedores;
   } catch (error) {
-    console.log(error);
     throw new Error("No se pudieron obtener los vendedores");
   }
 };

@@ -12,6 +12,6 @@ CLevelRouter.post("/", postCLevelHandler);
 CLevelRouter.get("/", getAllCLevelsHandler);
 CLevelRouter.get("/name", getCLevelByNameHandler);
 CLevelRouter.get("/:id", getCLevelByIdHandler);
-CLevelRouter.put("/:id", updateCLevelHandler);
+CLevelRouter.put("/", updateCLevelHandler);
 
 module.exports = CLevelRouter;

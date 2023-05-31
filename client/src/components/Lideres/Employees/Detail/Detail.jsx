@@ -10,12 +10,12 @@ import {
 function Detail(props) {
   return (
     <div className="  flex h-screen bg-slate-700  justify-center items-center w-1/5 flex-col relative ">
-      <div className=" h-1/4 justify-center items-center text-center flex flex-col w-full gap-2 relative">
+      {/* <div className=" h-1/4 justify-center items-center text-center flex flex-col w-full gap-2 relative">
         <div className=" bg-emerald-700  w-20 h-20 rounded-full flex ">
           <img src={props.picture} alt="avatar" className="rounded-full " />
         </div>
         <p className=" font-bold text-24 pt-1 text-white">{props.name} </p>
-      </div>
+      </div> */}
 
       <div className=" h-1/4 justify-center items-left text-left flex flex-col w-4/5 relative gap-2">
         <p className=" font-normal text-18 pt-1 text-gray-200">Contact Info</p>

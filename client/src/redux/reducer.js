@@ -21,6 +21,7 @@ import {
   GET_CORREDOR_LEAD_CHECKED,
   FIND_CORREDORES_NAME,
   FIND_VENDEDORES_NAME,
+  GET_ALL_EMPLOYEES,
 } from "./actions";
 
 const initialState = {
@@ -42,6 +43,7 @@ const initialState = {
   isEmployee: undefined,
   corredorLead: [],
   corredorLeadChecked: [],
+  allEmployees: [],
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -278,6 +280,12 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         corredorLeadChecked: action.payload,
+      };
+
+    case GET_ALL_EMPLOYEES:
+      return {
+        ...state,
+        allEmployees: action.payload,
       };
 
     default:

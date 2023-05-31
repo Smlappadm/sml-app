@@ -2,9 +2,21 @@ const { Schema, model } = require("mongoose");
 
 const employeesSchema = new Schema(
   {
-    name: { type: String, required: true },
-    email: { type: String, required: true },
-    rol: { type: String, required: true },
+    name: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+    },
+    rol: {
+      type: String,
+      required: true,
+    },
+    contactNumber: {
+      type: String,
+    },
     deleted: {
       type: Boolean,
       default: false,
