@@ -25,23 +25,34 @@
     background-color: transparent;
     width: 100%;
     padding: 10px 20px;
-    border-radius: 5px;
+    border-radius: 15px;
+    transition: all .3s ease;
+    color: white;
 }
 .inputStyles:focus{
     border: 1px solid transparent;
     outline: none;
     border: 1px solid white;
-    box-shadow: 0 1px 0 white;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.68);
+}
+.inputStyles:focus::placeholder{
+    font-style: italic;
 }
 .button{
+    background-color: #9b9ba4;
     border: 1px solid #e0dddd;
+    color: #222131;
     padding: 10px 20px;
     width: 100%;
+    border-radius: 15px;
+    transition: all .3s ease;
+    text-align: left;
 }
 .button:hover{
     background-color: rgba(255, 255, 255, 0.123);
     border: 1px solid white;
-    border-radius: 5px;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.68);
+    color: white;
 }
 .title{
     font-size: 25px;

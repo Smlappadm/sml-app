@@ -46,6 +46,26 @@ export default function Settings() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    if (formData.birthdate.length > 0) {
+      formData.birthdate = formData.birthdate.substring(0, 10);
+    }
+
+    if (formData.birthdate === "") {
+      formData.birthdate = selectedEmployee.birthdate;
+    }
+
+    if (formData.photo === "") {
+      formData.photo = selectedEmployee.photo;
+    }
+    if (formData.country === "") {
+      formData.country = selectedEmployee.country;
+    }
+    if (formData.contactNumber === "") {
+      formData.contactNumber = selectedEmployee.contactNumber;
+    }
+    if (formData.description === "") {
+      formData.description = selectedEmployee.description;
+    }
     axios.put(`${selectedEmployee.rol}/${selectedEmployee._id}`, formData)
       .then((response) => {
         // Manejar la respuesta exitosa aquí si es necesario
@@ -76,8 +96,6 @@ export default function Settings() {
     dispatch(getAllClevel())
   }, [dispatch])
 
-  console.log(formData);
-  console.log(selectedEmployee);
   return (
     <>
 
@@ -110,7 +128,7 @@ export default function Settings() {
                 />
 
                 <input
-                  type="text"
+                  type="tel"
                   name="contactNumber"
                   value={formData.contactNumber}
                   onChange={handleChange}
@@ -146,7 +164,7 @@ export default function Settings() {
             contactNumber={selectedEmployee?.contactNumber}
             description={selectedEmployee?.description}
             country={selectedEmployee?.country}
-            birthdate={selectedEmployee?.birthdate}
+            birthdate={selectedEmployee?.birthdate.substring(0, 10)}
           />
         </div>
       }{" "}
