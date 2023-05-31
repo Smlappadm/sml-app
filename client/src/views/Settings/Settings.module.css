@@ -38,6 +38,9 @@
 .inputStyles:focus::placeholder{
     font-style: italic;
 }
+.option{
+    background-color: red;
+}
 .button{
     background-color: #9b9ba4;
     border: 1px solid #e0dddd;
