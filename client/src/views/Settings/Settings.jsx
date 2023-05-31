@@ -15,6 +15,7 @@ import Countries from "../../components/Select/SelectionCountries"
 
 export default function Settings() {
   const user = useUser().user;
+  const userImageUrl= user?.imageUrl
   const userEmail = user?.primaryEmailAddress?.emailAddress;
   const [profileImageUrl, setProfileImageUrl] = useState("");
   const corredores = useSelector(state => state.corredores);
@@ -34,7 +35,7 @@ export default function Settings() {
 
   const [formData, setFormData] = useState({
     birthdate: '',
-    photo: '',
+    photo: userImageUrl,
     country: '',
     contactNumber: '',
     description: '',
@@ -42,10 +43,10 @@ export default function Settings() {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    console.log(value)
-    // Validar que solo se ingresen números en el campo "contactNumber"
+    
+    
     if (name === "contactNumber" && isNaN(value)) {
-      return; // No actualizar el estado si el valor no es un número
+      return; 
     }
 
     setFormData((prevFormData) => ({
@@ -57,7 +58,7 @@ export default function Settings() {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // Verificar que todos los campos estén llenos
+    
     if (
       formData.birthdate === "" ||
       formData.country === "" ||
@@ -70,41 +71,22 @@ export default function Settings() {
         contactNumber: formData.contactNumber === "",
         description: formData.description === "",
       });
-      return; // No enviar el formulario si algún campo está vacío
+      return; 
     }
 
-    if (formData.birthdate.length > 0) {
-      formData.birthdate = formData.birthdate.substring(0, 10);
-    }
-
-    if (formData.birthdate === "") {
-      formData.birthdate = selectedEmployee.birthdate;
-    }
-
-    if (formData.photo === "") {
-      formData.photo = selectedEmployee.photo;
-    }
-    if (formData.country === "") {
-      formData.country = selectedEmployee.country;
-    }
-    if (formData.contactNumber === "") {
-      formData.contactNumber = selectedEmployee.contactNumber;
-    }
-    if (formData.description === "") {
-      formData.description = selectedEmployee.description;
-    }
+    
     axios.put(`${selectedEmployee.rol}/${selectedEmployee._id}`, formData)
       .then((response) => {
-        // Manejar la respuesta exitosa aquí si es necesario
+        
         console.log(response);
-        setFormSubmitted(true); // Establecer el estado formSubmitted en true
+        setFormSubmitted(true); 
         dispatch(getAllCorredores());
         dispatch(getAllVendedores());
         dispatch(getAllLeader());
         dispatch(getAllClevel());
       })
       .catch((error) => {
-        // Manejar el error aquí si es necesario
+        
         console.error(error);
       });
   };
@@ -123,6 +105,8 @@ export default function Settings() {
     dispatch(getAllLeader())
     dispatch(getAllClevel())
   }, [dispatch])
+
+  
 
   return (
     <>
@@ -191,12 +175,12 @@ export default function Settings() {
           <Detail
             key={formSubmitted ? "submitted" : "not-submitted"}
             name={user?.fullName}
-            picture={selectedEmployee?.photo}
+            picture={selectedEmployee?.photo ? selectedEmployee?.photo : userImageUrl }
             email={user?.emailAddresses[0].emailAddress}
             contactNumber={selectedEmployee?.contactNumber}
             description={selectedEmployee?.description}
             country={selectedEmployee?.country}
-            birthdate={selectedEmployee?.birthdate.substring(0, 10)}
+            birthdate={selectedEmployee?.birthdate &&  selectedEmployee?.birthdate.substring(0, 10)}
           />
         </div>
       }{" "}

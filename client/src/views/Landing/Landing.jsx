@@ -11,6 +11,7 @@ function Landing() {
 
 	const user = useUser().user;
 	const userEmail = user.emailAddresses[0].emailAddress;
+	const userImageUrl= user?.imageUrl
 	const employees = useSelector(state => state.employees);
 	const dispatch = useDispatch();
 	const role = useSelector(state => state.rol);
@@ -59,7 +60,8 @@ function Landing() {
 					{access
 						?
 						<div className={style.containerWellcome}>
-							{/* <img className={style.imagen} src={selectedEmployee.photo} alt="" /> */}
+							{selectedEmployee?.photo ? <img className={style.imagen} src={selectedEmployee.photo} alt="" />  : <img className={style.imagen} src={userImageUrl} alt="" /> }
+						
 							<h1 className={style.wellcome}>Bienvenido {user.fullName} </h1>
 							<h3 className={style.role}>rol: {role} </h3>
 						</div>
