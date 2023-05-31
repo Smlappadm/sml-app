@@ -1,19 +1,16 @@
 import Nav from "../../components/Nav/Nav";
 import Detail from "../../components/Lideres/Employees/Detail/Detail";
-import {
-  useUser,
-} from "@clerk/clerk-react";
+import { useUser } from "@clerk/clerk-react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { getAllCorredores, getAllVendedores, getAllClevel, getAllLeader } from "../../redux/actions";
 import { useDispatch } from "react-redux";
-import UploadWidget from "../../components/UploadWidget/UploadWidget"
+import UploadWidget from "../../components/UploadWidget/UploadWidget";
 import { Image } from 'cloudinary-react';
 const { VITE_CLOUND_NAME } = import.meta.env;
 import { useSelector } from "react-redux";
-import styles from "./Settings.module.css"
+import styles from "./Settings.module.css";
 import axios from "axios";
-
 
 export default function Settings() {
   const user = useUser().user;
@@ -23,14 +20,20 @@ export default function Settings() {
   const vendedores = useSelector(state => state.vendedores);
   const leader = useSelector(state => state.leader);
   const clevel = useSelector(state => state.clevel);
-  const dispatch = useDispatch()
-  const allEmployees = [...corredores, ...vendedores, ...clevel, ...leader]
+  const dispatch = useDispatch();
+  const allEmployees = [...corredores, ...vendedores, ...clevel, ...leader];
   const selectedEmployee = allEmployees.find(employee => employee.email === userEmail);
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [formErrors, setFormErrors] = useState({
+    birthdate: false,
+    country: false,
+    contactNumber: false,
+    description: false,
+  });
 
   const [formData, setFormData] = useState({
     birthdate: '',
-    // photo: '',
+    photo: '',
     country: '',
     contactNumber: '',
     description: '',
@@ -38,6 +41,12 @@ export default function Settings() {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
+    console.log(value)
+    // Validar que solo se ingresen números en el campo "contactNumber"
+    if (name === "contactNumber" && isNaN(value)) {
+      return; // No actualizar el estado si el valor no es un número
+    }
+
     setFormData((prevFormData) => ({
       ...prevFormData,
       [name]: value,
@@ -46,6 +55,23 @@ export default function Settings() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    // Verificar que todos los campos estén llenos
+    if (
+      formData.birthdate === "" ||
+      formData.country === "" ||
+      formData.contactNumber === "" ||
+      formData.description === ""
+    ) {
+      setFormErrors({
+        birthdate: formData.birthdate === "",
+        country: formData.country === "",
+        contactNumber: formData.contactNumber === "",
+        description: formData.description === "",
+      });
+      return; // No enviar el formulario si algún campo está vacío
+    }
+
     if (formData.birthdate.length > 0) {
       formData.birthdate = formData.birthdate.substring(0, 10);
     }
@@ -81,6 +107,7 @@ export default function Settings() {
         console.error(error);
       });
   };
+
   const handleImageUpload = (imageUrl) => {
     setProfileImageUrl(imageUrl);
     setFormData((prevFormData) => ({
@@ -98,17 +125,13 @@ export default function Settings() {
 
   return (
     <>
-
       <Nav />
       {
         <div className="flex justify-center items-center w-full">
           <div className="h-screen w-4/5  flex flex-col justify-start items-center p-8">
             <div>
-
               <h2 className={styles.title}>settings</h2>
               <form onSubmit={handleSubmit} className={styles.form}>
-
-
                 <input
                   type="date"
                   name="birthdate"
@@ -117,6 +140,7 @@ export default function Settings() {
                   className={styles.inputStyles}
                   placeholder="Fecha de nacimiento"
                 />
+                {formErrors.birthdate && <span className={styles.error}>Ingrese la fecha de nacimiento</span>}
 
                 <input
                   type="text"
@@ -126,6 +150,7 @@ export default function Settings() {
                   className={styles.inputStyles}
                   placeholder="País"
                 />
+                {formErrors.country && <span className={styles.error}>Ingrese el país</span>}
 
                 <input
                   type="tel"
@@ -135,6 +160,7 @@ export default function Settings() {
                   className={styles.inputStyles}
                   placeholder="Número de contacto"
                 />
+                {formErrors.contactNumber && <span className={styles.error}>Ingrese el número de contacto</span>}
 
                 <textarea
                   name="description"
@@ -143,13 +169,14 @@ export default function Settings() {
                   className={styles.inputStyles}
                   placeholder="Descripción"
                 />
+                {formErrors.description && <span className={styles.error}>Ingrese la descripción</span>}
 
-                {/* <div className={styles.pictureInput} >
+                <div className={styles.pictureInput} >
                   <UploadWidget onImageUpload={handleImageUpload} />
                   {profileImageUrl && (
                     <Image name="photo" onChange={handleChange} value={profileImageUrl} cloudName={VITE_CLOUND_NAME} publicId={profileImageUrl} className={styles.picture} />
                   )}
-                </div> */}
+                </div>
 
                 <button type="submit" className={styles.button}>Enviar</button>
               </form>
@@ -159,7 +186,7 @@ export default function Settings() {
           <Detail
             key={formSubmitted ? "submitted" : "not-submitted"}
             name={user?.fullName}
-            // picture={selectedEmployee?.photo}
+            picture={selectedEmployee?.photo}
             email={user?.emailAddresses[0].emailAddress}
             contactNumber={selectedEmployee?.contactNumber}
             description={selectedEmployee?.description}
@@ -171,74 +198,3 @@ export default function Settings() {
     </>
   );
 }
-
-
-
-
-
-
-{/* <button>Cambio de Colores</button>
-            <div>
-              <>Languaje:</>
-              <select name="Languaje" id="Languaje">
-                <option value="English">English</option>
-                <option value="Spanish">Spanish</option>
-              </select>
-            </div> */}
-{/* <>
-        Name:
-        <input
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-        />
-      </>
-      <br />
-      <>
-        Email:
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-        />
-      </> */}
-{/* <form>
-                <p className="text-24 m-5 text-white">Edit Profile</p>
-                <div className="flex flex-col gap-4 w-10/12 h-full items-center">
-                  <input
-                    className="bg-transparent border border-white rounded-md text-center w-2/5 shadow-sm shadow-white p-1 text-[#d1d1d1]"
-                    placeholder="Name"
-                    type="text"
-                    id="name"
-                  />
-                  <input
-                    type="text"
-                    id="email"
-                    className="bg-transparent border border-white rounded-md text-center w-2/5 shadow-sm shadow-white p-1 text-[#d1d1d1]"
-                    placeholder="Email"
-                  />
-                  <input
-                    type="number"
-                    id="phone"
-                    className="bg-transparent border border-white rounded-md text-center w-2/5 shadow-sm shadow-white p-1 text-[#d1d1d1]"
-                    placeholder="Phone"
-                  />
-                  <input
-                    type="text"
-                    id="location"
-                    className="bg-transparent border border-white rounded-md text-center w-2/5 shadow-sm shadow-white p-1 text-[#d1d1d1]"
-                    placeholder="Location"
-                  />
-                  <input
-                    type="text"
-                    id="status"
-                    className="bg-transparent border border-white rounded-md text-center w-2/5 h-1/5 shadow-md shadow-white p-1 text-[#d1d1d1]"
-                    placeholder="Status"
-                  />
-                  <button className="bg-[#334155] hover:bg-[#4f6686] text-white py-2 px-4 rounded-full m-5">
-                    Save Changes
-                  </button>
-                </div>
-              </form> */}

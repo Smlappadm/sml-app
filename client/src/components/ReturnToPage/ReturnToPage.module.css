@@ -2,7 +2,7 @@
   padding-bottom: -10px;
   background-color: #39394b;
   width: 10%;
-  min-width: 15rem;
+  min-width: 12.9rem;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -34,7 +34,7 @@
   position: absolute;
   top: 47%;
   left: 13%;
-  transform: translate(-90%, -50%);
+  transform: translate(-135%, -50%);
   z-index: 1;
 }
 
