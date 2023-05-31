@@ -6,8 +6,10 @@ import {
   IoStatsChart,
   IoSettingsSharp,
   IoGrid,
+  IoCashSharp,
   IoPeople,
   IoExitOutline,
+  IoWalkOutline
 } from "react-icons/io5";
 
 function Nav() {
@@ -38,7 +40,7 @@ function Nav() {
               <ul className="flex flex-col gap-2">
                 <li className="flex gap-2 items-center text-[18px]">
                   <span className=" text-lg">
-                    <IoGrid className="text-[#e0dddd]" />
+                    <IoPeople className="text-[#e0dddd]" />
                   </span>
                   <span>
                     <Link
@@ -64,7 +66,7 @@ function Nav() {
                 </li>
                 <li className="flex gap-2 items-center text-[18px]">
                   <span className=" text-lg">
-                    <IoPeople className="text-[#e0dddd]" />
+                    <IoCashSharp className="text-[#e0dddd]" />
                   </span>
                   <span>
                     <Link
@@ -77,7 +79,7 @@ function Nav() {
                 </li>
                 <li className="flex gap-2 items-center text-[18px]">
                   <span className=" text-lg">
-                    <IoPeople className="text-[#e0dddd]" />
+                    <IoWalkOutline className="text-[#e0dddd]" />
                   </span>
                   <span>
                     <Link
@@ -161,11 +163,11 @@ function Nav() {
               <ul className="flex flex-col gap-2">
                 <li className="flex gap-2 items-center text-[18px]">
                   <span className=" text-lg">
-                    <IoGrid className="text-[#e0dddd]" />
+                    <IoPeople className="text-[#e0dddd]" />
                   </span>
                   <span>
                     <Link
-                      to="/lideres-employees"
+                      to="/clevel"
                       className=" text-[#e0dddd] hover:text-white"
                     >
                       Employees
@@ -187,7 +189,7 @@ function Nav() {
                 </li>
                 <li className="flex gap-2 items-center text-[18px]">
                   <span className=" text-lg">
-                    <IoPeople className="text-[#e0dddd]" />
+                    <IoCashSharp className="text-[#e0dddd]" />
                   </span>
                   <span>
                     <Link
@@ -200,7 +202,7 @@ function Nav() {
                 </li>
                 <li className="flex gap-2 items-center text-[18px]">
                   <span className=" text-lg">
-                    <IoPeople className="text-[#e0dddd]" />
+                    <IoWalkOutline className="text-[#e0dddd]" />
                   </span>
                   <span>
                     <Link
