@@ -165,7 +165,7 @@ function ClerkProviderWithRoutes() {
         <Route
           path="/lideres-employees"
           element={
-            isRoleAllowed(roleReady) && (roleReady === "clevel" || roleReady === "leader") && isEmployeeReady ? (
+            isRoleAllowed(roleReady) && (roleReady === "leader") && isEmployeeReady ? (
               <Lideres />
             ) : (
               <ReturnToPage />
