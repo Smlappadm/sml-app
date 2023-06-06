@@ -1,5 +1,6 @@
 import Nav from "../../components/Nav/Nav";
 import Detail from "../../components/Lideres/Employees/Detail/Detail";
+import DatePicker from "./DatePicker"
 import { useUser } from "@clerk/clerk-react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,9 +22,11 @@ export default function Settings() {
   const user = useUser().user;
   const userImageUrl = user?.imageUrl;
   const userEmail = user?.primaryEmailAddress?.emailAddress;
-
+  
   const [profileImageUrl, setProfileImageUrl] = useState("");
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [editSave, setEditSave] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(null);
 
   const corredores = useSelector((state) => state.corredores);
   const vendedores = useSelector((state) => state.vendedores);
@@ -63,7 +66,16 @@ export default function Settings() {
       ...prevFormData,
       [name]: value,
     }));
+
+    setEditSave(true);
   };
+
+
+
+  const handleChangeDate = (date) => {
+    setSelectedDate(date);
+  };
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -96,6 +108,15 @@ export default function Settings() {
       .catch((error) => {
         console.error(error);
       });
+
+      setFormErrors({
+        birthdate: false,
+        country: false,
+        contactNumber: false,
+        description: false,
+      });
+
+      setEditSave(false)
   };
 
   const handleImageUpload = (imageUrl) => {
@@ -121,24 +142,29 @@ export default function Settings() {
           <div>
             <h2 className={styles.title}>Settings</h2>
             <form onSubmit={handleSubmit} className={styles.form}>
-              <div className="flex flex-col justify-end items-start gap-1 w-full h-20">
-                {formErrors.birthdate && (
-                  <span className={styles.error}>
+              <div className="flex flex-col justify-end items-start gap-1 w-full ">
+                {!formErrors.birthdate ? (
+                  <span className="text-[#dad8d8]">Fecha de nacimiento</span>
+                  ) : (
+                    <span className="text-red-400">
                     Ingrese la fecha de nacimiento
                   </span>
                 )}
-                <input
+                <DatePicker/>
+                {/* <input
                   type="date"
                   name="birthdate"
                   value={formData.birthdate}
                   onChange={handleChange}
                   className={styles.inputStyles}
                   placeholder="Fecha de nacimiento"
-                />
+                /> */}
               </div>
               <div className="flex flex-col justify-end items-start gap-1 w-full h-20 ">
-                {formErrors.country && (
-                  <span className={styles.error}>Ingrese el país</span>
+                {!formErrors.country ? (
+                  <span className="text-[#dad8d8]">País</span>
+                ) : (
+                  <span className="text-red-400">Ingrese un País</span>
                 )}
                 <select
                   name="country"
@@ -159,9 +185,11 @@ export default function Settings() {
                 </select>
               </div>
               <div className="flex flex-col justify-end items-start gap-1 w-full h-20">
-                {formErrors.contactNumber && (
-                  <span className={styles.error}>
-                    Ingrese el número de contacto
+                {!formErrors.contactNumber ? (
+                  <span className="text-[#dad8d8]">Número de contacto</span>
+                ) : (
+                  <span className="text-red-400">
+                    Ingrese número de contacto
                   </span>
                 )}
                 <input
@@ -174,8 +202,10 @@ export default function Settings() {
                 />
               </div>
               <div className="flex flex-col justify-end items-start gap-1 w-full h-24">
-                {formErrors.description && (
-                  <span className={styles.error}>Ingrese la descripción</span>
+                {!formErrors.description ? (
+                  <span className="text-[#dad8d8]">Descripción</span>
+                ) : (
+                  <span className="text-red-400">Ingrese descripción</span>
                 )}
                 <textarea
                   name="description"
@@ -186,7 +216,7 @@ export default function Settings() {
                 />
               </div>
 
-              <div className={styles.pictureInput}>
+              <div className="flex justify-center items-center w-full mt-5">
                 <UploadWidget onImageUpload={handleImageUpload} />
                 {profileImageUrl && (
                   <Image
@@ -200,10 +230,11 @@ export default function Settings() {
                 )}
               </div>
               <div className="flex flex-col justify-end items-end gap-1 w-full h-fit">
-
-              <button type="submit" className={styles.button}>
-                Save
-              </button>
+                {editSave && (
+                  <button type="submit" className={styles.button}>
+                    Save
+                  </button>
+                )}
               </div>
             </form>
           </div>
