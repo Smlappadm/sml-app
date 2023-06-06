@@ -34,7 +34,7 @@ function Nav() {
           </Link>
         </div>
 
-        {!isEmployee || !roleReady? <div class={styles.loader}></div> :(
+        {!isEmployee || !roleReady? <div className={styles.loader}></div> :(
           <div className=" flex  w-fit mt-12 ">
             {roleReady === "clevel" ? (
               <ul className="flex flex-col gap-2">

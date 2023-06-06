@@ -24,7 +24,6 @@ function Landing() {
 	const selectedEmployee = allEmployees.find(employee => employee.email === userEmail);
 	const isEmployeeReady = localStorage.getItem("isEmployeeReady");
 	const roleReady = localStorage.getItem("roleReady");
-
 	const isEmployee = () => {
 		return employees.some(employees => employees.email === userEmail);
 	}
