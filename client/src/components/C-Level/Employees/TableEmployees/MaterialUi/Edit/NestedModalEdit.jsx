@@ -9,8 +9,6 @@ import { useDispatch, useSelector } from "react-redux";
 import InputEmailEdit from "./InputEmailEdit";
 import { getAllEmployees } from "../../../../../../redux/actions";
 
-
-
 const style = {
   position: "absolute",
   top: "50%",
@@ -177,6 +175,13 @@ function ChildModal({
   );
 }
 
+
+
+// itemBirthdate,
+// itemCountry,
+// itemDescription,
+// itemPhoto,
+
 export default function NestedModalEdit({
   itemId,
   itemName,
@@ -216,12 +221,14 @@ export default function NestedModalEdit({
         aria-labelledby="parent-modal-title"
         aria-describedby="parent-modal-description"
       >
-        <Box sx={{ ...style, width: "30%", height: "45%", bgcolor: "#39394b" }}>
+        <Box sx={{ ...style, width: "30%", bgcolor: "#39394b" }}>
           <div>
             <div className="flex flex-col gap-5 my-5">
               <h2 id="parent-modal-title">Edit Employ {inputName}</h2>
             </div>
             <div className="flex flex-col items-center justify-center gap-5">
+              <img className="w-5 h-5" src={itemPhoto} />
+              <p>Cumpleaños: {itemBirthdate}</p>
               <InputNameEdit
                 inputName={inputName}
                 setInputName={setInputName}
