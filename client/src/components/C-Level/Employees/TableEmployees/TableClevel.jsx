@@ -102,6 +102,8 @@ export const TableClevel = () => {
     setCurrentPage(pageNumber);
   };
 
+  console.log(allEmployees);
+
   return (
     <>
       <div className=" flex flex-col justify-start items-center w-full h-screen">
@@ -164,6 +166,10 @@ export const TableClevel = () => {
                         itemName={item.name}
                         itemEmail={item.email}
                         itemPhone={item.contactNumber}
+                        itemBirthdate={item.birthdate}
+                        itemCountry={item.country}
+                        itemDescription={item.description}
+                        itemPhoto={item.photo}
                         itemRol={item.rol}
                         ErrorEmployees={ErrorEmployees}
                         BannedEmployees={BannedEmployees}
