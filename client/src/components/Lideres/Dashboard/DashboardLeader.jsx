@@ -151,9 +151,6 @@ export const LideresDasboard = () => {
             <Link to={"/lideres/"}>
               <IoGrid className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
             </Link>
-            <Link className="text-5xl" to={"/lideres-employees"}>
-              <IoPeople className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
-            </Link>
             <Link className="text-5xl" to={"/lideres-analytics"}>
               <IoStatsChart className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
             </Link>
