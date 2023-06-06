@@ -17,8 +17,8 @@ function Nav() {
   const roleReady = localStorage.getItem("roleReady");
   const isEmployee = localStorage.getItem("isEmployeeReady");
 
-  const handleLogout = () => {
-    signOut();
+  const handleLogout = async () => {
+    await signOut();
     localStorage.clear();
   };
 
@@ -34,7 +34,9 @@ function Nav() {
           </Link>
         </div>
 
-        {!isEmployee || !roleReady? <div className={styles.loader}></div> :(
+        {!isEmployee || !roleReady ? (
+          <div className={styles.loader}></div>
+        ) : (
           <div className=" flex  w-fit mt-12 ">
             {roleReady === "clevel" ? (
               <ul className="flex flex-col gap-2">
