@@ -258,7 +258,7 @@ function ClerkProviderWithRoutes() {
           path="/analytics"
           element={
             isRoleAllowed(roleReady) &&
-            (roleReady === "clevel" || roleReady === "leader") &&
+            roleReady === "clevel" &&
             isEmployeeReady ? (
               <Analytics />
             ) : (
