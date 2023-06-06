@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import InputEmailEdit from "./InputEmailEdit";
 import { getAllEmployees } from "../../../../../../redux/actions";
 
-const role = useSelector((state) => state.rol);
+
 
 const style = {
   position: "absolute",
@@ -36,6 +36,7 @@ function ChildModalDelete({
   BannedEmployees,
 }) {
   const [open, setOpen] = useState(false);
+  const role = useSelector((state) => state.rol);
   const dispatch = useDispatch();
   const handleOpen = () => {
     setOpen(true);
