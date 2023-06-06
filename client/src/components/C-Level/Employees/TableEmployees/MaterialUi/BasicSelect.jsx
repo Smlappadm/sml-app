@@ -7,8 +7,6 @@ import Select from "@mui/material/Select";
 import { styled } from "@mui/material/styles";
 import { useSelector } from "react-redux";
 
-
-
 const StyledMenuItem = styled(MenuItem)(() => ({
   "&:hover": {
     backgroundColor: "#39394b",
@@ -41,7 +39,6 @@ export default function BasicSelect({ employees, setEmployees }) {
   const handleChange = (event) => {
     setEmployees(event.target.value);
   };
-
   return (
     <Box sx={{ width: "50%" }}>
       <StyledFormControl fullWidth>
@@ -55,7 +52,9 @@ export default function BasicSelect({ employees, setEmployees }) {
           label="Employees"
           onChange={handleChange}
         >
-          {role && role === "clevel" ? <StyledMenuItem value={"clevel"}>C-Level</StyledMenuItem> : null}
+          {role && role === "clevel" ? (
+            <StyledMenuItem value={"clevel"}>C-Level</StyledMenuItem>
+          ) : null}
           <StyledMenuItem value={"leader"}>Leader</StyledMenuItem>
           <StyledMenuItem value={"corredor"}>Corredor</StyledMenuItem>
           <StyledMenuItem value={"vendedor"}>Vendedor</StyledMenuItem>
