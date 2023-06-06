@@ -8,7 +8,7 @@ import { Provider } from "react-redux";
 import store from "./redux/store";
 import axios from "axios";
 
-// axios.defaults.baseURL = "http://localhost:3001/api";
+//axios.defaults.baseURL = "http://localhost:3001/api";
 axios.defaults.baseURL = "https://sml-app-api.onrender.com/api";
 // axios.defaults.baseURL = "https://sml-app.com/api";
 
