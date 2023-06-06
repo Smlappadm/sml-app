@@ -5,9 +5,11 @@ import Button from "@mui/material/Button";
 import InputNameEdit from "./InputNameEdit";
 import InputPhoneEdit from "./InputPhoneEdit";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import InputEmailEdit from "./InputEmailEdit";
 import { getAllEmployees } from "../../../../../../redux/actions";
+
+
 
 const style = {
   position: "absolute",
@@ -34,6 +36,7 @@ function ChildModalDelete({
   BannedEmployees,
 }) {
   const [open, setOpen] = useState(false);
+  const role = useSelector((state) => state.rol);
   const dispatch = useDispatch();
   const handleOpen = () => {
     setOpen(true);
@@ -64,13 +67,17 @@ function ChildModalDelete({
 
   return (
     <React.Fragment>
-      <Button
-        variant="contained"
-        sx={{ marginTop: "2rem" }}
-        onClick={handleOpen}
-      >
-        Delete Employ
-      </Button>
+      {role && role === "clevel" ? (
+        <Button
+          variant="contained"
+          sx={{ marginTop: "2rem" }}
+          onClick={handleOpen}
+        >
+          Delete Employ
+        </Button>
+      ) : (
+        ""
+      )}
       <Modal
         open={open}
         onClose={handleCreate}

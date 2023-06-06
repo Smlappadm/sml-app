@@ -151,9 +151,6 @@ export const LideresDasboard = () => {
             <Link to={"/lideres/"}>
               <IoGrid className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
             </Link>
-            <Link className="text-5xl" to={"/lideres-employees"}>
-              <IoPeople className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
-            </Link>
             <Link className="text-5xl" to={"/lideres-analytics"}>
               <IoStatsChart className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
             </Link>
@@ -377,7 +374,7 @@ export const LideresDasboard = () => {
                         ""
                       )}
                       {item.status === "Sin contactar" ? (
-                        <Text className="bg-[#d0da3d]  text-black   px-2 py-1.5 rounded-xl text-center w-48">
+                        <Text className="bg-[#d0da3d]  text-black  px-2 py-1.5 rounded-xl text-center w-48">
                           Sin Contactar
                         </Text>
                       ) : (
