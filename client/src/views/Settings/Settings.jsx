@@ -1,6 +1,6 @@
 import Nav from "../../components/Nav/Nav";
 import Detail from "../../components/Lideres/Employees/Detail/Detail";
-import DatePicker from "./DatePicker"
+import DatePicker from "./DatePicker";
 import { useUser } from "@clerk/clerk-react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,7 +22,7 @@ export default function Settings() {
   const user = useUser().user;
   const userImageUrl = user?.imageUrl;
   const userEmail = user?.primaryEmailAddress?.emailAddress;
-  
+
   const [profileImageUrl, setProfileImageUrl] = useState("");
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [editSave, setEditSave] = useState(false);
@@ -40,65 +40,82 @@ export default function Settings() {
   );
 
   const [formErrors, setFormErrors] = useState({
-    birthdate: false,
-    country: false,
-    contactNumber: false,
-    description: false,
-  });
-
-  console.log(allEmployees);
-  const [formData, setFormData] = useState({
     birthdate: "",
-    photo: userImageUrl,
     country: "",
     contactNumber: "",
     description: "",
   });
 
+  const [formData, setFormData] = useState({
+    birthdate: "",
+    photo: userImageUrl,
+    country: selectedEmployee?.country,
+    contactNumber: selectedEmployee?.contactNumber,
+    description: selectedEmployee?.description,
+  });
+
   const handleChange = (event) => {
     const { name, value } = event.target;
 
-    if (name === "contactNumber" && isNaN(value)) {
-      return;
+    if (name === "contactNumber") {
+      const sinEspacios = value.replace(/\s/g, "");
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: sinEspacios,
+      }));
+      setFormErrors((prevFormData) => ({
+        ...prevFormData,
+        [name]: sinEspacios,
+      }));
+    } else {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: value,
+      }));
+      setFormErrors((prevFormData) => ({
+        ...prevFormData,
+        [name]: value,
+      }));
     }
-
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
 
     setEditSave(true);
   };
 
-
-
-  const handleChangeDate = (date) => {
+  const handleDateFromPicker = (date) => {
     setSelectedDate(date);
+    setFormData({
+      ...formData,
+      birthdate: `${date.$D}/${date.$M + 1}/${date.$y}`,
+    });
+    setFormErrors({
+      ...formData,
+      birthdate: `${date.$D}/${date.$M + 1}/${date.$y}`,
+    });
   };
 
+  console.log(formData);
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    if (
-      formData.birthdate === "" ||
-      formData.country === "" ||
-      formData.contactNumber === "" ||
-      formData.description === ""
-    ) {
-      setFormErrors({
-        birthdate: formData.birthdate === "",
-        country: formData.country === "",
-        contactNumber: formData.contactNumber === "",
-        description: formData.description === "",
-      });
-      return;
-    }
+    // if (
+    //   formData.birthdate === "" ||
+    //   formData.country === "" ||
+    //   formData.contactNumber === "" ||
+    //   formData.description === ""
+    // ) {
+    //   setFormErrors({
+    //     birthdate: formData.birthdate === "",
+    //     country: formData.country === "",
+    //     contactNumber: formData.contactNumber === "",
+    //     description: formData.description === "",
+    //   });
+    //   return;
+    // }
 
     axios
       .put(`${selectedEmployee.rol}/${selectedEmployee._id}`, formData)
       .then((response) => {
-        console.log(response);
         setFormSubmitted(true);
         dispatch(getAllCorredores());
         dispatch(getAllVendedores());
@@ -109,14 +126,14 @@ export default function Settings() {
         console.error(error);
       });
 
-      setFormErrors({
-        birthdate: false,
-        country: false,
-        contactNumber: false,
-        description: false,
-      });
+    setFormErrors({
+      birthdate: false,
+      country: false,
+      contactNumber: false,
+      description: false,
+    });
 
-      setEditSave(false)
+    setEditSave(false);
   };
 
   const handleImageUpload = (imageUrl) => {
@@ -143,14 +160,11 @@ export default function Settings() {
             <h2 className={styles.title}>Settings</h2>
             <form onSubmit={handleSubmit} className={styles.form}>
               <div className="flex flex-col justify-end items-start gap-1 w-full ">
-                {!formErrors.birthdate ? (
-                  <span className="text-[#dad8d8]">Fecha de nacimiento</span>
-                  ) : (
-                    <span className="text-red-400">
-                    Ingrese la fecha de nacimiento
-                  </span>
-                )}
-                <DatePicker/>
+                <span className="text-[#dad8d8]">Fecha de nacimiento</span>
+                <DatePicker
+                  handleChange={handleChange}
+                  handleDateFromPicker={handleDateFromPicker}
+                />
                 {/* <input
                   type="date"
                   name="birthdate"
@@ -161,18 +175,14 @@ export default function Settings() {
                 /> */}
               </div>
               <div className="flex flex-col justify-end items-start gap-1 w-full h-20 ">
-                {!formErrors.country ? (
                   <span className="text-[#dad8d8]">País</span>
-                ) : (
-                  <span className="text-red-400">Ingrese un País</span>
-                )}
                 <select
                   name="country"
                   value={formData.country}
                   onChange={handleChange}
                   className={styles.inputStyles}
                 >
-                  <option value="">Seleccionar país</option>
+                  <option value="">{selectedEmployee?.country ? selectedEmployee?.country : "Seleccionar país"}</option>
                   {Countries.map((country, index) => (
                     <option
                       className={styles.inputStylesTwo}
@@ -185,31 +195,23 @@ export default function Settings() {
                 </select>
               </div>
               <div className="flex flex-col justify-end items-start gap-1 w-full h-20">
-                {!formErrors.contactNumber ? (
-                  <span className="text-[#dad8d8]">Número de contacto</span>
-                ) : (
-                  <span className="text-red-400">
-                    Ingrese número de contacto
-                  </span>
-                )}
+                <span className="text-[#dad8d8]">Número de contacto</span>
                 <input
                   type="tel"
                   name="contactNumber"
-                  value={formData.contactNumber}
+                  // value={formData.contactNumber}
+                  defaultValue={selectedEmployee?.contactNumber}
                   onChange={handleChange}
                   className={styles.inputStyles}
                   placeholder="Número de contacto"
                 />
               </div>
               <div className="flex flex-col justify-end items-start gap-1 w-full h-24">
-                {!formErrors.description ? (
-                  <span className="text-[#dad8d8]">Descripción</span>
-                ) : (
-                  <span className="text-red-400">Ingrese descripción</span>
-                )}
+                <span className="text-[#dad8d8]">Descripción</span>
+
                 <textarea
                   name="description"
-                  value={formData.description}
+                  defaultValue={selectedEmployee?.description}
                   onChange={handleChange}
                   className={styles.inputStyles}
                   placeholder="Descripción"
@@ -217,11 +219,11 @@ export default function Settings() {
               </div>
 
               <div className="flex justify-center items-center w-full mt-5">
-                <UploadWidget onImageUpload={handleImageUpload} />
+                <UploadWidget onImageUpload={handleImageUpload} setEditSave={setEditSave}/>
                 {profileImageUrl && (
                   <Image
                     name="photo"
-                    // onChange={handleChange}
+                    onChange={handleChange}
                     value={profileImageUrl}
                     cloudName={VITE_CLOUND_NAME}
                     publicId={profileImageUrl}
