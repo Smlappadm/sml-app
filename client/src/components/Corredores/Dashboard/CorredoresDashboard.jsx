@@ -361,11 +361,11 @@ const CorredoresDashboard = () => {
             <table className="w-full">
               <thead className={style.tableHead}>
                 <tr className={style.tableRow}>
-                  <th className="text-start">Name</th>
-                  <th className="text-start">Web</th>
-                  <th className="text-start">Mail</th>
-                  <th className="text-start">Instagram</th>
-                  <th className="text-start">Nivel</th>
+                  <th className="text-start ml-20">Name</th>
+                  <th className="text-start ml-5">Web</th>
+                  <th className="text-start ml-12">Mail</th>
+                  <th className="text-start ml-2">Instagram</th>
+                  <th className="text-start ml-4">Nivel</th>
                 </tr>
               </thead>
 
