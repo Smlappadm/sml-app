@@ -106,7 +106,6 @@ function ClerkProviderWithRoutes() {
               appearance={{
                 variables: {
                   colorInputBackground: "#222131",
-
                   spacingUnit: "0.8rem",
                 },
                 layout: {
