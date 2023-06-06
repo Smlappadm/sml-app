@@ -5,6 +5,9 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { styled } from "@mui/material/styles";
+import { useSelector } from "react-redux";
+
+const role = useSelector((state) => state.rol);
 
 const StyledMenuItem = styled(MenuItem)(() => ({
   "&:hover": {
@@ -51,7 +54,10 @@ export default function BasicSelect({ employees, setEmployees }) {
           label="Employees"
           onChange={handleChange}
         >
-          <StyledMenuItem value={"clevel"}>C-Level</StyledMenuItem>
+          {role && role === "clevel" ? 
+          
+          <StyledMenuItem value={"clevel"}>C-Level</StyledMenuItem> : null
+        }
           <StyledMenuItem value={"leader"}>Leader</StyledMenuItem>
           <StyledMenuItem value={"corredor"}>Corredor</StyledMenuItem>
           <StyledMenuItem value={"vendedor"}>Vendedor</StyledMenuItem>
