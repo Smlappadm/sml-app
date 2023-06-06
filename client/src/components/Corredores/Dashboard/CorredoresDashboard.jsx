@@ -7,6 +7,7 @@ import Nav from "../../Nav/Nav";
 import { CiGlobe, CiMail } from "react-icons/ci";
 import { GrInstagram } from "react-icons/gr";
 import { IoGrid, IoStatsChart } from "react-icons/io5";
+import { FaHistory } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import {
   getAllCountries,
@@ -296,6 +297,9 @@ const CorredoresDashboard = () => {
                   <IoGrid className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
                 </Link>
                 <Link className="text-5xl" to={"/corredores-history"}>
+                  <FaHistory className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
+                </Link>
+                <Link className="text-5xl" to={"/corredores-analytics"}>
                   <IoStatsChart className="text-[2rem] text-[#418df0] hover:text-[#3570bd]" />
                 </Link>
               </div>
