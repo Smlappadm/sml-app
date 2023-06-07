@@ -86,68 +86,68 @@ const VentasDashboard = () => {
   };
   //********************************* */
 
-  const ordenarLeadsLlamadasVentas = () => {
-    let datos = [
-      "Sin Día/Hora",
-      "Dia: 31/7/2022 Hora: 18:30",
-      "Dia: 31/5/2022 Hora: 18:30",
-      "Dia: 31/8/2022 Hora: 18:30",
-      "Dia: 24/4/2023 Hora: 06:30",
-    ];
+  // const ordenarLeadsLlamadasVentas = () => {
+  //   let datos = [
+  //     "Sin Día/Hora",
+  //     "Dia: 31/7/2022 Hora: 18:30",
+  //     "Dia: 31/5/2022 Hora: 18:30",
+  //     "Dia: 31/8/2022 Hora: 18:30",
+  //     "Dia: 24/4/2023 Hora: 06:30",
+  //   ];
     // console.log(datos[2].slice(10, 14))
 
-    console.log(
-      datos.sort((a, b) => {
-        if (a === "Sin Día/Hora" && b !== "Sin Día/Hora") {
-          return 1;
-        } else if (a !== "Sin Día/Hora" && b === "Sin Día/Hora") {
-          return -1;
-        } else {
-          const diaA = a[6] !== "/" ? a.slice(5, 7) : a.slice(5, 6);
-          const diaB = b[6] !== "/" ? b.slice(5, 7) : b.slice(5, 6);
-          if (diaA !== diaB) {
-            return diaA - diaB;
-          }
-          const mesA = a[7] !== "/" ? a.slice(7, 9) : a.slice(8, 9);
-          const mesB = b[7] !== "/" ? b.slice(7, 9) : b.slice(8, 9);
-          if (mesA !== mesB) {
-            return mesA - mesB;
-          }
-          const añoA = a.slice(10, 14);
-          const añoB = b.slice(10, 14);
-          return añoA - añoB;
-        }
-      })
-    );
+  //   console.log(
+  //     datos.sort((a, b) => {
+  //       if (a === "Sin Día/Hora" && b !== "Sin Día/Hora") {
+  //         return 1;
+  //       } else if (a !== "Sin Día/Hora" && b === "Sin Día/Hora") {
+  //         return -1;
+  //       } else {
+  //         const diaA = a[6] !== "/" ? a.slice(5, 7) : a.slice(5, 6);
+  //         const diaB = b[6] !== "/" ? b.slice(5, 7) : b.slice(5, 6);
+  //         if (diaA !== diaB) {
+  //           return diaA - diaB;
+  //         }
+  //         const mesA = a[7] !== "/" ? a.slice(7, 9) : a.slice(8, 9);
+  //         const mesB = b[7] !== "/" ? b.slice(7, 9) : b.slice(8, 9);
+  //         if (mesA !== mesB) {
+  //           return mesA - mesB;
+  //         }
+  //         const añoA = a.slice(10, 14);
+  //         const añoB = b.slice(10, 14);
+  //         return añoA - añoB;
+  //       }
+  //     })
+  //   );
 
-    console.log(
-      datos
-        .sort((a, b) => {
-          const diaA = a[6] !== "/" ? a.slice(5, 7) : a.slice(5, 6);
-          const diaB = b[6] !== "/" ? b.slice(5, 7) : b.slice(5, 6);
-          return diaA - diaB;
-        })
-        .sort((a, b) => {
-          const mesA = a[7] !== "/" ? a.slice(7, 9) : a.slice(8, 9);
-          const mesB = b[7] !== "/" ? b.slice(7, 9) : b.slice(8, 9);
-          return mesA - mesB;
-        })
-        .sort((a, b) => {
-          const añoA = a.slice(10, 14);
-          const añoB = b.slice(10, 14);
-          return añoA - añoB;
-        })
-        .sort((a, b) => {
-          if (a === "Sin Día/Hora" && b !== "Sin Día/Hora") {
-            return 1;
-          } else if (a !== "Sin Día/Hora" && b === "Sin Día/Hora") {
-            return -1;
-          } else {
-            return 0;
-          }
-        })
-    );
-  };
+  //   console.log(
+  //     datos
+  //       .sort((a, b) => {
+  //         const diaA = a[6] !== "/" ? a.slice(5, 7) : a.slice(5, 6);
+  //         const diaB = b[6] !== "/" ? b.slice(5, 7) : b.slice(5, 6);
+  //         return diaA - diaB;
+  //       })
+  //       .sort((a, b) => {
+  //         const mesA = a[7] !== "/" ? a.slice(7, 9) : a.slice(8, 9);
+  //         const mesB = b[7] !== "/" ? b.slice(7, 9) : b.slice(8, 9);
+  //         return mesA - mesB;
+  //       })
+  //       .sort((a, b) => {
+  //         const añoA = a.slice(10, 14);
+  //         const añoB = b.slice(10, 14);
+  //         return añoA - añoB;
+  //       })
+  //       .sort((a, b) => {
+  //         if (a === "Sin Día/Hora" && b !== "Sin Día/Hora") {
+  //           return 1;
+  //         } else if (a !== "Sin Día/Hora" && b === "Sin Día/Hora") {
+  //           return -1;
+  //         } else {
+  //           return 0;
+  //         }
+  //       })
+  //   );
+  // };
 
   const handleCopyClick = (copyToProps) => {
     navigator.clipboard
