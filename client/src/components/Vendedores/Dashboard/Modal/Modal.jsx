@@ -130,8 +130,7 @@ function ChildModal({
       });
     setOpenChild(false);
     setOpen(false);
-
-    console.log(llamadoVenta);
+    statusObj.status="";
   };
 
   const handleCancel = () => {
