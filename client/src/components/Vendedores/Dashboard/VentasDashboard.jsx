@@ -395,6 +395,7 @@ const VentasDashboard = () => {
                           {item.llamada_venta.dia_hora[5] !== "u" ? (
                             <p className="w-fit rounded-full text-ellipsis text-16 opacity-1 overflow-hidden whitespace-nowrap hover:overflow-visible hover:bg-[#e3e1e1] hover:w-fit hover:text-black z-111">
                               {item.llamada_venta.dia_hora}
+                              {console.log(item.llamada_venta.dia_hora)}
                             </p>
                           ) : (
                             <p className="w-fit rounded-full text-ellipsis text-16 opacity-1 overflow-hidden whitespace-nowrap hover:overflow-visible hover:bg-[#e3e1e1] hover:w-fit hover:text-black z-111">
