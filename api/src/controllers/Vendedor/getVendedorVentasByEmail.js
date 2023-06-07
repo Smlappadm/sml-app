@@ -35,6 +35,14 @@ const getVendedorVentasByEmail = async (email) => {
     }
 
     return 0;
+  }).sort((a, b) => {
+    const dateA = a.llamada_venta?.dateObject.mes;
+    const dateB = b.llamada_venta?.dateObject.mes;
+
+    if (!dateA) return 1;
+    if (!dateB) return -1;
+
+    return 0;
   });
   //   const sortClients = filteredLeads.sort((a, b) => {
   //     // Obtener los años de los objetos de fecha
